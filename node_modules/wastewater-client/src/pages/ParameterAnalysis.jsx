@@ -156,7 +156,7 @@ const ParameterAnalysis = () => {
                     step="1"
                     min="0"
                     value={tds}
-                    onChange={(e) => setTDS(e.target.value)}
+                    onChange={(e) => setTds(e.target.value)}
                     placeholder="e.g. 450"
                     className={`w-full px-4 py-3 rounded-xl border ${
                       errors.tds ? 'border-red-500 focus:ring-red-500' : 'border-slate-300 focus:ring-teal-500'

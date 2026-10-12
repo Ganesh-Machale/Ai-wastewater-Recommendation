@@ -1,8 +1,17 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import api from '../services/api';
-import PrototypeBadge from '../components/PrototypeBadge';
-import { History as HistoryIcon, Activity, Image as ImageIcon, Search, Filter, ChevronLeft, ChevronRight, Eye, Calendar } from 'lucide-react';
+import AnimatedBadge from '../components/AnimatedBadge';
+import {
+  History as HistoryIcon,
+  Activity,
+  Image as ImageIcon,
+  Search,
+  ChevronLeft,
+  ChevronRight,
+  Eye,
+  Calendar
+} from 'lucide-react';
 
 const History = () => {
   const [activeTab, setActiveTab] = useState('all'); // 'all', 'parameter', 'image'
@@ -49,133 +58,152 @@ const History = () => {
     fetchHistory();
   };
 
-  const getQualityColor = (quality) => {
-    if (quality === 'Good') return 'bg-emerald-100 text-emerald-800';
-    if (quality === 'Moderate') return 'bg-amber-100 text-amber-800';
-    return 'bg-red-100 text-red-800';
+  const getQualityStyle = (quality) => {
+    if (quality === 'Good') return 'text-emerald-400 border border-emerald-500/30';
+    if (quality === 'Moderate') return 'text-amber-400 border border-amber-500/30';
+    return 'text-red-400 border border-red-500/30';
   };
 
   return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 space-y-8">
-      {/* Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-        <div>
-          <div className="flex items-center gap-2 text-teal-600 font-bold text-sm">
-            <HistoryIcon className="w-5 h-5" />
-            <span>Analysis Archive</span>
-          </div>
-          <h1 className="text-3xl font-extrabold text-slate-900 tracking-tight mt-1">
-            Analysis History
-          </h1>
+    <div className="space-y-8 pb-16">
+      {/* Listing Head */}
+      <div className="space-y-3">
+        <div className="flex justify-center">
+          <AnimatedBadge>Database archive</AnimatedBadge>
         </div>
-        <PrototypeBadge text="Saved Database Records" />
+        <h1 className="text-2xl font-medium sm:text-center sm:text-3xl text-foreground">
+          Analysis history
+        </h1>
+        <p className="mx-auto max-w-2xl text-sm sm:text-base text-neutral-600 sm:text-center dark:text-neutral-400 font-sans">
+          Review historical effluent samples and <span className="highlight">persisted treatment recommendations</span>.
+        </p>
       </div>
 
-      {/* Tabs and Search Bar */}
-      <div className="bg-white rounded-2xl p-4 sm:p-6 border border-slate-200 shadow-sm space-y-4">
-        <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
-          {/* Tabs */}
-          <div className="flex items-center space-x-2 bg-slate-100 p-1.5 rounded-xl border border-slate-200 self-start">
+      {/* Toolbar */}
+      <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between pt-2">
+        <div className="flex items-center gap-3">
+          <p className="text-xs sm:text-sm text-neutral-400 font-sans">
+            Showing <span className="font-mono font-medium text-foreground">{totalCount}</span> total records
+          </p>
+          <span className="hidden h-4 w-px bg-border sm:block" />
+          <span className="text-xs sm:text-sm text-neutral-400 hidden sm:inline">
+            Chemical and image tests
+          </span>
+        </div>
+
+        {/* Segmented Filter Control */}
+        <div className="flex flex-wrap items-center gap-3">
+          <div className="inline-flex overflow-hidden rounded-md border border-[var(--card-edge)] bg-card p-0.5 text-xs font-montserrat font-medium">
             <button
+              type="button"
               onClick={() => {
                 setActiveTab('all');
                 setPage(1);
               }}
-              className={`px-4 py-2 rounded-lg text-sm font-semibold transition-colors ${
-                activeTab === 'all' ? 'bg-white text-slate-900 shadow-sm' : 'text-slate-600 hover:text-slate-900'
+              className={`px-3 py-1.5 rounded transition-colors ${
+                activeTab === 'all'
+                  ? 'bg-orange-100 text-orange-950 dark:bg-orange-900/40 dark:text-orange-100'
+                  : 'text-neutral-400 hover:text-foreground'
               }`}
             >
-              All Records
+              All
             </button>
             <button
+              type="button"
               onClick={() => {
                 setActiveTab('parameter');
                 setPage(1);
               }}
-              className={`px-4 py-2 rounded-lg text-sm font-semibold transition-colors flex items-center gap-1.5 ${
-                activeTab === 'parameter' ? 'bg-teal-600 text-white shadow-sm' : 'text-slate-600 hover:text-slate-900'
+              className={`px-3 py-1.5 rounded transition-colors ${
+                activeTab === 'parameter'
+                  ? 'bg-orange-100 text-orange-950 dark:bg-orange-900/40 dark:text-orange-100'
+                  : 'text-neutral-400 hover:text-foreground'
               }`}
             >
-              <Activity className="w-4 h-4" />
-              Parameter Analysis
+              Parameters
             </button>
             <button
+              type="button"
               onClick={() => {
                 setActiveTab('image');
                 setPage(1);
               }}
-              className={`px-4 py-2 rounded-lg text-sm font-semibold transition-colors flex items-center gap-1.5 ${
-                activeTab === 'image' ? 'bg-sky-600 text-white shadow-sm' : 'text-slate-600 hover:text-slate-900'
+              className={`px-3 py-1.5 rounded transition-colors ${
+                activeTab === 'image'
+                  ? 'bg-orange-100 text-orange-950 dark:bg-orange-900/40 dark:text-orange-100'
+                  : 'text-neutral-400 hover:text-foreground'
               }`}
             >
-              <ImageIcon className="w-4 h-4" />
-              Image Analysis
+              Images
             </button>
           </div>
 
-          {/* Search Form */}
-          <form onSubmit={handleSearchSubmit} className="flex items-center gap-2 max-w-md w-full">
-            <div className="relative w-full">
-              <Search className="w-4 h-4 text-slate-400 absolute left-3.5 top-3" />
+          {/* Search Input */}
+          <form onSubmit={handleSearchSubmit} className="flex items-center gap-2">
+            <div className="relative">
+              <Search className="size-3.5 text-neutral-400 absolute left-3 top-2.5" />
               <input
                 type="text"
-                placeholder="Search quality, pH, filename..."
+                placeholder="Search records..."
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
-                className="w-full pl-10 pr-4 py-2 rounded-xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-teal-500 text-sm"
+                className="pl-8 pr-3 py-1.5 rounded-md border border-[var(--card-edge)] bg-card text-xs text-foreground placeholder-neutral-500 focus:outline-none focus:border-neutral-400 transition-colors"
               />
             </div>
-            <button
-              type="submit"
-              className="px-4 py-2 bg-slate-900 text-white rounded-xl font-semibold text-sm hover:bg-slate-800"
-            >
-              Filter
-            </button>
           </form>
         </div>
+      </div>
 
-        {/* History List */}
+      {/* History Records Container */}
+      <div className="space-y-4">
         {loading ? (
-          <div className="py-16 text-center">
-            <div className="w-8 h-8 border-4 border-teal-600 border-t-transparent rounded-full animate-spin mx-auto"></div>
-            <span className="text-xs text-slate-500 mt-2 block">Loading analysis history...</span>
+          <div className="py-16 text-center card-chai">
+            <div className="w-8 h-8 border-2 border-neutral-400 border-t-transparent rounded-full animate-spin mx-auto" />
+            <span className="text-xs text-neutral-400 mt-2 block font-sans">
+              Loading analysis history...
+            </span>
           </div>
         ) : historyData.length === 0 ? (
-          <div className="py-16 text-center space-y-3 bg-slate-50 rounded-xl border border-dashed border-slate-300">
-            <HistoryIcon className="w-10 h-10 text-slate-400 mx-auto" />
-            <h3 className="text-slate-700 font-bold">No Analysis Records Found</h3>
-            <p className="text-xs text-slate-500">Perform a parameter analysis or upload an image to generate records.</p>
+          <div className="py-16 text-center space-y-2 card-chai">
+            <HistoryIcon className="size-8 text-neutral-500 mx-auto" />
+            <h3 className="font-montserrat text-sm font-semibold text-foreground">
+              No analysis records found
+            </h3>
+            <p className="text-xs text-neutral-400 font-sans">
+              Perform a parameter analysis or upload an effluent image to generate entries.
+            </p>
           </div>
         ) : (
           <div className="space-y-3">
-            <div className="hidden md:grid grid-cols-12 gap-4 px-4 py-2 bg-slate-100 text-slate-500 font-bold text-xs uppercase rounded-lg">
+            {/* Table Header on Desktop */}
+            <div className="hidden md:grid grid-cols-12 gap-4 px-4 py-2 text-xs font-mono uppercase tracking-wider text-neutral-400 border-b border-[var(--card-edge)]">
               <span className="col-span-2">Date</span>
               <span className="col-span-2">Type</span>
-              <span className="col-span-4">Details / Parameters</span>
-              <span className="col-span-2">Status / Quality</span>
+              <span className="col-span-4">Parameters / file</span>
+              <span className="col-span-2">Status / quality</span>
               <span className="col-span-2 text-right">Action</span>
             </div>
 
             {historyData.map((item) => (
               <div
                 key={item._id}
-                className="grid grid-cols-1 md:grid-cols-12 gap-4 p-4 bg-white rounded-xl border border-slate-200 hover:border-teal-300 transition-colors items-center text-sm"
+                className="card-chai p-4 grid grid-cols-1 md:grid-cols-12 gap-3 items-center text-xs font-sans"
               >
                 {/* Date */}
-                <div className="md:col-span-2 flex items-center gap-2 text-slate-500 text-xs font-medium">
-                  <Calendar className="w-4 h-4 text-slate-400 shrink-0" />
+                <div className="md:col-span-2 flex items-center gap-2 text-neutral-400 font-mono">
+                  <Calendar className="size-3.5 shrink-0" />
                   <span>{new Date(item.createdAt).toLocaleDateString()}</span>
                 </div>
 
                 {/* Category Type */}
                 <div className="md:col-span-2">
                   {item.category === 'parameter' ? (
-                    <span className="inline-flex items-center gap-1 text-xs font-bold text-teal-700 bg-teal-50 border border-teal-200 px-2.5 py-1 rounded-md">
-                      <Activity className="w-3.5 h-3.5" /> Parameter
+                    <span className="inline-flex items-center gap-1 font-mono text-neutral-300">
+                      <Activity className="size-3.5 text-neutral-400" /> Parameter
                     </span>
                   ) : (
-                    <span className="inline-flex items-center gap-1 text-xs font-bold text-sky-700 bg-sky-50 border border-sky-200 px-2.5 py-1 rounded-md">
-                      <ImageIcon className="w-3.5 h-3.5" /> Image
+                    <span className="inline-flex items-center gap-1 font-mono text-neutral-300">
+                      <ImageIcon className="size-3.5 text-neutral-400" /> Image
                     </span>
                   )}
                 </div>
@@ -184,11 +212,11 @@ const History = () => {
                 <div className="md:col-span-4">
                   {item.category === 'parameter' ? (
                     <div className="space-y-0.5">
-                      <div className="font-semibold text-slate-900">
+                      <div className="font-montserrat font-medium text-foreground">
                         pH: {item.parameters?.pH} • TDS: {item.parameters?.tds} mg/L
                       </div>
-                      <div className="text-xs text-slate-500 truncate">
-                        Rec: {item.recommendations?.[0] || 'Standard guidelines'}
+                      <div className="text-[11px] text-neutral-400 truncate">
+                        {item.recommendations?.[0] || 'Standard guidelines'}
                       </div>
                     </div>
                   ) : (
@@ -196,11 +224,15 @@ const History = () => {
                       <img
                         src={item.imagePath}
                         alt="thumbnail"
-                        className="w-10 h-10 rounded-lg object-cover bg-slate-100 border border-slate-200 shrink-0"
+                        className="size-8 rounded object-cover border border-[var(--card-edge)] bg-black/40 shrink-0"
                       />
                       <div className="truncate">
-                        <div className="font-semibold text-slate-900 truncate">{item.originalName}</div>
-                        <div className="text-xs text-slate-400">{(item.fileSize / 1024).toFixed(1)} KB</div>
+                        <div className="font-montserrat font-medium text-foreground truncate">
+                          {item.originalName}
+                        </div>
+                        <div className="text-[11px] font-mono text-neutral-400">
+                          {(item.fileSize / 1024).toFixed(1)} KB
+                        </div>
                       </div>
                     </div>
                   )}
@@ -209,12 +241,16 @@ const History = () => {
                 {/* Quality / Status */}
                 <div className="md:col-span-2">
                   {item.category === 'parameter' ? (
-                    <span className={`px-2.5 py-1 rounded-full text-xs font-bold ${getQualityColor(item.qualityLevel)}`}>
-                      {item.qualityLevel} Quality
+                    <span
+                      className={`inline-block px-2 py-0.5 rounded text-[11px] font-montserrat font-medium ${getQualityStyle(
+                        item.qualityLevel
+                      )}`}
+                    >
+                      {item.qualityLevel}
                     </span>
                   ) : (
-                    <span className="px-2.5 py-1 rounded-full text-xs font-bold bg-amber-100 text-amber-800">
-                      Prototype Status
+                    <span className="inline-block px-2 py-0.5 rounded text-[11px] font-mono border border-[var(--card-edge)] text-neutral-400">
+                      Prototype
                     </span>
                   )}
                 </div>
@@ -223,10 +259,10 @@ const History = () => {
                 <div className="md:col-span-2 text-right">
                   <Link
                     to={`/analysis/result/${item._id}`}
-                    className="inline-flex items-center gap-1 text-xs font-semibold text-teal-600 hover:text-teal-800 hover:bg-teal-50 px-3 py-1.5 rounded-lg border border-teal-200 transition-colors"
+                    className="inline-flex h-7 items-center gap-1 rounded bg-primary px-3 text-xs font-montserrat font-semibold text-primary-foreground hover:bg-primary/90 transition-colors"
                   >
-                    <Eye className="w-3.5 h-3.5" />
-                    <span>Details</span>
+                    <Eye className="size-3" />
+                    <span>View</span>
                   </Link>
                 </div>
               </div>
@@ -236,24 +272,26 @@ const History = () => {
 
         {/* Pagination Controls */}
         {totalPages > 1 && (
-          <div className="flex items-center justify-between border-t border-slate-100 pt-4 text-xs">
-            <span className="text-slate-500">
-              Showing page {page} of {totalPages} ({totalCount} total records)
+          <div className="flex items-center justify-between border-t border-[var(--card-edge)] pt-4 text-xs font-sans text-neutral-400">
+            <span>
+              Page {page} of {totalPages}
             </span>
             <div className="flex items-center gap-2">
               <button
+                type="button"
                 disabled={page === 1}
                 onClick={() => setPage(page - 1)}
-                className="p-2 rounded-lg border border-slate-200 hover:bg-slate-50 disabled:opacity-40"
+                className="size-8 inline-flex items-center justify-center rounded border border-[var(--card-edge)] hover:border-neutral-400 disabled:opacity-40 transition-colors"
               >
-                <ChevronLeft className="w-4 h-4" />
+                <ChevronLeft className="size-4" />
               </button>
               <button
+                type="button"
                 disabled={page === totalPages}
                 onClick={() => setPage(page + 1)}
-                className="p-2 rounded-lg border border-slate-200 hover:bg-slate-50 disabled:opacity-40"
+                className="size-8 inline-flex items-center justify-center rounded border border-[var(--card-edge)] hover:border-neutral-400 disabled:opacity-40 transition-colors"
               >
-                <ChevronRight className="w-4 h-4" />
+                <ChevronRight className="size-4" />
               </button>
             </div>
           </div>

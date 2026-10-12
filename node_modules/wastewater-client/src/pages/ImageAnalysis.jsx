@@ -1,8 +1,19 @@
 import React, { useState, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import api from '../services/api';
-import PrototypeBadge from '../components/PrototypeBadge';
-import { Image as ImageIcon, UploadCloud, X, RefreshCw, CheckCircle2, AlertTriangle, ShieldAlert, Cpu, FileText, History, ArrowRight } from 'lucide-react';
+import AnimatedBadge from '../components/AnimatedBadge';
+import {
+  Image as ImageIcon,
+  UploadCloud,
+  X,
+  RefreshCw,
+  AlertTriangle,
+  Cpu,
+  FileText,
+  History,
+  ArrowUpRight,
+  Check
+} from 'lucide-react';
 
 const ImageAnalysis = () => {
   const [selectedFile, setSelectedFile] = useState(null);
@@ -26,7 +37,11 @@ const ImageAnalysis = () => {
     }
 
     if (file.size > maxSizeBytes) {
-      setError(`File size exceeds 5MB limit (${(file.size / (1024 * 1024)).toFixed(2)} MB). Please select a smaller image.`);
+      setError(
+        `File size exceeds 5MB limit (${(file.size / (1024 * 1024)).toFixed(
+          2
+        )} MB). Please select a smaller image.`
+      );
       return;
     }
 
@@ -99,42 +114,42 @@ const ImageAnalysis = () => {
   };
 
   return (
-    <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-10 space-y-8">
+    <div className="max-w-4xl mx-auto space-y-12 pb-16">
       {/* Header */}
-      <div className="space-y-3">
+      <div className="space-y-4">
         <div className="flex items-center justify-between flex-wrap gap-2">
-          <div className="flex items-center gap-2 text-sky-600 font-bold text-sm">
-            <ImageIcon className="w-5 h-5" />
-            <span>Method 2</span>
+          <div className="flex items-center gap-2 text-neutral-400 text-xs font-mono">
+            <ImageIcon className="size-4 text-neutral-300" />
+            <span>Method 02</span>
           </div>
-          <PrototypeBadge text="AI Model Status: Coming Soon" />
+          <AnimatedBadge>Vision neural network next</AnimatedBadge>
         </div>
 
-        <h1 className="text-3xl font-extrabold text-slate-900 tracking-tight">
-          Image-Based Wastewater Analysis
+        <h1 className="text-2xl sm:text-3xl font-medium tracking-tight text-foreground">
+          Image-based wastewater analysis
         </h1>
-        <p className="text-slate-600 text-sm sm:text-base">
-          Upload a wastewater image for visual analysis. The image classification model will be integrated in the next development phase.
+        <p className="text-sm sm:text-base text-neutral-600 dark:text-neutral-400 font-sans">
+          Upload an effluent sample photo for visual inspection and <span className="highlight">clarity observation records</span>.
         </p>
       </div>
 
       {error && (
-        <div className="p-4 bg-red-50 border border-red-200 rounded-xl text-red-700 text-sm flex items-center gap-2">
-          <AlertTriangle className="w-5 h-5 shrink-0 text-red-500" />
+        <div className="p-4 rounded-lg border border-red-500/30 bg-red-950/20 text-red-400 text-sm flex items-center gap-2">
+          <AlertTriangle className="size-4 shrink-0 text-red-400" />
           <span>{error}</span>
         </div>
       )}
 
       {/* Main Upload or Result Area */}
       {!uploadResult ? (
-        <div className="bg-white rounded-2xl p-6 sm:p-8 border border-slate-200 shadow-sm space-y-6">
+        <div className="card-chai p-6 sm:p-8 space-y-6">
           {!selectedFile ? (
             /* Drag and drop box */
             <div
               onDragOver={handleDragOver}
               onDrop={handleDrop}
               onClick={() => fileInputRef.current?.click()}
-              className="border-2 border-dashed border-slate-300 hover:border-sky-500 bg-slate-50 hover:bg-sky-50/50 rounded-2xl p-8 text-center cursor-pointer transition-all space-y-4 group"
+              className="border border-dashed border-[var(--card-edge)] hover:border-neutral-400 bg-black/10 rounded-xl p-10 text-center cursor-pointer transition-colors space-y-4 group"
             >
               <input
                 type="file"
@@ -143,38 +158,41 @@ const ImageAnalysis = () => {
                 accept=".jpg,.jpeg,.png,.webp"
                 className="hidden"
               />
-              <div className="w-16 h-16 rounded-full bg-sky-100 text-sky-600 flex items-center justify-center mx-auto group-hover:scale-110 transition-transform">
-                <UploadCloud className="w-8 h-8" />
+              <div className="size-12 rounded-full border border-[var(--card-edge)] bg-card text-neutral-300 flex items-center justify-center mx-auto transition-transform group-hover:scale-105">
+                <UploadCloud className="size-6" />
               </div>
               <div className="space-y-1">
-                <p className="text-slate-800 font-semibold text-base">
-                  Click to select image or drag & drop here
+                <p className="font-montserrat text-sm font-semibold text-foreground">
+                  Select effluent image or drag and drop
                 </p>
-                <p className="text-slate-500 text-xs">
-                  Supports JPG, JPEG, PNG, WEBP (Maximum file size: 5 MB)
+                <p className="text-neutral-400 text-xs font-sans">
+                  JPG, PNG or WEBP formats up to 5 MB
                 </p>
               </div>
             </div>
           ) : (
             /* Image Preview Area */
             <div className="space-y-6">
-              <div className="flex items-center justify-between border-b border-slate-100 pb-3">
+              <div className="flex items-center justify-between border-b border-[var(--card-edge)] pb-3">
                 <div className="flex items-center gap-2">
-                  <FileText className="w-4 h-4 text-sky-600" />
-                  <span className="font-semibold text-sm text-slate-800">Selected Image Preview</span>
+                  <FileText className="size-4 text-neutral-400" />
+                  <span className="font-montserrat font-medium text-xs text-foreground">
+                    Selected sample preview
+                  </span>
                 </div>
                 <button
+                  type="button"
                   onClick={handleRemoveImage}
-                  className="text-xs text-red-600 hover:text-red-700 font-medium flex items-center gap-1 hover:bg-red-50 px-2 py-1 rounded"
+                  className="text-xs text-red-400 hover:text-red-300 font-medium flex items-center gap-1 transition-colors"
                 >
-                  <X className="w-4 h-4" />
-                  <span>Remove Image</span>
+                  <X className="size-3.5" />
+                  <span>Remove</span>
                 </button>
               </div>
 
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 items-center">
                 {/* Image Element */}
-                <div className="relative rounded-xl overflow-hidden border border-slate-200 bg-slate-900 max-h-64 flex items-center justify-center">
+                <div className="relative rounded-lg overflow-hidden border border-[var(--card-edge)] bg-black/40 max-h-64 flex items-center justify-center">
                   <img
                     src={previewUrl}
                     alt="Wastewater preview"
@@ -183,61 +201,65 @@ const ImageAnalysis = () => {
                 </div>
 
                 {/* File Details */}
-                <div className="space-y-4 bg-slate-50 p-5 rounded-xl border border-slate-200">
+                <div className="space-y-3 p-4 rounded-lg border border-[var(--card-edge)] bg-neutral-100 dark:bg-white/5 text-xs font-sans">
                   <div>
-                    <span className="text-xs text-slate-400 font-semibold block">File Name</span>
-                    <span className="text-sm font-bold text-slate-800 break-all">{selectedFile.name}</span>
+                    <span className="text-neutral-500 dark:text-neutral-400 block mb-0.5">Filename</span>
+                    <span className="font-mono text-foreground break-all">{selectedFile.name}</span>
                   </div>
                   <div>
-                    <span className="text-xs text-slate-400 font-semibold block">File Size</span>
-                    <span className="text-sm font-bold text-slate-800">
+                    <span className="text-neutral-500 dark:text-neutral-400 block mb-0.5">File size</span>
+                    <span className="font-mono text-foreground">
                       {(selectedFile.size / (1024 * 1024)).toFixed(2)} MB
                     </span>
                   </div>
                   <div>
-                    <span className="text-xs text-slate-400 font-semibold block">MIME Type</span>
-                    <span className="text-xs font-medium text-slate-600 uppercase">{selectedFile.type}</span>
+                    <span className="text-neutral-500 dark:text-neutral-400 block mb-0.5">MIME type</span>
+                    <span className="font-mono text-neutral-600 dark:text-neutral-300 uppercase">{selectedFile.type}</span>
                   </div>
 
-                  <button
-                    onClick={() => fileInputRef.current?.click()}
-                    className="text-xs font-semibold text-sky-600 hover:text-sky-700 hover:underline"
-                  >
-                    Change / Replace Image
-                  </button>
-                  <input
-                    type="file"
-                    ref={fileInputRef}
-                    onChange={handleFileChange}
-                    accept=".jpg,.jpeg,.png,.webp"
-                    className="hidden"
-                  />
+                  <div className="pt-2">
+                    <button
+                      type="button"
+                      onClick={() => fileInputRef.current?.click()}
+                      className="text-xs font-medium text-neutral-600 dark:text-neutral-300 hover:text-foreground transition-colors"
+                    >
+                      Choose another file
+                    </button>
+                    <input
+                      type="file"
+                      ref={fileInputRef}
+                      onChange={handleFileChange}
+                      accept=".jpg,.jpeg,.png,.webp"
+                      className="hidden"
+                    />
+                  </div>
                 </div>
               </div>
             </div>
           )}
 
           {/* Action Footer */}
-          <div className="pt-4 border-t border-slate-100 flex flex-col sm:flex-row items-center justify-between gap-4">
-            <div className="text-xs text-slate-500 flex items-center gap-1.5">
-              <Cpu className="w-4 h-4 text-sky-600" />
-              <span>Only uploads when you click "Analyze Image"</span>
-            </div>
+          <div className="pt-4 border-t border-[var(--card-edge)] flex flex-col sm:flex-row items-center justify-between gap-4">
+            <span className="text-xs text-neutral-400 font-sans">
+              Image storage: encrypted multipart upload to storage directory
+            </span>
 
+            {/* Solid asymmetric button */}
             <button
+              type="button"
               onClick={handleUploadAndAnalyze}
               disabled={!selectedFile || loading}
-              className="w-full sm:w-auto px-8 py-3.5 bg-gradient-to-r from-sky-600 to-teal-600 hover:from-sky-700 hover:to-teal-700 text-white font-semibold rounded-xl shadow-md shadow-sky-600/20 transition-all flex items-center justify-center gap-2 disabled:opacity-50"
+              className="btn-asym inline-flex h-9 items-center gap-2 bg-neutral-900 px-5 text-sm font-medium text-white transition-colors duration-200 hover:bg-black/90 dark:bg-white dark:text-black dark:hover:bg-neutral-200 disabled:opacity-50"
             >
               {loading ? (
                 <>
-                  <RefreshCw className="w-5 h-5 animate-spin" />
-                  <span>Uploading Image...</span>
+                  <RefreshCw className="size-4 animate-spin" />
+                  <span>Uploading...</span>
                 </>
               ) : (
                 <>
-                  <UploadCloud className="w-5 h-5" />
-                  <span>Analyze Image</span>
+                  <span>Upload and analyze</span>
+                  <ArrowUpRight className="-ml-1 size-4" />
                 </>
               )}
             </button>
@@ -245,93 +267,96 @@ const ImageAnalysis = () => {
         </div>
       ) : (
         /* Image Analysis Result Screen */
-        <div className="space-y-6 animate-fadeIn">
-          <div className="bg-white rounded-2xl p-6 sm:p-8 border border-slate-200 shadow-sm space-y-6">
-            {/* Success Message Banner */}
-            <div className="p-4 bg-emerald-50 border border-emerald-200 rounded-xl text-emerald-800 text-sm flex items-center gap-3">
-              <CheckCircle2 className="w-6 h-6 text-emerald-600 shrink-0" />
+        <div className="card-chai p-6 sm:p-8 space-y-6">
+          <div className="p-4 rounded-lg border border-emerald-500/30 bg-emerald-950/20 text-emerald-400 text-xs font-sans flex items-center gap-3">
+            <Check className="size-4 shrink-0" />
+            <div>
+              <span className="font-semibold block text-emerald-300">Image uploaded successfully</span>
+              <span className="text-neutral-400 font-mono">Reference ID: {uploadResult.imageId}</span>
+            </div>
+          </div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 items-center">
+            <div className="rounded-lg overflow-hidden border border-[var(--card-edge)] bg-black/40 max-h-64 flex items-center justify-center">
+              <img
+                src={uploadResult.imageUrl}
+                alt="Uploaded wastewater"
+                className="max-h-64 w-full object-contain"
+              />
+            </div>
+
+            <div className="space-y-3 p-4 rounded-lg border border-[var(--card-edge)] bg-neutral-100 dark:bg-white/5 text-xs font-sans">
+              <div className="flex items-center justify-between border-b border-[var(--card-edge)] pb-2">
+                <span className="text-neutral-500 dark:text-neutral-400">Analysis status</span>
+                <span className="border border-amber-500/30 text-amber-600 dark:text-amber-400 px-2 py-0.5 rounded font-mono">
+                  Prototype mode
+                </span>
+              </div>
               <div>
-                <span className="font-bold block">Image Uploaded Successfully</span>
-                <span className="text-xs text-emerald-700">Stored safely on server as: {uploadResult.imageId}</span>
+                <span className="text-neutral-500 dark:text-neutral-400 block mb-0.5">Original filename</span>
+                <span className="font-mono text-foreground">{uploadResult.originalName}</span>
+              </div>
+              <div>
+                <span className="text-neutral-500 dark:text-neutral-400 block mb-0.5">Machine learning classifier</span>
+                <span className="font-mono text-neutral-600 dark:text-neutral-300">Phase 2 integration</span>
               </div>
             </div>
+          </div>
 
-            {/* Upload Details */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 items-center">
-              <div className="rounded-xl overflow-hidden border border-slate-200 bg-slate-900 max-h-64 flex items-center justify-center">
-                <img
-                  src={uploadResult.imageUrl}
-                  alt="Uploaded wastewater"
-                  className="max-h-64 w-full object-contain"
-                />
+          {/* Expected Future ML Output Card */}
+          <div className="p-5 rounded-lg border border-[var(--card-edge)] bg-neutral-100 dark:bg-white/5 space-y-4 font-sans">
+            <div className="flex items-center justify-between border-b border-[var(--card-edge)] pb-3">
+              <div className="flex items-center gap-2 text-foreground font-montserrat text-sm font-semibold">
+                <Cpu className="size-4 text-neutral-500 dark:text-neutral-400" />
+                <span>Sample preview (illustrative format)</span>
               </div>
-
-              <div className="space-y-4 bg-slate-50 p-5 rounded-xl border border-slate-200">
-                <div className="flex items-center justify-between border-b border-slate-200 pb-2">
-                  <span className="text-xs font-semibold text-slate-500">Analysis Status</span>
-                  <span className="text-xs font-bold text-amber-700 bg-amber-100 px-2 py-0.5 rounded">
-                    Prototype Mode
-                  </span>
-                </div>
-                <div>
-                  <span className="text-xs text-slate-400 font-semibold block">Original Filename</span>
-                  <span className="text-sm font-bold text-slate-800">{uploadResult.originalName}</span>
-                </div>
-                <div>
-                  <span className="text-xs text-slate-400 font-semibold block">AI Classification Model</span>
-                  <span className="text-sm font-bold text-sky-600">Coming Soon (Phase 2)</span>
-                </div>
-              </div>
+              <span className="text-xs font-mono text-neutral-500 dark:text-neutral-400">Phase 2 schema</span>
             </div>
 
-            {/* Expected Future ML Output Preview Card */}
-            <div className="bg-slate-900 text-white rounded-2xl p-6 border border-slate-800 space-y-4">
-              <div className="flex items-center justify-between border-b border-slate-800 pb-3">
-                <div className="flex items-center gap-2 text-sky-400 text-sm font-bold">
-                  <Cpu className="w-5 h-5" />
-                  <span>Sample Output — Not an Actual AI Prediction</span>
-                </div>
-                <span className="text-[11px] bg-slate-800 text-slate-400 px-2 py-0.5 rounded">Preview Card</span>
+            <p className="text-xs text-neutral-600 dark:text-neutral-400">
+              Future vision output once convolutional networks (CNN / MobileNet) are attached.
+            </p>
+
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 pt-1 text-xs">
+              <div className="p-3 rounded border border-[var(--card-edge)] bg-card">
+                <span className="text-neutral-500 dark:text-neutral-400 block">Visual classification</span>
+                <span className="font-montserrat font-semibold text-foreground text-sm mt-0.5 block">
+                  Turbid effluent
+                </span>
               </div>
-
-              <p className="text-xs text-slate-400">
-                Below is an illustration of the computer vision output format once MobileNetV2 / CNN models are connected in Phase 2.
-              </p>
-
-              <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 pt-2 text-xs">
-                <div className="bg-slate-800 p-3 rounded-lg border border-slate-700">
-                  <span className="text-slate-400 block">Visual Classification</span>
-                  <span className="font-bold text-amber-300 text-sm">Turbid / High Suspended Solids</span>
-                </div>
-                <div className="bg-slate-800 p-3 rounded-lg border border-slate-700">
-                  <span className="text-slate-400 block">Confidence Score</span>
-                  <span className="font-bold text-emerald-300 text-sm">94.8% (Sample)</span>
-                </div>
-                <div className="bg-slate-800 p-3 rounded-lg border border-slate-700">
-                  <span className="text-slate-400 block">Expected Model</span>
-                  <span className="font-bold text-sky-300 text-sm">CNN / Transfer Learning</span>
-                </div>
+              <div className="p-3 rounded border border-[var(--card-edge)] bg-card">
+                <span className="text-neutral-500 dark:text-neutral-400 block">Confidence indicator</span>
+                <span className="font-mono text-emerald-400 text-sm mt-0.5 block">
+                  94.8% simulated
+                </span>
+              </div>
+              <div className="p-3 rounded border border-[var(--card-edge)] bg-card">
+                <span className="text-neutral-500 dark:text-neutral-400 block">Target model</span>
+                <span className="font-mono text-neutral-600 dark:text-neutral-300 text-sm mt-0.5 block">
+                  ResNet50 / Transfer
+                </span>
               </div>
             </div>
+          </div>
 
-            {/* Actions */}
-            <div className="pt-4 border-t border-slate-100 flex items-center justify-between flex-wrap gap-4">
-              <button
-                onClick={handleReset}
-                className="px-4 py-2.5 border border-slate-300 hover:bg-slate-50 text-slate-700 font-semibold rounded-xl text-sm transition-colors flex items-center gap-1.5"
-              >
-                <RefreshCw className="w-4 h-4" />
-                <span>Upload Another Image</span>
-              </button>
+          {/* Actions */}
+          <div className="pt-4 border-t border-[var(--card-edge)] flex flex-wrap items-center justify-between gap-4">
+            <button
+              type="button"
+              onClick={handleReset}
+              className="btn-asym-mirror inline-flex h-9 items-center gap-2 border border-border bg-transparent px-4 text-sm font-medium text-foreground transition-colors hover:bg-neutral-100 dark:hover:bg-black/90"
+            >
+              <RefreshCw className="size-3.5" />
+              <span>Upload another image</span>
+            </button>
 
-              <Link
-                to="/history"
-                className="px-5 py-2.5 bg-teal-600 hover:bg-teal-700 text-white font-semibold rounded-xl text-sm transition-colors flex items-center gap-1.5"
-              >
-                <History className="w-4 h-4" />
-                <span>View History</span>
-              </Link>
-            </div>
+            <Link
+              to="/history"
+              className="inline-flex h-9 items-center gap-1.5 rounded-md bg-primary px-4 text-sm font-montserrat font-semibold text-primary-foreground hover:bg-primary/90 transition-colors"
+            >
+              <History className="size-4" />
+              <span>View history</span>
+            </Link>
           </div>
         </div>
       )}

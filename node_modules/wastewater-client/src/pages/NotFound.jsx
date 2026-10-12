@@ -1,28 +1,27 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { HelpCircle, ArrowLeft } from 'lucide-react';
+import { ArrowLeft } from 'lucide-react';
 
 const NotFound = () => {
   return (
-    <div className="min-h-[70vh] flex items-center justify-center px-4 py-12">
-      <div className="max-w-md w-full text-center space-y-6 bg-white p-8 rounded-2xl border border-slate-200 shadow-sm">
-        <div className="w-16 h-16 rounded-2xl bg-teal-100 text-teal-600 flex items-center justify-center mx-auto">
-          <HelpCircle className="w-10 h-10" />
-        </div>
-        <div className="space-y-2">
-          <span className="text-4xl font-extrabold text-slate-900">404</span>
-          <h1 className="text-xl font-bold text-slate-800">Page Not Found</h1>
-          <p className="text-slate-500 text-sm">
-            The page or analysis route you are looking for does not exist or has been moved.
+    <div className="min-h-[60vh] flex items-center justify-center px-4 py-12">
+      <div className="card-chai max-w-md w-full text-center space-y-5 p-8">
+        <div className="space-y-1">
+          <span className="font-mono text-3xl font-semibold text-neutral-400">404</span>
+          <h1 className="font-montserrat text-xl font-semibold text-foreground">Page not found</h1>
+          <p className="text-xs text-neutral-400 font-sans">
+            The page or analysis route you are looking for does not exist or has moved.
           </p>
         </div>
-        <Link
-          to="/"
-          className="inline-flex items-center gap-2 px-6 py-3 bg-teal-600 hover:bg-teal-700 text-white font-bold rounded-xl text-sm transition-colors shadow-md"
-        >
-          <ArrowLeft className="w-4 h-4" />
-          <span>Return to Homepage</span>
-        </Link>
+        <div className="pt-2">
+          <Link
+            to="/"
+            className="btn-asym inline-flex h-9 items-center justify-center gap-2 bg-neutral-900 px-5 text-sm font-medium text-white transition-colors duration-200 hover:bg-black/90 dark:bg-white dark:text-black dark:hover:bg-neutral-200"
+          >
+            <ArrowLeft className="-ml-1 size-4" />
+            <span>Return home</span>
+          </Link>
+        </div>
       </div>
     </div>
   );

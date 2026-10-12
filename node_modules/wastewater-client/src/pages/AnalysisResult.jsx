@@ -1,8 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import api from '../services/api';
-import PrototypeBadge from '../components/PrototypeBadge';
-import { Activity, Image as ImageIcon, ArrowLeft, CheckCircle2, ShieldAlert, Calendar, User, Cpu } from 'lucide-react';
+import AnimatedBadge from '../components/AnimatedBadge';
+import {
+  Activity,
+  Image as ImageIcon,
+  ArrowLeft,
+  Check,
+  ShieldAlert,
+  Calendar
+} from 'lucide-react';
 
 const AnalysisResult = () => {
   const { id } = useParams();
@@ -43,127 +50,159 @@ const AnalysisResult = () => {
 
   if (loading) {
     return (
-      <div className="min-h-[60vh] flex items-center justify-center">
-        <div className="w-10 h-10 border-4 border-teal-600 border-t-transparent rounded-full animate-spin"></div>
+      <div className="min-h-[50vh] flex items-center justify-center">
+        <div className="w-8 h-8 border-2 border-neutral-400 border-t-transparent rounded-full animate-spin" />
       </div>
     );
   }
 
   if (error || !data) {
     return (
-      <div className="max-w-xl mx-auto my-16 p-8 bg-white rounded-2xl border border-slate-200 text-center space-y-4">
-        <ShieldAlert className="w-12 h-12 text-red-500 mx-auto" />
-        <h2 className="text-xl font-bold text-slate-900">Record Not Found</h2>
-        <p className="text-slate-600 text-sm">{error || 'The requested analysis ID could not be loaded.'}</p>
+      <div className="max-w-md mx-auto my-16 p-8 card-chai text-center space-y-4">
+        <ShieldAlert className="size-10 text-red-400 mx-auto" />
+        <h2 className="font-montserrat text-lg font-semibold text-foreground">Record not found</h2>
+        <p className="text-neutral-400 text-xs font-sans">
+          {error || 'The requested analysis record could not be loaded.'}
+        </p>
         <Link
           to="/history"
-          className="inline-flex items-center gap-2 px-5 py-2.5 bg-teal-600 text-white rounded-xl font-semibold text-sm hover:bg-teal-700"
+          className="inline-flex h-8 items-center gap-2 rounded-md bg-primary px-4 text-xs font-montserrat font-semibold text-primary-foreground hover:bg-primary/90 transition-colors"
         >
-          <ArrowLeft className="w-4 h-4" />
-          <span>Back to Analysis History</span>
+          <ArrowLeft className="size-3.5" />
+          <span>Back to history</span>
         </Link>
       </div>
     );
   }
 
+  const getQualityStyle = (quality) => {
+    if (quality === 'Good') return 'text-emerald-400 border border-emerald-500/30';
+    if (quality === 'Moderate') return 'text-amber-400 border border-amber-500/30';
+    return 'text-red-400 border border-red-500/30';
+  };
+
   return (
-    <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-10 space-y-8">
+    <div className="max-w-4xl mx-auto space-y-8 pb-16">
       <div className="flex items-center justify-between">
         <Link
           to="/history"
-          className="inline-flex items-center gap-2 text-sm font-semibold text-slate-600 hover:text-slate-900"
+          className="inline-flex items-center gap-2 text-xs font-montserrat text-neutral-400 hover:text-foreground transition-colors"
         >
-          <ArrowLeft className="w-4 h-4" />
-          <span>Back to History</span>
+          <ArrowLeft className="size-3.5" />
+          <span>Back to history</span>
         </Link>
-        <PrototypeBadge text="Prototype Record" />
+        <AnimatedBadge>Stored record</AnimatedBadge>
       </div>
 
       {data.category === 'parameter' ? (
         /* Parameter Result Detail */
-        <div className="bg-white rounded-2xl p-6 sm:p-8 border border-slate-200 shadow-sm space-y-6">
-          <div className="flex items-center justify-between border-b border-slate-100 pb-4">
+        <div className="card-chai p-6 sm:p-8 space-y-6">
+          <div className="flex items-center justify-between border-b border-[var(--card-edge)] pb-4">
             <div>
-              <div className="flex items-center gap-2 text-teal-600 font-bold text-xs">
-                <Activity className="w-4 h-4" />
-                <span>Parameter Analysis Record</span>
+              <div className="flex items-center gap-2 text-neutral-400 text-xs font-mono">
+                <Activity className="size-3.5" />
+                <span>Parameter record</span>
               </div>
-              <h1 className="text-2xl font-bold text-slate-900 mt-1">Water Quality Assessment</h1>
+              <h1 className="font-montserrat text-xl sm:text-2xl font-semibold text-foreground mt-1">
+                Wastewater quality assessment
+              </h1>
             </div>
-            <span className="text-xs text-slate-400 font-medium flex items-center gap-1">
-              <Calendar className="w-3.5 h-3.5" />
-              {new Date(data.createdAt).toLocaleDateString()}
-            </span>
+            <div className="flex items-center gap-3">
+              <span
+                className={`px-3 py-1 rounded text-xs font-montserrat font-medium ${getQualityStyle(
+                  data.qualityLevel
+                )}`}
+              >
+                {data.qualityLevel} quality
+              </span>
+              <span className="text-xs font-mono text-neutral-400 flex items-center gap-1">
+                <Calendar className="size-3.5" />
+                {new Date(data.createdAt).toLocaleDateString()}
+              </span>
+            </div>
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-            <div className="bg-slate-50 p-4 rounded-xl border border-slate-200">
-              <span className="text-xs font-semibold text-slate-500 block">pH Level</span>
-              <span className="text-2xl font-extrabold text-slate-900">{data.parameters?.pH}</span>
+            <div className="p-4 rounded-lg border border-[var(--card-edge)] bg-neutral-100 dark:bg-white/5">
+              <span className="text-xs font-mono text-neutral-500 dark:text-neutral-400 block">pH Level</span>
+              <span className="font-montserrat text-2xl font-semibold text-foreground">
+                {data.parameters?.pH}
+              </span>
             </div>
 
-            <div className="bg-slate-50 p-4 rounded-xl border border-slate-200">
-              <span className="text-xs font-semibold text-slate-500 block">TDS</span>
-              <span className="text-2xl font-extrabold text-slate-900">{data.parameters?.tds} mg/L</span>
+            <div className="p-4 rounded-lg border border-[var(--card-edge)] bg-neutral-100 dark:bg-white/5">
+              <span className="text-xs font-mono text-neutral-500 dark:text-neutral-400 block">Total Dissolved Solids</span>
+              <span className="font-montserrat text-2xl font-semibold text-foreground">
+                {data.parameters?.tds}{' '}
+                <span className="text-xs font-normal text-neutral-500 dark:text-neutral-400">mg/L</span>
+              </span>
             </div>
 
-            <div className="bg-slate-50 p-4 rounded-xl border border-slate-200">
-              <span className="text-xs font-semibold text-slate-500 block">Quality Assessment</span>
-              <span className="text-xl font-bold text-teal-700 block mt-1">{data.qualityLevel} Quality</span>
+            <div className="p-4 rounded-lg border border-[var(--card-edge)] bg-neutral-100 dark:bg-white/5">
+              <span className="text-xs font-mono text-neutral-500 dark:text-neutral-400 block">Pollution risk level</span>
+              <span className="font-montserrat text-lg font-semibold text-foreground block mt-0.5">
+                {data.pollutionLevel} risk
+              </span>
             </div>
           </div>
 
-          <div className="space-y-2">
-            <h3 className="text-base font-bold text-slate-900">Treatment Recommendations</h3>
-            <ul className="space-y-2 text-sm text-slate-700 bg-slate-50 p-4 rounded-xl border border-slate-200">
+          <div className="space-y-2 pt-2">
+            <h3 className="font-montserrat text-sm font-semibold text-foreground">
+              Treatment recommendations
+            </h3>
+            <ul className="space-y-2 text-xs sm:text-sm text-neutral-700 dark:text-neutral-300 p-4 rounded-lg border border-[var(--card-edge)] bg-neutral-100 dark:bg-white/5">
               {data.recommendations?.map((rec, i) => (
                 <li key={i} className="flex items-start gap-2">
-                  <CheckCircle2 className="w-4 h-4 text-teal-600 shrink-0 mt-0.5" />
+                  <Check className="size-3.5 text-emerald-400 shrink-0 mt-0.5" />
                   <span>{rec}</span>
                 </li>
               ))}
             </ul>
           </div>
 
-          <div className="p-4 bg-amber-50 rounded-xl border border-amber-200 text-amber-800 text-xs flex items-start gap-2">
-            <ShieldAlert className="w-4 h-4 text-amber-600 shrink-0 mt-0.5" />
-            <span>Prototype recommendation only. Final treatment decisions must be based on laboratory testing and qualified environmental professionals.</span>
+          <div className="p-4 rounded-lg border border-[var(--card-edge)] bg-card text-xs text-neutral-400 flex items-start gap-2.5">
+            <ShieldAlert className="size-4 text-amber-400 shrink-0 mt-0.5" />
+            <span>
+              Prototype recommendation only. Final treatment decisions must be based on laboratory testing and qualified environmental professionals.
+            </span>
           </div>
         </div>
       ) : (
         /* Image Result Detail */
-        <div className="bg-white rounded-2xl p-6 sm:p-8 border border-slate-200 shadow-sm space-y-6">
-          <div className="flex items-center justify-between border-b border-slate-100 pb-4">
+        <div className="card-chai p-6 sm:p-8 space-y-6">
+          <div className="flex items-center justify-between border-b border-[var(--card-edge)] pb-4">
             <div>
-              <div className="flex items-center gap-2 text-sky-600 font-bold text-xs">
-                <ImageIcon className="w-4 h-4" />
-                <span>Image Analysis Record</span>
+              <div className="flex items-center gap-2 text-neutral-400 text-xs font-mono">
+                <ImageIcon className="size-3.5" />
+                <span>Image record</span>
               </div>
-              <h1 className="text-2xl font-bold text-slate-900 mt-1">{data.originalName}</h1>
+              <h1 className="font-montserrat text-xl sm:text-2xl font-semibold text-foreground mt-1">
+                {data.originalName}
+              </h1>
             </div>
-            <span className="text-xs text-slate-400 font-medium flex items-center gap-1">
-              <Calendar className="w-3.5 h-3.5" />
+            <span className="text-xs font-mono text-neutral-400 flex items-center gap-1">
+              <Calendar className="size-3.5" />
               {new Date(data.createdAt).toLocaleDateString()}
             </span>
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 items-center">
-            <div className="rounded-xl overflow-hidden border border-slate-200 bg-slate-900 max-h-64 flex items-center justify-center">
+            <div className="rounded-lg overflow-hidden border border-[var(--card-edge)] bg-black/40 max-h-64 flex items-center justify-center">
               <img src={data.imagePath} alt={data.originalName} className="max-h-64 object-contain" />
             </div>
 
-            <div className="space-y-4 bg-slate-50 p-5 rounded-xl border border-slate-200 text-sm">
+            <div className="space-y-3 p-4 rounded-lg border border-[var(--card-edge)] bg-neutral-100 dark:bg-white/5 text-xs font-sans">
               <div>
-                <span className="text-xs text-slate-400 font-semibold block">Original Name</span>
-                <span className="font-bold text-slate-900">{data.originalName}</span>
+                <span className="text-neutral-500 dark:text-neutral-400 block mb-0.5">Original filename</span>
+                <span className="font-mono text-foreground">{data.originalName}</span>
               </div>
               <div>
-                <span className="text-xs text-slate-400 font-semibold block">File Size</span>
-                <span className="font-bold text-slate-900">{(data.fileSize / 1024).toFixed(1)} KB</span>
+                <span className="text-neutral-500 dark:text-neutral-400 block mb-0.5">File size</span>
+                <span className="font-mono text-foreground">{(data.fileSize / 1024).toFixed(1)} KB</span>
               </div>
               <div>
-                <span className="text-xs text-slate-400 font-semibold block">AI Image Classification</span>
-                <span className="font-bold text-sky-600">Coming Soon in Phase 2</span>
+                <span className="text-neutral-500 dark:text-neutral-400 block mb-0.5">Classification model</span>
+                <span className="font-mono text-neutral-600 dark:text-neutral-300">Phase 2 integration</span>
               </div>
             </div>
           </div>

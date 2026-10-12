@@ -1,130 +1,131 @@
 import React from 'react';
-import PrototypeBadge from '../components/PrototypeBadge';
-import { ArrowDown, Cpu, Activity, Image as ImageIcon, Server, Database, CheckCircle2, GitMerge } from 'lucide-react';
+import AnimatedBadge from '../components/AnimatedBadge';
+import { ArrowDown, Activity, Image as ImageIcon, Server, Database, Check, ArrowUpRight } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
 const HowItWorks = () => {
   return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 space-y-16">
+    <div className="space-y-16 pb-16">
       {/* Header */}
-      <div className="text-center space-y-4 max-w-3xl mx-auto">
-        <PrototypeBadge text="System Architecture & Workflow" />
-        <h1 className="text-4xl font-extrabold text-slate-900 tracking-tight">
-          How It Works
+      <div className="text-center space-y-4 max-w-2xl mx-auto pt-4">
+        <AnimatedBadge>System architecture and lifecycle</AnimatedBadge>
+        <h1 className="text-2xl sm:text-3xl font-medium tracking-tight text-foreground">
+          How it works
         </h1>
-        <p className="text-slate-600 text-lg leading-relaxed">
-          Visualizing the system request lifecycle for current prototype mode and future Machine Learning API integration.
+        <p className="text-base text-neutral-600 sm:text-lg dark:text-neutral-400 leading-relaxed font-sans">
+          Tracing data pipelines from client submission to <span className="highlight">persisted environmental records</span>.
         </p>
       </div>
 
-      {/* Diagram Section 1: Current Prototype Workflow */}
-      <div className="bg-white rounded-3xl p-8 sm:p-12 border border-slate-200 shadow-sm space-y-8">
+      {/* Workflow Section */}
+      <div className="card-chai p-6 sm:p-10 space-y-10">
         <div className="text-center max-w-xl mx-auto space-y-2">
-          <span className="text-xs font-bold text-teal-600 uppercase tracking-widest bg-teal-50 px-3 py-1 rounded-full border border-teal-200">
-            Current Flow
+          <span className="text-xs font-mono text-neutral-400 border border-[var(--card-edge)] px-2.5 py-0.5 rounded">
+            Execution pipeline
           </span>
-          <h2 className="text-2xl font-bold text-slate-900">Prototype Execution Workflow</h2>
-          <p className="text-xs text-slate-500">How data moves through the user interface and Node.js mock prediction service.</p>
+          <h2 className="font-montserrat text-xl sm:text-2xl font-semibold text-foreground">
+            Current prototype data flow
+          </h2>
+          <p className="text-xs text-neutral-400 font-sans">
+            How user input flows through the client interface and decoupled Node service.
+          </p>
         </div>
 
-        {/* Visual Flow Chart */}
-        <div className="max-w-3xl mx-auto space-y-6">
-          {/* Step 1: USER */}
-          <div className="flex flex-col items-center">
-            <div className="w-48 py-3 bg-slate-900 text-white rounded-xl font-bold text-center text-sm shadow-md flex items-center justify-center gap-2">
-              <span>USER</span>
+        {/* Visual Pipeline */}
+        <div className="max-w-2xl mx-auto space-y-4 font-sans">
+          {/* Step 1: Client Input */}
+          <div className="p-4 rounded-lg border border-[var(--card-edge)] bg-neutral-100 dark:bg-white/5 flex items-center justify-between">
+            <div className="flex items-center gap-3">
+              <span className="text-xs font-mono text-neutral-500 dark:text-neutral-400">01</span>
+              <div>
+                <div className="font-montserrat text-sm font-semibold text-foreground">Client submission</div>
+                <div className="text-xs text-neutral-700 dark:text-neutral-400">User selects parameter input or sample image upload</div>
+              </div>
             </div>
-            <ArrowDown className="w-5 h-5 text-slate-400 my-2 animate-bounce" />
+            <span className="text-xs border border-emerald-600/30 dark:border-emerald-500/30 text-emerald-700 dark:text-emerald-400 px-2 py-0.5 rounded font-mono">
+              Browser
+            </span>
           </div>
 
-          {/* Step 2: Choose Method */}
-          <div className="flex flex-col items-center">
-            <div className="w-64 py-3 bg-teal-600 text-white rounded-xl font-bold text-center text-sm shadow-md">
-              Choose Analysis Method
-            </div>
-            <ArrowDown className="w-5 h-5 text-slate-400 my-2" />
+          <div className="flex justify-center">
+            <ArrowDown className="size-4 text-neutral-400" />
           </div>
 
-          {/* Step 3: Split Methods */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 relative">
-            <div className="bg-slate-50 rounded-2xl p-6 border border-slate-200 space-y-4 text-center">
-              <div className="inline-flex items-center gap-1.5 px-3 py-1 bg-teal-100 text-teal-800 rounded-full text-xs font-bold">
-                <Activity className="w-3.5 h-3.5" />
-                Parameter Analysis
+          {/* Step 2: Split Methods */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div className="p-4 rounded-lg border border-[var(--card-edge)] bg-neutral-100 dark:bg-white/5 space-y-2">
+              <div className="flex items-center gap-2 text-foreground font-montserrat text-sm font-semibold">
+                <Activity className="size-4 text-neutral-500 dark:text-neutral-400" />
+                <span>Parameter evaluation</span>
               </div>
-              <div className="text-sm font-semibold text-slate-700">Inputs: pH & TDS</div>
-              <ArrowDown className="w-4 h-4 text-slate-400 mx-auto" />
-              <div className="p-3 bg-white rounded-lg border border-slate-200 text-xs font-medium text-slate-600">
-                Backend Mock Prediction Service
-              </div>
+              <p className="text-xs text-neutral-700 dark:text-neutral-400 leading-relaxed">
+                Calculates pH deviation and TDS status using regulatory threshold lookups.
+              </p>
             </div>
 
-            <div className="bg-slate-50 rounded-2xl p-6 border border-slate-200 space-y-4 text-center">
-              <div className="inline-flex items-center gap-1.5 px-3 py-1 bg-sky-100 text-sky-800 rounded-full text-xs font-bold">
-                <ImageIcon className="w-3.5 h-3.5" />
-                Image Analysis
+            <div className="p-4 rounded-lg border border-[var(--card-edge)] bg-neutral-100 dark:bg-white/5 space-y-2">
+              <div className="flex items-center gap-2 text-foreground font-montserrat text-sm font-semibold">
+                <ImageIcon className="size-4 text-neutral-500 dark:text-neutral-400" />
+                <span>Image ingest</span>
               </div>
-              <div className="text-sm font-semibold text-slate-700">Input: Upload Local Image</div>
-              <ArrowDown className="w-4 h-4 text-slate-400 mx-auto" />
-              <div className="p-3 bg-white rounded-lg border border-slate-200 text-xs font-medium text-slate-600">
-                Multer Storage + Prototype Status
-              </div>
+              <p className="text-xs text-neutral-700 dark:text-neutral-400 leading-relaxed">
+                Multer multipart storage handles image buffer with metadata extraction.
+              </p>
             </div>
           </div>
 
-          {/* Step 4: Quality Assessment */}
-          <div className="flex flex-col items-center pt-2">
-            <ArrowDown className="w-5 h-5 text-slate-400 my-2" />
-            <div className="w-64 py-3 bg-emerald-700 text-white rounded-xl font-bold text-center text-sm shadow-md">
-              Quality Assessment
+          <div className="flex justify-center">
+            <ArrowDown className="size-4 text-neutral-400" />
+          </div>
+
+          {/* Step 3: Service Engine */}
+          <div className="p-4 rounded-lg border border-[var(--card-edge)] bg-neutral-100 dark:bg-white/5 flex items-center justify-between">
+            <div className="flex items-center gap-3">
+              <Server className="size-4 text-neutral-500 dark:text-neutral-400" />
+              <div>
+                <div className="font-montserrat text-sm font-semibold text-foreground">Rule engine logic</div>
+                <div className="text-xs text-neutral-700 dark:text-neutral-400">Generates classification scores, advisory notes, and suggested treatment stages</div>
+              </div>
             </div>
-            <ArrowDown className="w-5 h-5 text-slate-400 my-2" />
-            <div className="w-72 py-3.5 bg-slate-900 text-teal-300 rounded-xl font-bold text-center text-sm shadow-lg border border-teal-500/30">
-              Treatment Recommendation
+            <span className="text-xs font-mono text-neutral-600 dark:text-neutral-400">Node backend</span>
+          </div>
+
+          <div className="flex justify-center">
+            <ArrowDown className="size-4 text-neutral-400" />
+          </div>
+
+          {/* Step 4: Storage & History */}
+          <div className="p-4 rounded-lg border border-[var(--card-edge)] bg-neutral-100 dark:bg-white/5 flex items-center justify-between">
+            <div className="flex items-center gap-3">
+              <Database className="size-4 text-neutral-500 dark:text-neutral-400" />
+              <div>
+                <div className="font-montserrat text-sm font-semibold text-foreground">Database logging</div>
+                <div className="text-xs text-neutral-700 dark:text-neutral-400">Analysis results saved to MongoDB collection with user correlation</div>
+              </div>
             </div>
+            <span className="text-xs border border-emerald-600/30 dark:border-emerald-500/30 text-emerald-700 dark:text-emerald-400 px-2 py-0.5 rounded font-mono">
+              Persisted
+            </span>
           </div>
         </div>
-      </div>
 
-      {/* Diagram Section 2: Future Architecture */}
-      <div className="bg-slate-900 text-white rounded-3xl p-8 sm:p-12 border border-slate-800 shadow-xl space-y-8">
-        <div className="text-center max-w-xl mx-auto space-y-2">
-          <span className="text-xs font-bold text-sky-400 uppercase tracking-widest bg-sky-950 px-3 py-1 rounded-full border border-sky-800">
-            Phase 2 Vision
-          </span>
-          <h2 className="text-2xl font-bold text-white">Future AI System Architecture</h2>
-          <p className="text-xs text-slate-400">Modular decoupled architecture connecting React to Node.js and Python ML model APIs.</p>
-        </div>
-
-        {/* Architecture Stack Box */}
-        <div className="max-w-2xl mx-auto space-y-3">
-          <div className="p-4 bg-slate-800 rounded-xl border border-slate-700 flex items-center justify-between">
-            <span className="font-bold text-sm text-teal-400">React.js Frontend (Vite + Tailwind)</span>
-            <span className="text-xs text-slate-400">User Interface</span>
-          </div>
-          <ArrowDown className="w-4 h-4 text-teal-500 mx-auto" />
-
-          <div className="p-4 bg-slate-800 rounded-xl border border-slate-700 flex items-center justify-between">
-            <span className="font-bold text-sm text-sky-400">Node.js / Express Backend API</span>
-            <span className="text-xs text-slate-400">JWT Auth + Controller Layer</span>
-          </div>
-          <ArrowDown className="w-4 h-4 text-sky-500 mx-auto" />
-
-          <div className="p-4 bg-slate-800 rounded-xl border border-slate-700 flex items-center justify-between">
-            <span className="font-bold text-sm text-purple-400">Python ML Microservice (FastAPI / Flask)</span>
-            <span className="text-xs text-slate-400">REST API Gateway</span>
-          </div>
-          <ArrowDown className="w-4 h-4 text-purple-500 mx-auto" />
-
-          <div className="p-4 bg-slate-800 rounded-xl border border-slate-700 flex items-center justify-between">
-            <span className="font-bold text-sm text-emerald-400">Trained ML Models (Random Forest + MobileNetV2)</span>
-            <span className="text-xs text-slate-400">Inference Engine</span>
-          </div>
-          <ArrowDown className="w-4 h-4 text-emerald-500 mx-auto" />
-
-          <div className="p-4 bg-slate-800 rounded-xl border border-slate-700 flex items-center justify-between">
-            <span className="font-bold text-sm text-amber-400">Prediction Output & Recommendation Engine</span>
-            <span className="text-xs text-slate-400">Synthesized Guidelines</span>
+        <div className="pt-4 border-t border-[var(--card-edge)] flex flex-wrap items-center justify-between gap-4">
+          <p className="text-xs text-neutral-400 font-sans">
+            Ready to test either evaluation channel?
+          </p>
+          <div className="flex gap-3">
+            <Link
+              to="/analysis/parameters"
+              className="inline-flex h-8 items-center gap-1.5 rounded-md bg-primary px-3 text-xs font-montserrat font-semibold text-primary-foreground hover:bg-primary/90 transition-colors"
+            >
+              Parameter analysis <ArrowUpRight className="size-3.5" />
+            </Link>
+            <Link
+              to="/analysis/image"
+              className="inline-flex h-8 items-center gap-1.5 rounded-md border border-[var(--card-edge)] bg-card px-3 text-xs font-montserrat font-medium text-foreground hover:border-[var(--card-edge-hover)] transition-colors"
+            >
+              Image analysis
+            </Link>
           </div>
         </div>
       </div>

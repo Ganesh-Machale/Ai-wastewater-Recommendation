@@ -1,248 +1,308 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
-import { Droplet, Activity, Image as ImageIcon, LayoutDashboard, History, User, Shield, LogOut, Menu, X, Info, GitFork } from 'lucide-react';
+import ThemeSwitcher from './ThemeSwitcher';
+import {
+  Activity,
+  Image as ImageIcon,
+  LayoutDashboard,
+  History,
+  User,
+  Shield,
+  LogOut,
+  Menu,
+  X,
+  ArrowUpRight
+} from 'lucide-react';
 
 const Navbar = () => {
   const { isAuthenticated, isAdmin, user, logout } = useAuth();
   const location = useLocation();
   const navigate = useNavigate();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
+
+  useEffect(() => {
+    const on = () => setScrolled(window.scrollY > 0);
+    on();
+    window.addEventListener('scroll', on, { passive: true });
+    return () => window.removeEventListener('scroll', on);
+  }, []);
 
   const isActive = (path) => location.pathname === path;
 
   const handleLogout = () => {
     logout();
     navigate('/login');
+    setMobileMenuOpen(false);
   };
 
-  const navLinkClass = (path) =>
-    `flex items-center gap-1.5 px-3 py-2 rounded-lg text-sm font-medium transition-all ${
-      isActive(path)
-        ? 'bg-teal-600 text-white shadow-sm'
-        : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100'
-    }`;
-
   return (
-    <nav className="sticky top-0 z-50 bg-white/90 backdrop-blur-md border-b border-slate-200">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex justify-between h-16">
-          {/* Logo */}
-          <div className="flex items-center">
-            <Link to="/" className="flex items-center gap-2.5 group">
-              <div className="w-10 h-10 rounded-xl bg-gradient-to-tr from-teal-600 to-emerald-400 flex items-center justify-center text-white shadow-md shadow-teal-500/20 group-hover:scale-105 transition-transform">
-                <Droplet className="w-6 h-6 fill-current" />
-              </div>
-              <div className="flex flex-col">
-                <span className="font-extrabold text-xl tracking-tight text-slate-900 leading-none">
-                  WQ<span className="text-teal-600">AI</span>
-                </span>
-                <span className="text-[10px] font-semibold text-slate-400 tracking-wider uppercase mt-0.5">
-                  Wastewater Quality AI
-                </span>
-              </div>
-            </Link>
+    <header
+      className={`sticky top-0 z-50 transition-[backdrop-filter,background,border-color] duration-300 ${
+        scrolled
+          ? 'bg-background/80 backdrop-blur-md border-b border-[var(--card-edge)]'
+          : 'bg-transparent border-b border-transparent'
+      }`}
+    >
+      <nav className="max-w-6xl mx-auto flex items-center justify-between gap-4 px-6 py-4 sm:px-12">
+        {/* Wordmark Logo */}
+        <Link
+          to="/"
+          className="flex items-center gap-2 group outline-none"
+          aria-label="WQAI home"
+        >
+          <div className="relative flex items-center justify-center">
+            <span className="font-brand text-2xl font-semibold tracking-tight text-foreground">
+              WQAI
+            </span>
+            <span className="w-1.5 h-1.5 rounded-full bg-[#FF7D0C] ml-1 mb-2 motion-safe:animate-chai-bounce" />
           </div>
+          <span className="hidden sm:inline-block text-xs font-mono text-muted-foreground border-l border-[var(--card-edge)] pl-2 ml-1">
+            v0.1
+          </span>
+        </Link>
 
-          {/* Desktop Navigation Links */}
-          <div className="hidden md:flex items-center space-x-1">
-            <Link to="/" className={navLinkClass('/')}>
-              Home
-            </Link>
-            <Link to="/about" className={navLinkClass('/about')}>
-              About
-            </Link>
-            <Link to="/how-it-works" className={navLinkClass('/how-it-works')}>
-              How It Works
-            </Link>
-            <Link to="/analysis/parameters" className={navLinkClass('/analysis/parameters')}>
-              <Activity className="w-4 h-4" />
-              Parameter Analysis
-            </Link>
-            <Link to="/analysis/image" className={navLinkClass('/analysis/image')}>
-              <ImageIcon className="w-4 h-4" />
-              Image Analysis
-            </Link>
+        {/* Desktop Navigation */}
+        <div className="hidden lg:flex items-center gap-6">
+          <Link
+            to="/"
+            className={`text-sm font-medium transition-colors hover:text-brand ${
+              isActive('/') ? 'text-foreground font-semibold' : 'text-neutral-400'
+            }`}
+          >
+            Home
+          </Link>
+          <Link
+            to="/about"
+            className={`text-sm font-medium transition-colors hover:text-brand ${
+              isActive('/about') ? 'text-foreground font-semibold' : 'text-neutral-400'
+            }`}
+          >
+            About
+          </Link>
+          <Link
+            to="/how-it-works"
+            className={`text-sm font-medium transition-colors hover:text-brand ${
+              isActive('/how-it-works') ? 'text-foreground font-semibold' : 'text-neutral-400'
+            }`}
+          >
+            How it works
+          </Link>
+          <Link
+            to="/analysis/parameters"
+            className={`inline-flex items-center gap-1.5 text-sm font-medium transition-colors hover:text-brand ${
+              isActive('/analysis/parameters') ? 'text-foreground font-semibold' : 'text-neutral-400'
+            }`}
+          >
+            <Activity className="size-4" />
+            Parameters
+          </Link>
+          <Link
+            to="/analysis/image"
+            className={`inline-flex items-center gap-1.5 text-sm font-medium transition-colors hover:text-brand ${
+              isActive('/analysis/image') ? 'text-foreground font-semibold' : 'text-neutral-400'
+            }`}
+          >
+            <ImageIcon className="size-4" />
+            Image
+          </Link>
 
-            {isAuthenticated && (
-              <>
-                <div className="h-5 w-px bg-slate-200 mx-1"></div>
-                <Link to="/dashboard" className={navLinkClass('/dashboard')}>
-                  <LayoutDashboard className="w-4 h-4" />
-                  Dashboard
-                </Link>
-                <Link to="/history" className={navLinkClass('/history')}>
-                  <History className="w-4 h-4" />
-                  History
-                </Link>
-                {isAdmin && (
-                  <Link to="/admin" className={navLinkClass('/admin')}>
-                    <Shield className="w-4 h-4 text-emerald-500" />
-                    Admin
-                  </Link>
-                )}
-              </>
-            )}
-          </div>
-
-          {/* Auth Action Buttons */}
-          <div className="hidden md:flex items-center space-x-3">
-            {isAuthenticated ? (
-              <div className="flex items-center gap-3">
+          {isAuthenticated && (
+            <>
+              <span className="h-4 w-px bg-border" />
+              <Link
+                to="/dashboard"
+                className={`inline-flex items-center gap-1.5 text-sm font-medium transition-colors hover:text-brand ${
+                  isActive('/dashboard') ? 'text-foreground font-semibold' : 'text-neutral-400'
+                }`}
+              >
+                <LayoutDashboard className="size-4" />
+                Dashboard
+              </Link>
+              <Link
+                to="/history"
+                className={`inline-flex items-center gap-1.5 text-sm font-medium transition-colors hover:text-brand ${
+                  isActive('/history') ? 'text-foreground font-semibold' : 'text-neutral-400'
+                }`}
+              >
+                <History className="size-4" />
+                History
+              </Link>
+              {isAdmin && (
                 <Link
-                  to="/profile"
-                  className="flex items-center gap-2 px-3 py-1.5 rounded-lg border border-slate-200 text-slate-700 hover:bg-slate-50 transition-colors text-sm font-medium"
+                  to="/admin"
+                  className={`inline-flex items-center gap-1 text-sm font-medium text-emerald-400 hover:text-emerald-300 transition-colors ${
+                    isActive('/admin') ? 'font-semibold' : ''
+                  }`}
                 >
-                  <User className="w-4 h-4 text-teal-600" />
-                  <span>{user?.name?.split(' ')[0] || 'User'}</span>
-                  {isAdmin && (
-                    <span className="bg-emerald-100 text-emerald-700 text-[10px] font-bold px-1.5 py-0.5 rounded">
-                      ADMIN
-                    </span>
-                  )}
+                  <Shield className="size-4" />
+                  Admin
                 </Link>
-                <button
-                  onClick={handleLogout}
-                  className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-slate-500 hover:text-red-600 hover:bg-red-50 transition-colors text-sm font-medium"
-                  title="Logout"
-                >
-                  <LogOut className="w-4 h-4" />
-                  <span>Logout</span>
-                </button>
-              </div>
-            ) : (
-              <div className="flex items-center space-x-2">
-                <Link
-                  to="/login"
-                  className="px-4 py-2 text-sm font-medium text-slate-700 hover:text-teal-600 transition-colors"
-                >
-                  Login
-                </Link>
-                <Link
-                  to="/register"
-                  className="px-4 py-2 text-sm font-medium text-white bg-gradient-to-r from-teal-600 to-emerald-600 hover:from-teal-700 hover:to-emerald-700 rounded-lg shadow-sm shadow-teal-600/20 transition-all hover:shadow-md hover:shadow-teal-600/30"
-                >
-                  Register
-                </Link>
-              </div>
-            )}
-          </div>
-
-          {/* Mobile menu button */}
-          <div className="flex md:hidden items-center">
-            <button
-              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className="p-2 rounded-lg text-slate-600 hover:text-slate-900 hover:bg-slate-100"
-            >
-              {mobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
-            </button>
-          </div>
+              )}
+            </>
+          )}
         </div>
-      </div>
 
-      {/* Mobile Drawer */}
+        {/* Right Section: ThemeSwitcher + User actions */}
+        <div className="flex items-center gap-3">
+          <ThemeSwitcher />
+
+          {isAuthenticated ? (
+            <div className="hidden sm:flex items-center gap-3">
+              <Link
+                to="/profile"
+                className="inline-flex items-center gap-2 px-3 py-1.5 rounded-md border border-[var(--card-edge)] bg-card text-xs font-montserrat font-medium text-foreground hover:border-[var(--card-edge-hover)] transition-colors"
+              >
+                <User className="size-3.5 text-neutral-400" />
+                <span>{user?.name?.split(' ')[0] || 'Account'}</span>
+                {isAdmin && (
+                  <span className="text-[10px] text-emerald-400 border border-emerald-500/30 px-1 py-0.2 rounded">
+                    ADMIN
+                  </span>
+                )}
+              </Link>
+              <button
+                type="button"
+                onClick={handleLogout}
+                aria-label="Sign out"
+                title="Sign out"
+                className="inline-flex size-8 items-center justify-center rounded-md text-neutral-400 hover:text-foreground transition-colors"
+              >
+                <LogOut className="size-4" />
+              </button>
+            </div>
+          ) : (
+            <div className="hidden sm:flex items-center gap-2.5">
+              <Link
+                to="/login"
+                className="px-3 py-1.5 text-sm font-medium text-neutral-400 hover:text-foreground transition-colors"
+              >
+                Sign in
+              </Link>
+              <Link
+                to="/register"
+                className="btn-asym inline-flex h-8 items-center gap-1.5 bg-neutral-900 px-3.5 text-xs font-montserrat font-medium text-white transition-colors duration-200 hover:bg-black/90 dark:bg-white dark:text-black dark:hover:bg-neutral-200"
+              >
+                Get started <ArrowUpRight className="-ml-1 size-3.5" aria-hidden="true" />
+              </Link>
+            </div>
+          )}
+
+          {/* Mobile Menu Button */}
+          <button
+            type="button"
+            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+            className="lg:hidden inline-flex size-9 items-center justify-center rounded-md text-foreground hover:text-brand"
+            aria-label="Toggle navigation menu"
+          >
+            {mobileMenuOpen ? <X className="size-5" /> : <Menu className="size-5" />}
+          </button>
+        </div>
+      </nav>
+
+      {/* Mobile Menu Dropdown */}
       {mobileMenuOpen && (
-        <div className="md:hidden border-b border-slate-200 bg-white px-4 pt-2 pb-4 space-y-2">
+        <div className="lg:hidden border-b border-[var(--card-edge)] bg-background/95 backdrop-blur-xl px-6 py-4 space-y-3">
           <Link
             to="/"
             onClick={() => setMobileMenuOpen(false)}
-            className="block px-3 py-2 rounded-md text-base font-medium text-slate-700 hover:bg-slate-100"
+            className="block py-1.5 text-base font-medium text-foreground hover:text-brand"
           >
             Home
           </Link>
           <Link
             to="/about"
             onClick={() => setMobileMenuOpen(false)}
-            className="block px-3 py-2 rounded-md text-base font-medium text-slate-700 hover:bg-slate-100"
+            className="block py-1.5 text-base font-medium text-neutral-400 hover:text-brand"
           >
-            About Project
+            About
           </Link>
           <Link
             to="/how-it-works"
             onClick={() => setMobileMenuOpen(false)}
-            className="block px-3 py-2 rounded-md text-base font-medium text-slate-700 hover:bg-slate-100"
+            className="block py-1.5 text-base font-medium text-neutral-400 hover:text-brand"
           >
-            How It Works
+            How it works
           </Link>
           <Link
             to="/analysis/parameters"
             onClick={() => setMobileMenuOpen(false)}
-            className="block px-3 py-2 rounded-md text-base font-medium text-teal-700 font-semibold hover:bg-teal-50"
+            className="block py-1.5 text-base font-medium text-neutral-400 hover:text-brand"
           >
-            Parameter Analysis
+            Parameter analysis
           </Link>
           <Link
             to="/analysis/image"
             onClick={() => setMobileMenuOpen(false)}
-            className="block px-3 py-2 rounded-md text-base font-medium text-teal-700 font-semibold hover:bg-teal-50"
+            className="block py-1.5 text-base font-medium text-neutral-400 hover:text-brand"
           >
-            Image Analysis
+            Image analysis
           </Link>
 
           {isAuthenticated ? (
             <>
-              <div className="border-t border-slate-200 pt-2 my-2"></div>
-              <Link
-                to="/dashboard"
-                onClick={() => setMobileMenuOpen(false)}
-                className="block px-3 py-2 rounded-md text-base font-medium text-slate-700 hover:bg-slate-100"
-              >
-                Dashboard
-              </Link>
-              <Link
-                to="/history"
-                onClick={() => setMobileMenuOpen(false)}
-                className="block px-3 py-2 rounded-md text-base font-medium text-slate-700 hover:bg-slate-100"
-              >
-                Analysis History
-              </Link>
-              <Link
-                to="/profile"
-                onClick={() => setMobileMenuOpen(false)}
-                className="block px-3 py-2 rounded-md text-base font-medium text-slate-700 hover:bg-slate-100"
-              >
-                Profile ({user?.name})
-              </Link>
-              {isAdmin && (
+              <div className="pt-2 border-t border-[var(--card-edge)] space-y-2">
                 <Link
-                  to="/admin"
+                  to="/dashboard"
                   onClick={() => setMobileMenuOpen(false)}
-                  className="block px-3 py-2 rounded-md text-base font-medium text-emerald-700 font-bold hover:bg-emerald-50"
+                  className="block py-1 text-base text-neutral-400 hover:text-foreground"
                 >
-                  Admin Panel
+                  Dashboard
                 </Link>
-              )}
-              <button
-                onClick={() => {
-                  setMobileMenuOpen(false);
-                  handleLogout();
-                }}
-                className="w-full text-left px-3 py-2 rounded-md text-base font-medium text-red-600 hover:bg-red-50"
-              >
-                Logout
-              </button>
+                <Link
+                  to="/history"
+                  onClick={() => setMobileMenuOpen(false)}
+                  className="block py-1 text-base text-neutral-400 hover:text-foreground"
+                >
+                  History
+                </Link>
+                <Link
+                  to="/profile"
+                  onClick={() => setMobileMenuOpen(false)}
+                  className="block py-1 text-base text-neutral-400 hover:text-foreground"
+                >
+                  Account ({user?.name || 'User'})
+                </Link>
+                {isAdmin && (
+                  <Link
+                    to="/admin"
+                    onClick={() => setMobileMenuOpen(false)}
+                    className="block py-1 text-base text-emerald-400 hover:text-emerald-300"
+                  >
+                    Admin dashboard
+                  </Link>
+                )}
+                <button
+                  type="button"
+                  onClick={handleLogout}
+                  className="block w-full text-left py-1 text-base text-red-400 hover:text-red-300"
+                >
+                  Sign out
+                </button>
+              </div>
             </>
           ) : (
-            <div className="border-t border-slate-200 pt-3 flex flex-col gap-2">
+            <div className="pt-2 border-t border-[var(--card-edge)] flex flex-col gap-2">
               <Link
                 to="/login"
                 onClick={() => setMobileMenuOpen(false)}
-                className="w-full text-center px-4 py-2 text-sm font-medium text-slate-700 bg-slate-100 rounded-lg"
+                className="py-1.5 text-base text-neutral-400 hover:text-foreground"
               >
-                Login
+                Sign in
               </Link>
               <Link
                 to="/register"
                 onClick={() => setMobileMenuOpen(false)}
-                className="w-full text-center px-4 py-2 text-sm font-medium text-white bg-teal-600 rounded-lg"
+                className="btn-asym inline-flex h-9 items-center justify-center gap-2 bg-neutral-900 px-4 text-sm font-medium text-white dark:bg-white dark:text-black"
               >
-                Register Account
+                Get started <ArrowUpRight className="size-4" />
               </Link>
             </div>
           )}
         </div>
       )}
-    </nav>
+    </header>
   );
 };
 

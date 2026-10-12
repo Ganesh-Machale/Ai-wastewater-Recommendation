@@ -1,131 +1,130 @@
 import React from 'react';
-import PrototypeBadge from '../components/PrototypeBadge';
-import { BookOpen, Target, Cpu, ShieldAlert, CheckCircle2, FlaskConical, Layers, ArrowRight } from 'lucide-react';
+import AnimatedBadge from '../components/AnimatedBadge';
+import { Target, ShieldAlert, FlaskConical, Cpu, ArrowUpRight, Check } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
 const About = () => {
   return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 space-y-12">
-      {/* Header */}
-      <div className="text-center space-y-4 max-w-3xl mx-auto">
-        <PrototypeBadge text="College PBL Project Prototype" />
-        <h1 className="text-4xl font-extrabold text-slate-900 tracking-tight">
-          About Project
+    <div className="space-y-16 pb-16">
+      {/* Page Header */}
+      <div className="text-center space-y-4 max-w-2xl mx-auto pt-4">
+        <AnimatedBadge>Academic PBL research prototype</AnimatedBadge>
+        <h1 className="text-2xl sm:text-3xl font-medium tracking-tight text-foreground">
+          About the project
         </h1>
-        <p className="text-slate-600 text-lg leading-relaxed">
-          Understanding the vision, current prototype scope, and future Machine Learning architecture of the WQAI decision-support system.
+        <p className="text-base text-neutral-600 sm:text-lg dark:text-neutral-400 leading-relaxed font-sans">
+          Understanding the background, current prototype scope, and future machine learning roadmap for <span className="highlight">wastewater decision support</span>.
         </p>
       </div>
 
-      {/* Problem & Solution Detailed Cards */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-        <div className="bg-white rounded-2xl p-8 border border-slate-200 shadow-sm space-y-4">
-          <div className="w-12 h-12 rounded-xl bg-amber-100 text-amber-700 flex items-center justify-center font-bold">
-            <ShieldAlert className="w-6 h-6" />
+      {/* Problem & Solution Cards */}
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div className="card-chai p-6 sm:p-8 space-y-4">
+          <div className="flex items-center gap-2 text-neutral-400">
+            <ShieldAlert className="size-5 text-amber-400" />
+            <span className="text-xs font-mono uppercase tracking-wider">Context</span>
           </div>
-          <h2 className="text-2xl font-bold text-slate-900">The Problem</h2>
-          <p className="text-slate-600 leading-relaxed text-sm sm:text-base">
-            Wastewater treatment facilities and environmental monitoring bodies face severe challenges due to manual sample collection, expensive laboratory turnarounds, and complex chemical metric interpretation. Delays in identifying extreme pH shifts or Total Dissolved Solids spikes lead to downstream ecosystem contamination and damaged municipal infrastructure.
+          <h2 className="font-montserrat text-xl font-semibold text-foreground">
+            The environmental problem
+          </h2>
+          <p className="text-sm leading-relaxed text-neutral-600 dark:text-neutral-400 font-sans">
+            Wastewater treatment facilities and environmental monitoring agencies face significant operational bottlenecks due to manual sample collection and delayed laboratory turnarounds. Slow identification of toxic effluent spikes results in municipal damage and downstream water contamination.
           </p>
         </div>
 
-        <div className="bg-white rounded-2xl p-8 border border-slate-200 shadow-sm space-y-4">
-          <div className="w-12 h-12 rounded-xl bg-teal-100 text-teal-700 flex items-center justify-center font-bold">
-            <Target className="w-6 h-6" />
+        <div className="card-chai p-6 sm:p-8 space-y-4">
+          <div className="flex items-center gap-2 text-neutral-400">
+            <Target className="size-5 text-emerald-400" />
+            <span className="text-xs font-mono uppercase tracking-wider">Solution</span>
           </div>
-          <h2 className="text-2xl font-bold text-slate-900">The Proposed Solution</h2>
-          <p className="text-slate-600 leading-relaxed text-sm sm:text-base">
-            A digital decision-support system that synthesizes wastewater parameter metrics and visual sample analysis to evaluate water quality and recommend possible treatment approaches. This system acts as an instant preliminary evaluation tool to assist plant operators and environmental researchers.
+          <h2 className="font-montserrat text-xl font-semibold text-foreground">
+            The digital solution
+          </h2>
+          <p className="text-sm leading-relaxed text-neutral-600 dark:text-neutral-400 font-sans">
+            WQAI delivers a digital decision-support framework that validates key chemical metrics and visual effluent records. It computes immediate assessments and generates targeted treatment guidelines, providing plant operators with actionable guidance before formal laboratory tests complete.
           </p>
         </div>
       </div>
 
-      {/* Current Prototype vs Future ML Capabilities */}
-      <div className="bg-slate-900 text-white rounded-3xl p-8 sm:p-12 shadow-xl border border-slate-800 space-y-8">
-        <div className="border-b border-slate-800 pb-6 flex flex-col md:flex-row md:items-center justify-between gap-4">
+      {/* Scope Comparison Section */}
+      <section className="card-chai p-6 sm:p-10 space-y-8">
+        <div className="border-b border-[var(--card-edge)] pb-5 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
           <div>
-            <h2 className="text-2xl sm:text-3xl font-extrabold">Scope Comparison</h2>
-            <p className="text-slate-400 text-sm mt-1">Current Prototype Status vs. Phase 2 Future AI Models</p>
+            <h2 className="font-montserrat text-2xl font-semibold text-foreground">
+              Scope comparison
+            </h2>
+            <p className="text-xs sm:text-sm text-neutral-400 mt-1 font-sans">
+              Current demonstration release versus Phase 2 Python ML architecture.
+            </p>
           </div>
-          <div className="bg-teal-500/20 text-teal-300 border border-teal-500/40 px-3 py-1.5 rounded-lg text-xs font-semibold">
-            Honest Demonstration Architecture
-          </div>
+          <span className="text-xs font-mono border border-emerald-500/30 text-emerald-400 px-3 py-1 rounded w-fit">
+            Demonstration architecture
+          </span>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-          {/* Current Prototype Scope */}
-          <div className="bg-slate-800/90 rounded-2xl p-6 border border-slate-700 space-y-4">
-            <div className="flex items-center gap-2 text-teal-400 font-bold text-lg">
-              <FlaskConical className="w-5 h-5" />
-              <h3>Current Prototype Capabilities</h3>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          {/* Current Scope */}
+          <div className="p-5 rounded-lg border border-[var(--card-edge)] bg-black/20 space-y-4">
+            <div className="flex items-center gap-2 text-foreground font-montserrat font-semibold text-base">
+              <FlaskConical className="size-4 text-neutral-400" />
+              <h3>Current prototype capabilities</h3>
             </div>
-            <ul className="space-y-3 text-sm text-slate-300">
-              <li className="flex items-start gap-2.5">
-                <CheckCircle2 className="w-4 h-4 text-teal-400 shrink-0 mt-0.5" />
-                <span><strong>Parameter-Based Analysis:</strong> Evaluation using pH & Total Dissolved Solids (TDS).</span>
+            <ul className="space-y-2.5 text-xs text-neutral-400 font-sans">
+              <li className="flex items-start gap-2">
+                <Check className="size-3.5 text-emerald-400 shrink-0 mt-0.5" />
+                <span>Chemical metrics input form (pH and Total Dissolved Solids)</span>
               </li>
-              <li className="flex items-start gap-2.5">
-                <CheckCircle2 className="w-4 h-4 text-teal-400 shrink-0 mt-0.5" />
-                <span><strong>Image Upload Interface:</strong> Drag-and-drop local image uploading & safe server storage.</span>
+              <li className="flex items-start gap-2">
+                <Check className="size-3.5 text-emerald-400 shrink-0 mt-0.5" />
+                <span>Threshold validation engine evaluating environmental standards</span>
               </li>
-              <li className="flex items-start gap-2.5">
-                <CheckCircle2 className="w-4 h-4 text-teal-400 shrink-0 mt-0.5" />
-                <span><strong>Mock Service Logic:</strong> Clearly decoupled decision rules for parameter classification.</span>
+              <li className="flex items-start gap-2">
+                <Check className="size-3.5 text-emerald-400 shrink-0 mt-0.5" />
+                <span>Image upload interface with preview and metadata storage</span>
               </li>
-              <li className="flex items-start gap-2.5">
-                <CheckCircle2 className="w-4 h-4 text-teal-400 shrink-0 mt-0.5" />
-                <span><strong>Full-Stack Storage:</strong> Database persistence for users, parameter data, and image metadata.</span>
+              <li className="flex items-start gap-2">
+                <Check className="size-3.5 text-emerald-400 shrink-0 mt-0.5" />
+                <span>MongoDB persistence for user test logs and analysis history</span>
               </li>
             </ul>
           </div>
 
-          {/* Future Capabilities */}
-          <div className="bg-slate-800/90 rounded-2xl p-6 border border-slate-700 space-y-4">
-            <div className="flex items-center gap-2 text-sky-400 font-bold text-lg">
-              <Cpu className="w-5 h-5" />
-              <h3>Future Machine Learning Integration</h3>
+          {/* Future Scope */}
+          <div className="p-5 rounded-lg border border-[var(--card-edge)] bg-black/20 space-y-4">
+            <div className="flex items-center gap-2 text-foreground font-montserrat font-semibold text-base">
+              <Cpu className="size-4 text-neutral-400" />
+              <h3>Phase 2 artificial intelligence roadmap</h3>
             </div>
-            <ul className="space-y-3 text-sm text-slate-300">
-              <li className="flex items-start gap-2.5">
-                <CheckCircle2 className="w-4 h-4 text-sky-400 shrink-0 mt-0.5" />
-                <span><strong>Trained ML Model:</strong> Random Forest / Gradient Boosting for multi-parameter prediction (BOD, COD, Turbidity, DO).</span>
+            <ul className="space-y-2.5 text-xs text-neutral-400 font-sans">
+              <li className="flex items-start gap-2">
+                <Check className="size-3.5 text-emerald-400 shrink-0 mt-0.5" />
+                <span>Random Forest and Gradient Boosted models for chemical regression</span>
               </li>
-              <li className="flex items-start gap-2.5">
-                <CheckCircle2 className="w-4 h-4 text-sky-400 shrink-0 mt-0.5" />
-                <span><strong>CNN Vision Models:</strong> Transfer-learning models (MobileNetV2, ResNet50) for automated image classification.</span>
+              <li className="flex items-start gap-2">
+                <Check className="size-3.5 text-emerald-400 shrink-0 mt-0.5" />
+                <span>Convolutional neural networks for visual contamination classification</span>
               </li>
-              <li className="flex items-start gap-2.5">
-                <CheckCircle2 className="w-4 h-4 text-sky-400 shrink-0 mt-0.5" />
-                <span><strong>Combined Recommendation Engine:</strong> Synthesized AI decision matrix with domain knowledge rules.</span>
+              <li className="flex items-start gap-2">
+                <Check className="size-3.5 text-emerald-400 shrink-0 mt-0.5" />
+                <span>Real-time IoT sensor telemetry streaming via MQTT</span>
+              </li>
+              <li className="flex items-start gap-2">
+                <Check className="size-3.5 text-emerald-400 shrink-0 mt-0.5" />
+                <span>Automated multi-facility compliance alert pipelines</span>
               </li>
             </ul>
           </div>
         </div>
 
-        {/* Disclaimer Alert */}
-        <div className="p-4 bg-amber-950/40 rounded-xl border border-amber-800/60 text-amber-200 text-xs sm:text-sm flex items-start gap-3">
-          <ShieldAlert className="w-5 h-5 text-amber-400 shrink-0 mt-0.5" />
-          <div>
-            <span className="font-bold block mb-0.5">Prototype Transparency Notice</span>
-            <span>This college project prototype does not claim to use trained Machine Learning models in its current version. Predictions are generated via clear mock service layers designed for seamless ML replacement in Phase 2.</span>
-          </div>
+        <div className="pt-2 flex justify-end">
+          <Link
+            to="/analysis/parameters"
+            className="inline-flex h-8 items-center gap-2 rounded-md bg-primary px-4 text-sm font-montserrat font-semibold text-primary-foreground hover:bg-primary/90 transition-colors"
+          >
+            Try parameter analysis <ArrowUpRight className="size-3.5" />
+          </Link>
         </div>
-      </div>
-
-      {/* Navigation Callout */}
-      <div className="flex flex-col sm:flex-row items-center justify-between bg-teal-50 rounded-2xl p-6 border border-teal-200 gap-4">
-        <div>
-          <h4 className="font-bold text-teal-950 text-lg">See the System Architecture</h4>
-          <p className="text-sm text-teal-800">Learn how data flows through the React frontend, Node backend, and future ML services.</p>
-        </div>
-        <Link
-          to="/how-it-works"
-          className="px-5 py-2.5 bg-teal-600 hover:bg-teal-700 text-white font-semibold rounded-xl text-sm transition-colors flex items-center gap-2 shrink-0"
-        >
-          <span>View How It Works</span>
-          <ArrowRight className="w-4 h-4" />
-        </Link>
-      </div>
+      </section>
     </div>
   );
 };

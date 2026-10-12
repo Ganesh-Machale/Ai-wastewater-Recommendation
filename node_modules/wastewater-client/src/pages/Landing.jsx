@@ -1,313 +1,304 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import PrototypeBadge from '../components/PrototypeBadge';
-import { Activity, Image as ImageIcon, ArrowRight, CheckCircle2, ShieldAlert, Cpu, Layers, Sparkles, Droplet, FlaskConical, BarChart3, HelpCircle } from 'lucide-react';
+import AnimatedBadge from '../components/AnimatedBadge';
+import {
+  Activity,
+  Image as ImageIcon,
+  ArrowUpRight,
+  ChevronsDown,
+  Check,
+  ShieldCheck,
+  Cpu,
+  Sparkles,
+  ArrowRight
+} from 'lucide-react';
 
 const Landing = () => {
   return (
-    <div className="space-y-16 pb-16">
+    <div className="space-y-20 pb-16">
       {/* Hero Section */}
-      <section className="relative overflow-hidden bg-gradient-to-b from-teal-900 via-slate-900 to-slate-900 text-white pt-12 pb-20 px-4 sm:px-6 lg:px-8">
-        <div className="absolute inset-0 opacity-10 bg-[radial-gradient(#10b981_1px,transparent_1px)] [background-size:16px_16px]"></div>
-        
-        <div className="max-w-7xl mx-auto relative z-10">
-          <div className="text-center max-w-3xl mx-auto space-y-6">
-            <div className="flex justify-center">
-              <PrototypeBadge text="Prototype Phase — ML Integration Next" />
-            </div>
+      <section className="flex gap-10 max-md:flex-col pt-6 sm:pt-12 items-center">
+        <div className="flex flex-col gap-y-3 sm:gap-y-4 md:w-3/5">
+          <AnimatedBadge>Prototype system: ML models integration next</AnimatedBadge>
 
-            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight leading-tight">
-              AI-Based Wastewater <br className="hidden sm:inline" />
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-teal-400 to-emerald-300">
-                Quality Assessment
-              </span>
-            </h1>
+          <h1 className="text-[42px] font-semibold tracking-tight max-md:leading-11 md:text-6xl lg:text-7xl">
+            Wastewater quality assessment
+          </h1>
 
-            <p className="text-lg sm:text-xl text-slate-300 leading-relaxed font-normal">
-              Analyze wastewater quality and receive intelligent treatment recommendations using water parameters and visual analysis.
-            </p>
-
-            {/* Prototype Notice Banner */}
-            <div className="p-3 bg-slate-800/80 rounded-xl border border-slate-700/80 text-xs text-teal-300 max-w-xl mx-auto flex items-center justify-center gap-2">
-              <Sparkles className="w-4 h-4 text-teal-400 shrink-0" />
-              <span>Currently available as a prototype. Machine Learning models will be integrated in the next phase.</span>
-            </div>
-
-            {/* Action Buttons */}
-            <div className="flex flex-col sm:flex-row items-center justify-center gap-4 pt-4">
-              <Link
-                to="/analysis/parameters"
-                className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-xl font-semibold text-white bg-gradient-to-r from-teal-500 to-emerald-600 hover:from-teal-600 hover:to-emerald-700 shadow-lg shadow-teal-500/25 transition-all hover:scale-[1.02]"
-              >
-                <Activity className="w-5 h-5" />
-                <span>Analyze Water Parameters</span>
-              </Link>
-
-              <Link
-                to="/analysis/image"
-                className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-xl font-semibold text-slate-200 bg-slate-800/90 hover:bg-slate-700/90 border border-slate-700 transition-all hover:scale-[1.02]"
-              >
-                <ImageIcon className="w-5 h-5 text-teal-400" />
-                <span>Analyze Water Image</span>
-              </Link>
-            </div>
-          </div>
-
-          {/* Hero Illustration / Visual Mockup */}
-          <div className="mt-12 max-w-4xl mx-auto bg-slate-800/60 backdrop-blur-md rounded-2xl p-4 sm:p-6 border border-slate-700 shadow-2xl">
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-              <div className="bg-slate-900/80 rounded-xl p-4 border border-slate-700/60 flex flex-col justify-between">
-                <div className="flex items-center justify-between text-xs text-slate-400 mb-2">
-                  <span>Method 01</span>
-                  <span className="bg-teal-500/20 text-teal-300 px-2 py-0.5 rounded text-[10px] font-semibold">Active</span>
-                </div>
-                <div className="space-y-1">
-                  <div className="text-sm font-semibold text-white">Parameter Input</div>
-                  <div className="text-xs text-slate-400">pH Level: 7.2 • TDS: 420 mg/L</div>
-                </div>
-                <div className="mt-3 pt-3 border-t border-slate-800 flex justify-between items-center text-xs">
-                  <span className="text-emerald-400 font-medium">Quality: Good</span>
-                  <span className="text-slate-400 text-[11px]">Mock Rule Engine</span>
-                </div>
-              </div>
-
-              <div className="bg-slate-900/80 rounded-xl p-4 border border-slate-700/60 flex flex-col justify-between">
-                <div className="flex items-center justify-between text-xs text-slate-400 mb-2">
-                  <span>Method 02</span>
-                  <span className="bg-amber-500/20 text-amber-300 px-2 py-0.5 rounded text-[10px] font-semibold">Phase 2</span>
-                </div>
-                <div className="space-y-1">
-                  <div className="text-sm font-semibold text-white">Visual Image Analysis</div>
-                  <div className="text-xs text-slate-400">Effluent Sample Upload</div>
-                </div>
-                <div className="mt-3 pt-3 border-t border-slate-800 flex justify-between items-center text-xs">
-                  <span className="text-amber-400 font-medium">CNN Model Integration</span>
-                  <span className="text-slate-400 text-[11px]">Coming Soon</span>
-                </div>
-              </div>
-
-              <div className="bg-slate-900/80 rounded-xl p-4 border border-slate-700/60 flex flex-col justify-between">
-                <div className="flex items-center justify-between text-xs text-slate-400 mb-2">
-                  <span>Output</span>
-                  <span className="bg-teal-500/20 text-teal-300 px-2 py-0.5 rounded text-[10px] font-semibold">Decision Support</span>
-                </div>
-                <div className="space-y-1">
-                  <div className="text-sm font-semibold text-white">Treatment Guidelines</div>
-                  <div className="text-xs text-slate-400">Filtration + Neutralization</div>
-                </div>
-                <div className="mt-3 pt-3 border-t border-slate-800 text-[11px] text-slate-400">
-                  Decision support recommendations
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Problem & Solution Section */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
-          <div className="bg-white rounded-2xl p-8 border border-slate-200 shadow-sm space-y-4">
-            <div className="w-12 h-12 rounded-xl bg-red-100 text-red-600 flex items-center justify-center">
-              <ShieldAlert className="w-6 h-6" />
-            </div>
-            <h3 className="text-2xl font-bold text-slate-900">What is the Problem?</h3>
-            <p className="text-slate-600 leading-relaxed text-sm sm:text-base">
-              Traditional wastewater quality assessment heavily relies on slow laboratory testing, manual sampling, and expert interpretation. This often leads to delays in identifying toxic effluent discharge and prescribing appropriate treatment protocols.
-            </p>
-          </div>
-
-          <div className="bg-white rounded-2xl p-8 border border-slate-200 shadow-sm space-y-4">
-            <div className="w-12 h-12 rounded-xl bg-teal-100 text-teal-600 flex items-center justify-center">
-              <Sparkles className="w-6 h-6" />
-            </div>
-            <h3 className="text-2xl font-bold text-slate-900">Our Digital Solution</h3>
-            <p className="text-slate-600 leading-relaxed text-sm sm:text-base">
-              WQAI provides a digital decision-support system that synthesizes chemical parameter metrics and visual sample analysis. It generates preliminary quality assessments and potential treatment recommendations instantly.
-            </p>
-          </div>
-        </div>
-      </section>
-
-      {/* Two Analysis Methods */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
-        <div className="text-center space-y-2">
-          <h2 className="text-3xl font-extrabold text-slate-900">Two Independent Analysis Methods</h2>
-          <p className="text-slate-500 text-sm sm:text-base max-w-2xl mx-auto">
-            Our platform provides separate evaluation channels designed for both quantitative lab measurements and visual sample classification.
+          <p className="mt-4 max-w-2xl text-base text-neutral-700 sm:mt-6 md:text-xl dark:text-neutral-400">
+            Evaluate effluents and receive instant treatment recommendations through <span className="highlight">intelligent decision support</span>.
           </p>
-        </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-          {/* Method 1 */}
-          <div className="bg-gradient-to-br from-white to-teal-50/30 rounded-2xl p-8 border border-teal-100 shadow-sm hover:shadow-md transition-shadow space-y-6">
-            <div className="flex items-center justify-between">
-              <span className="text-xs font-bold uppercase tracking-wider text-teal-600 bg-teal-100 px-3 py-1 rounded-full">
-                Method 1
-              </span>
-              <Activity className="w-6 h-6 text-teal-600" />
-            </div>
-
-            <div>
-              <h3 className="text-xl font-bold text-slate-900">Parameter-Based Analysis</h3>
-              <p className="text-slate-600 text-sm mt-2">
-                Evaluate wastewater quality using fundamental chemical metrics including pH balance and Total Dissolved Solids (TDS).
-              </p>
-            </div>
-
-            <ul className="space-y-2 text-sm text-slate-600">
-              <li className="flex items-center gap-2">
-                <CheckCircle2 className="w-4 h-4 text-teal-600" />
-                <span>Input parameters: pH & Total Dissolved Solids (TDS)</span>
-              </li>
-              <li className="flex items-center gap-2">
-                <CheckCircle2 className="w-4 h-4 text-teal-600" />
-                <span>Validation against standard wastewater thresholds</span>
-              </li>
-              <li className="flex items-center gap-2">
-                <CheckCircle2 className="w-4 h-4 text-teal-600" />
-                <span>Instant rule-based prototype quality classification</span>
-              </li>
-            </ul>
-
+          <div className="mt-6 flex flex-wrap items-center gap-4">
+            {/* The single solid button on screen */}
             <Link
               to="/analysis/parameters"
-              className="inline-flex items-center gap-2 text-sm font-semibold text-teal-700 hover:text-teal-800"
+              className="btn-asym inline-flex h-9 items-center gap-2 bg-neutral-900 px-4 text-sm font-medium text-white transition-colors duration-200 hover:bg-black/90 dark:bg-white dark:text-black dark:hover:bg-neutral-200"
             >
-              <span>Try Parameter Analysis</span>
-              <ArrowRight className="w-4 h-4" />
+              Start analysis <ArrowUpRight className="-ml-1 size-4" aria-hidden="true" />
+            </Link>
+
+            {/* Outline mirror button beside it */}
+            <Link
+              to="/how-it-works"
+              className="btn-asym-mirror inline-flex h-9 items-center gap-2 border border-border bg-transparent px-4 text-sm font-medium text-foreground transition-colors hover:bg-neutral-100 dark:hover:bg-black/90"
+            >
+              See how it works <ChevronsDown className="-ml-1 size-4" aria-hidden="true" />
             </Link>
           </div>
+        </div>
 
-          {/* Method 2 */}
-          <div className="bg-gradient-to-br from-white to-sky-50/30 rounded-2xl p-8 border border-sky-100 shadow-sm hover:shadow-md transition-shadow space-y-6">
-            <div className="flex items-center justify-between">
-              <span className="text-xs font-bold uppercase tracking-wider text-sky-600 bg-sky-100 px-3 py-1 rounded-full">
-                Method 2
+        {/* Hero Central Media Card */}
+        <div className="w-full md:w-2/5">
+          <div className="card-chai p-6 space-y-5">
+            <div className="flex items-center justify-between border-b border-[var(--card-edge)] pb-3">
+              <div className="flex items-center gap-2">
+                <span className="size-2 rounded-full bg-emerald-400" />
+                <span className="font-montserrat text-sm font-semibold text-foreground">
+                  Active monitor
+                </span>
+              </div>
+              <span className="text-xs font-mono text-neutral-400">
+                Rule engine 1.0
               </span>
-              <ImageIcon className="w-6 h-6 text-sky-600" />
             </div>
 
-            <div>
-              <h3 className="text-xl font-bold text-slate-900">Image-Based Analysis</h3>
-              <p className="text-slate-600 text-sm mt-2">
-                Upload wastewater sample imagery from your local machine to test image storage and preview future computer vision classification.
-              </p>
+            <div className="space-y-3 text-sm">
+              <div className="flex items-center justify-between py-1 border-b border-[var(--card-edge)]/40">
+                <span className="text-neutral-400">Sample method</span>
+                <span className="font-mono text-foreground">Chemical parameter metrics</span>
+              </div>
+              <div className="flex items-center justify-between py-1 border-b border-[var(--card-edge)]/40">
+                <span className="text-neutral-400">TDS baseline</span>
+                <span className="font-mono text-foreground">&lt; 500 mg/L (Safe)</span>
+              </div>
+              <div className="flex items-center justify-between py-1 border-b border-[var(--card-edge)]/40">
+                <span className="text-neutral-400">pH standard</span>
+                <span className="font-mono text-foreground">6.5 to 8.5 range</span>
+              </div>
+              <div className="flex items-center justify-between py-1">
+                <span className="text-neutral-400">Status</span>
+                <span className="text-xs border border-emerald-500/30 text-emerald-400 px-2 py-0.5 rounded">
+                  Operational
+                </span>
+              </div>
             </div>
 
-            <ul className="space-y-2 text-sm text-slate-600">
-              <li className="flex items-center gap-2">
-                <CheckCircle2 className="w-4 h-4 text-sky-600" />
-                <span>Upload JPG, PNG, WEBP files up to 5MB</span>
-              </li>
-              <li className="flex items-center gap-2">
-                <CheckCircle2 className="w-4 h-4 text-sky-600" />
-                <span>Drag-and-drop upload interface & image preview</span>
-              </li>
-              <li className="flex items-center gap-2">
-                <CheckCircle2 className="w-4 h-4 text-sky-600" />
-                <span>Secure server storage & metadata logging</span>
-              </li>
-            </ul>
-
-            <Link
-              to="/analysis/image"
-              className="inline-flex items-center gap-2 text-sm font-semibold text-sky-700 hover:text-sky-800"
-            >
-              <span>Try Image Analysis Upload</span>
-              <ArrowRight className="w-4 h-4" />
-            </Link>
+            <div className="pt-2">
+              <Link
+                to="/analysis/image"
+                className="w-full inline-flex h-8 items-center justify-center rounded-md bg-primary px-3 text-sm font-montserrat font-semibold text-primary-foreground hover:bg-primary/90 transition-colors"
+              >
+                Upload image sample
+              </Link>
+            </div>
           </div>
         </div>
       </section>
 
-      {/* How the System Works */}
-      <section className="bg-slate-100 py-12">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
-          <div className="text-center space-y-2">
-            <h2 className="text-3xl font-extrabold text-slate-900">How the Prototype Works</h2>
-            <p className="text-slate-600 text-sm sm:text-base">
-              A simple 4-step workflow from user submission to stored recommendation records.
+      {/* Problem & Digital Solution */}
+      <section className="space-y-6">
+        <h2 className="text-2xl font-medium sm:text-[30px]">The problem and solution</h2>
+        <p className="text-neutral-600 sm:text-lg dark:text-neutral-400">
+          Manual effluent inspection is slow and error-prone, requiring <span className="highlight">automated digital classification</span>.
+        </p>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 pt-2">
+          <div className="card-chai p-6 space-y-3">
+            <h3 className="font-montserrat text-base font-semibold text-foreground">
+              What is the problem?
+            </h3>
+            <p className="text-sm leading-relaxed text-neutral-600 dark:text-neutral-400 font-sans">
+              Traditional wastewater evaluation relies on delayed chemical lab testing and manual sampling. Discharging untreated effluents damages aquatic systems before lab test results are returned.
             </p>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-            <div className="bg-white p-6 rounded-xl border border-slate-200 space-y-3">
-              <div className="w-8 h-8 rounded-lg bg-teal-600 text-white font-bold flex items-center justify-center text-sm">1</div>
-              <h4 className="font-bold text-slate-900">Select Method</h4>
-              <p className="text-xs text-slate-500">Choose between parameter numerical inputs or image upload.</p>
+          <div className="card-chai p-6 space-y-3">
+            <h3 className="font-montserrat text-base font-semibold text-foreground">
+              Our digital solution
+            </h3>
+            <p className="text-sm leading-relaxed text-neutral-600 dark:text-neutral-400 font-sans">
+              WQAI provides rapid decision support by combining physical chemical measurements with visual sample imagery, computing immediate quality classifications and treatment guidelines.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      {/* Two Analysis Channels */}
+      <section className="space-y-6">
+        <h2 className="text-2xl font-medium sm:text-[30px]">Two evaluation methods</h2>
+        <p className="text-neutral-600 sm:text-lg dark:text-neutral-400">
+          Select between laboratory numerical indicators and <span className="highlight">visual sample classification</span>.
+        </p>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 pt-2">
+          {/* Method 1 */}
+          <article className="card-chai p-6 flex flex-col justify-between space-y-5">
+            <div className="space-y-3">
+              <div className="flex items-center justify-between">
+                <span className="text-xs font-mono border border-[var(--card-edge)] px-2 py-0.5 rounded text-neutral-400">
+                  Method 01
+                </span>
+                <Activity className="size-5 text-neutral-400" />
+              </div>
+              <h3 className="font-montserrat text-lg font-semibold text-foreground">
+                Parameter-based analysis
+              </h3>
+              <p className="text-sm text-neutral-600 dark:text-neutral-400 leading-relaxed font-sans">
+                Evaluate wastewater quality using numerical chemical properties including pH levels, Total Dissolved Solids, Turbidity, and Dissolved Oxygen.
+              </p>
+              <ul className="space-y-2 text-xs text-neutral-400 pt-2 font-sans">
+                <li className="flex items-center gap-2">
+                  <Check className="size-3.5 text-emerald-400" />
+                  <span>Threshold evaluation against CPCB standards</span>
+                </li>
+                <li className="flex items-center gap-2">
+                  <Check className="size-3.5 text-emerald-400" />
+                  <span>Decoupled mock prediction engine for prototyping</span>
+                </li>
+                <li className="flex items-center gap-2">
+                  <Check className="size-3.5 text-emerald-400" />
+                  <span>Instant multi-stage treatment suggestions</span>
+                </li>
+              </ul>
             </div>
 
-            <div className="bg-white p-6 rounded-xl border border-slate-200 space-y-3">
-              <div className="w-8 h-8 rounded-lg bg-teal-600 text-white font-bold flex items-center justify-center text-sm">2</div>
-              <h4 className="font-bold text-slate-900">Submit Data</h4>
-              <p className="text-xs text-slate-500">Enter pH & TDS or upload a local wastewater sample photo.</p>
+            <div className="pt-2">
+              <Link
+                to="/analysis/parameters"
+                className="inline-flex h-8 min-w-24 items-center justify-center rounded-md bg-primary px-3 text-sm font-montserrat font-semibold text-primary-foreground hover:bg-primary/90 transition-colors"
+              >
+                Analyze parameters
+              </Link>
+            </div>
+          </article>
+
+          {/* Method 2 */}
+          <article className="card-chai p-6 flex flex-col justify-between space-y-5">
+            <div className="space-y-3">
+              <div className="flex items-center justify-between">
+                <span className="text-xs font-mono border border-[var(--card-edge)] px-2 py-0.5 rounded text-neutral-400">
+                  Method 02
+                </span>
+                <ImageIcon className="size-5 text-neutral-400" />
+              </div>
+              <h3 className="font-montserrat text-lg font-semibold text-foreground">
+                Image-based analysis
+              </h3>
+              <p className="text-sm text-neutral-600 dark:text-neutral-400 leading-relaxed font-sans">
+                Upload photos of wastewater samples or industrial effluent discharge to test visual storage pipelines and preview computer vision classification.
+              </p>
+              <ul className="space-y-2 text-xs text-neutral-400 pt-2 font-sans">
+                <li className="flex items-center gap-2">
+                  <Check className="size-3.5 text-emerald-400" />
+                  <span>Drag-and-drop image upload up to 5MB</span>
+                </li>
+                <li className="flex items-center gap-2">
+                  <Check className="size-3.5 text-emerald-400" />
+                  <span>Sample color and clarity observation logging</span>
+                </li>
+                <li className="flex items-center gap-2">
+                  <Check className="size-3.5 text-emerald-400" />
+                  <span>Prepared for convolutional neural network models</span>
+                </li>
+              </ul>
             </div>
 
-            <div className="bg-white p-6 rounded-xl border border-slate-200 space-y-3">
-              <div className="w-8 h-8 rounded-lg bg-teal-600 text-white font-bold flex items-center justify-center text-sm">3</div>
-              <h4 className="font-bold text-slate-900">Prototype Service</h4>
-              <p className="text-xs text-slate-500">Node backend processes input via decoupled mock prediction engine.</p>
+            <div className="pt-2">
+              <Link
+                to="/analysis/image"
+                className="inline-flex h-8 min-w-24 items-center justify-center rounded-md bg-primary px-3 text-sm font-montserrat font-semibold text-primary-foreground hover:bg-primary/90 transition-colors"
+              >
+                Upload image
+              </Link>
             </div>
+          </article>
+        </div>
+      </section>
 
-            <div className="bg-white p-6 rounded-xl border border-slate-200 space-y-3">
-              <div className="w-8 h-8 rounded-lg bg-teal-600 text-white font-bold flex items-center justify-center text-sm">4</div>
-              <h4 className="font-bold text-slate-900">Review & Save</h4>
-              <p className="text-xs text-slate-500">View quality breakdown, recommendations, and save to dashboard history.</p>
-            </div>
+      {/* 4-Step Process */}
+      <section className="space-y-6">
+        <h2 className="text-2xl font-medium sm:text-[30px]">System procedure</h2>
+        <p className="text-neutral-600 sm:text-lg dark:text-neutral-400">
+          A four-step pipeline from sample collection to <span className="highlight">stored recommendation records</span>.
+        </p>
+
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 pt-2">
+          <div className="card-chai p-5 space-y-2">
+            <span className="text-xs font-mono text-neutral-400">Step 01</span>
+            <h4 className="font-montserrat text-sm font-semibold text-foreground">
+              Select channel
+            </h4>
+            <p className="text-xs text-neutral-600 dark:text-neutral-400 leading-relaxed">
+              Choose numerical laboratory indicators or visual sample imagery.
+            </p>
+          </div>
+
+          <div className="card-chai p-5 space-y-2">
+            <span className="text-xs font-mono text-neutral-400">Step 02</span>
+            <h4 className="font-montserrat text-sm font-semibold text-foreground">
+              Input sample data
+            </h4>
+            <p className="text-xs text-neutral-600 dark:text-neutral-400 leading-relaxed">
+              Enter verified pH and TDS measurements or upload an effluent photo.
+            </p>
+          </div>
+
+          <div className="card-chai p-5 space-y-2">
+            <span className="text-xs font-mono text-neutral-400">Step 03</span>
+            <h4 className="font-montserrat text-sm font-semibold text-foreground">
+              Rule evaluation
+            </h4>
+            <p className="text-xs text-neutral-600 dark:text-neutral-400 leading-relaxed">
+              Engine processes metrics against benchmark environmental thresholds.
+            </p>
+          </div>
+
+          <div className="card-chai p-5 space-y-2">
+            <span className="text-xs font-mono text-neutral-400">Step 04</span>
+            <h4 className="font-montserrat text-sm font-semibold text-foreground">
+              Review advisory
+            </h4>
+            <p className="text-xs text-neutral-600 dark:text-neutral-400 leading-relaxed">
+              Inspect suggested neutralization and filtration steps in your records.
+            </p>
           </div>
         </div>
       </section>
 
       {/* Future AI Roadmap */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="bg-gradient-to-r from-slate-900 to-teal-950 text-white rounded-3xl p-8 sm:p-12 shadow-xl border border-teal-900/50 space-y-6">
-          <div className="flex items-center gap-3">
-            <Cpu className="w-8 h-8 text-teal-400" />
-            <h3 className="text-2xl font-bold">Future AI Capabilities (Phase 2)</h3>
-          </div>
-
-          <p className="text-slate-300 text-sm sm:text-base leading-relaxed max-w-3xl">
-            In the upcoming project phase, the mock prediction services in our architecture will be linked to trained Python Machine Learning microservices:
-          </p>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 pt-2">
-            <div className="bg-slate-800/80 p-5 rounded-2xl border border-slate-700 space-y-2">
-              <h4 className="font-semibold text-teal-300 text-sm flex items-center gap-2">
-                <Sparkles className="w-4 h-4" />
-                Random Forest / XGBoost Model
-              </h4>
-              <p className="text-xs text-slate-400">
-                Multi-parameter predictions including BOD, COD, Turbidity, Dissolved Oxygen, and Ammonia levels.
-              </p>
-            </div>
-
-            <div className="bg-slate-800/80 p-5 rounded-2xl border border-slate-700 space-y-2">
-              <h4 className="font-semibold text-sky-300 text-sm flex items-center gap-2">
-                <Sparkles className="w-4 h-4" />
-                MobileNetV2 / ResNet50 Vision Models
-              </h4>
-              <p className="text-xs text-slate-400">
-                Deep learning computer vision models trained on wastewater imagery for visual contamination scoring.
-              </p>
-            </div>
-          </div>
+      <section className="card-chai p-8 sm:p-10 space-y-6">
+        <div className="flex items-center gap-3">
+          <Cpu className="size-6 text-neutral-300" />
+          <h3 className="font-montserrat text-xl font-semibold text-foreground">
+            Machine learning roadmap (Phase 2)
+          </h3>
         </div>
-      </section>
 
-      {/* Call to Action */}
-      <section className="max-w-4xl mx-auto text-center px-4 space-y-6">
-        <h2 className="text-3xl font-extrabold text-slate-900">Ready to test the prototype?</h2>
-        <p className="text-slate-600 text-sm sm:text-base">
-          Start by submitting water parameters or uploading a sample image to see the decision-support system in action.
+        <p className="text-sm text-neutral-600 dark:text-neutral-400 leading-relaxed max-w-3xl">
+          In the upcoming project phase, the mock prediction services in this prototype will be replaced with <span className="highlight">dedicated machine learning microservices</span>.
         </p>
-        <div className="flex justify-center gap-4">
-          <Link
-            to="/analysis/parameters"
-            className="px-6 py-3 rounded-xl font-semibold text-white bg-teal-600 hover:bg-teal-700 shadow-md transition-all"
-          >
-            Start Parameter Analysis
-          </Link>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 pt-2">
+          <div className="p-4 rounded-lg border border-[var(--card-edge)] bg-black/20 space-y-2">
+            <span className="text-xs font-mono text-neutral-400">Model 01: Tabular</span>
+            <h4 className="font-montserrat text-sm font-semibold text-foreground">
+              Random Forest and XGBoost regressors
+            </h4>
+            <p className="text-xs text-neutral-400 leading-relaxed">
+              Trained on multi-parameter environmental datasets to predict BOD, COD, and Heavy Metal concentrations.
+            </p>
+          </div>
+
+          <div className="p-4 rounded-lg border border-[var(--card-edge)] bg-black/20 space-y-2">
+            <span className="text-xs font-mono text-neutral-400">Model 02: Vision</span>
+            <h4 className="font-montserrat text-sm font-semibold text-foreground">
+              ResNet and MobileNet classifiers
+            </h4>
+            <p className="text-xs text-neutral-400 leading-relaxed">
+              Deep convolutional networks for real-time visual turbidity and biological contamination assessment.
+            </p>
+          </div>
         </div>
       </section>
     </div>

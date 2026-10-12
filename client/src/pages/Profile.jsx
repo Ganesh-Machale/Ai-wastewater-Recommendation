@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import { useAuth } from '../context/AuthContext';
 import api from '../services/api';
-import { User, Mail, Shield, Calendar, Lock, CheckCircle2, AlertTriangle, KeyRound } from 'lucide-react';
+import AnimatedBadge from '../components/AnimatedBadge';
+import { User, Mail, Calendar, Check, AlertTriangle } from 'lucide-react';
 
 const Profile = () => {
   const { user, updateUserProfile } = useAuth();
@@ -77,137 +78,162 @@ const Profile = () => {
   };
 
   return (
-    <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-10 space-y-8">
+    <div className="max-w-4xl mx-auto space-y-8 pb-16">
       {/* Header */}
-      <div>
-        <h1 className="text-3xl font-extrabold text-slate-900 tracking-tight">
-          User Account Profile
+      <div className="space-y-2">
+        <div className="flex items-center gap-2">
+          <AnimatedBadge>Account management</AnimatedBadge>
+        </div>
+        <h1 className="font-montserrat text-2xl sm:text-3xl font-semibold text-foreground">
+          User profile
         </h1>
-        <p className="text-slate-500 text-sm mt-1">Manage your account information and security credentials</p>
+        <p className="text-xs sm:text-sm text-neutral-400 font-sans">
+          Manage your operator credentials and account security
+        </p>
       </div>
 
       {/* Account Info Card */}
-      <div className="bg-white rounded-2xl p-6 border border-slate-200 shadow-sm space-y-4">
-        <div className="flex items-center justify-between border-b border-slate-100 pb-4">
+      <div className="card-chai p-6 sm:p-8 space-y-5">
+        <div className="flex items-center justify-between border-b border-[var(--card-edge)] pb-4">
           <div className="flex items-center gap-3">
-            <div className="w-12 h-12 rounded-full bg-teal-100 text-teal-700 flex items-center justify-center font-bold text-lg">
+            <div className="size-11 rounded-full border border-[var(--card-edge)] bg-card text-foreground flex items-center justify-center font-montserrat font-semibold text-base">
               {user?.name?.charAt(0) || 'U'}
             </div>
             <div>
-              <h2 className="text-xl font-bold text-slate-900">{user?.name}</h2>
-              <span className="text-xs text-slate-400">{user?.email}</span>
+              <h2 className="font-montserrat text-lg font-semibold text-foreground">{user?.name}</h2>
+              <span className="text-xs font-mono text-neutral-400">{user?.email}</span>
             </div>
           </div>
 
-          <span className={`px-3 py-1 rounded-full text-xs font-bold ${user?.role === 'ADMIN' ? 'bg-emerald-100 text-emerald-800' : 'bg-slate-100 text-slate-800'}`}>
+          <span
+            className={`px-2.5 py-0.5 rounded text-xs font-mono ${
+              user?.role === 'ADMIN'
+                ? 'border border-emerald-500/30 text-emerald-400'
+                : 'border border-[var(--card-edge)] text-neutral-400'
+            }`}
+          >
             Role: {user?.role}
           </span>
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-sm text-slate-600">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs font-sans text-neutral-400">
           <div className="flex items-center gap-2">
-            <Mail className="w-4 h-4 text-slate-400" />
-            <span>Email: <strong className="text-slate-800">{user?.email}</strong></span>
+            <Mail className="size-4 text-neutral-500" />
+            <span>
+              Email: <strong className="text-foreground font-mono font-normal">{user?.email}</strong>
+            </span>
           </div>
           <div className="flex items-center gap-2">
-            <Calendar className="w-4 h-4 text-slate-400" />
-            <span>Account Created: <strong className="text-slate-800">{user?.createdAt ? new Date(user.createdAt).toLocaleDateString() : 'N/A'}</strong></span>
+            <Calendar className="size-4 text-neutral-500" />
+            <span>
+              Member since:{' '}
+              <strong className="text-foreground font-mono font-normal">
+                {user?.createdAt ? new Date(user.createdAt).toLocaleDateString() : 'N/A'}
+              </strong>
+            </span>
           </div>
         </div>
       </div>
 
       {/* Forms Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         {/* Update Profile Name */}
-        <div className="bg-white rounded-2xl p-6 border border-slate-200 shadow-sm space-y-4">
-          <h3 className="text-lg font-bold text-slate-900 flex items-center gap-2">
-            <User className="w-5 h-5 text-teal-600" />
-            <span>Update Account Name</span>
+        <div className="card-chai p-6 space-y-4">
+          <h3 className="font-montserrat text-sm font-semibold text-foreground flex items-center gap-2">
+            <User className="size-4 text-neutral-400" />
+            <span>Update account name</span>
           </h3>
 
           {nameSuccess && (
-            <div className="p-3 bg-emerald-50 border border-emerald-200 text-emerald-800 text-xs rounded-xl flex items-center gap-2">
-              <CheckCircle2 className="w-4 h-4 text-emerald-600" />
+            <div className="p-3 rounded border border-emerald-500/30 bg-emerald-950/20 text-emerald-400 text-xs flex items-center gap-2 font-sans">
+              <Check className="size-3.5" />
               <span>{nameSuccess}</span>
             </div>
           )}
 
           {nameError && (
-            <div className="p-3 bg-red-50 border border-red-200 text-red-700 text-xs rounded-xl flex items-center gap-2">
-              <AlertTriangle className="w-4 h-4 text-red-500" />
+            <div className="p-3 rounded border border-red-500/30 bg-red-950/20 text-red-400 text-xs flex items-center gap-2 font-sans">
+              <AlertTriangle className="size-3.5" />
               <span>{nameError}</span>
             </div>
           )}
 
-          <form onSubmit={handleUpdateName} className="space-y-4">
-            <div>
-              <label className="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1">Full Name</label>
+          <form onSubmit={handleUpdateName} className="space-y-4 font-sans">
+            <div className="space-y-1.5">
+              <label className="block text-xs font-montserrat font-medium text-foreground">
+                Full name
+              </label>
               <input
                 type="text"
                 value={name}
                 onChange={(e) => setName(e.target.value)}
-                className="w-full px-4 py-2.5 rounded-xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-teal-500 text-sm"
+                className="w-full px-3 py-2 rounded-md border border-[var(--card-edge)] bg-card text-foreground focus:outline-none focus:border-neutral-400 text-xs transition-colors"
               />
             </div>
 
             <button
               type="submit"
               disabled={nameLoading}
-              className="px-5 py-2.5 bg-teal-600 hover:bg-teal-700 text-white font-semibold text-sm rounded-xl transition-colors disabled:opacity-50"
+              className="inline-flex h-8 items-center justify-center rounded-md bg-primary px-4 text-xs font-montserrat font-semibold text-primary-foreground hover:bg-primary/90 transition-colors disabled:opacity-50"
             >
-              {nameLoading ? 'Saving...' : 'Update Name'}
+              {nameLoading ? 'Saving...' : 'Update name'}
             </button>
           </form>
         </div>
 
         {/* Change Password */}
-        <div className="bg-white rounded-2xl p-6 border border-slate-200 shadow-sm space-y-4">
-          <h3 className="text-lg font-bold text-slate-900 flex items-center gap-2">
-            <KeyRound className="w-5 h-5 text-teal-600" />
-            <span>Change Password</span>
+        <div className="card-chai p-6 space-y-4">
+          <h3 className="font-montserrat text-sm font-semibold text-foreground flex items-center gap-2">
+            <span>Change password</span>
           </h3>
 
           {passSuccess && (
-            <div className="p-3 bg-emerald-50 border border-emerald-200 text-emerald-800 text-xs rounded-xl flex items-center gap-2">
-              <CheckCircle2 className="w-4 h-4 text-emerald-600" />
+            <div className="p-3 rounded border border-emerald-500/30 bg-emerald-950/20 text-emerald-400 text-xs flex items-center gap-2 font-sans">
+              <Check className="size-3.5" />
               <span>{passSuccess}</span>
             </div>
           )}
 
           {passError && (
-            <div className="p-3 bg-red-50 border border-red-200 text-red-700 text-xs rounded-xl flex items-center gap-2">
-              <AlertTriangle className="w-4 h-4 text-red-500" />
+            <div className="p-3 rounded border border-red-500/30 bg-red-950/20 text-red-400 text-xs flex items-center gap-2 font-sans">
+              <AlertTriangle className="size-3.5" />
               <span>{passError}</span>
             </div>
           )}
 
-          <form onSubmit={handleChangePassword} className="space-y-4">
-            <div>
-              <label className="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1">Current Password</label>
+          <form onSubmit={handleChangePassword} className="space-y-3 font-sans">
+            <div className="space-y-1.5">
+              <label className="block text-xs font-montserrat font-medium text-foreground">
+                Current password
+              </label>
               <input
                 type="password"
                 value={currentPassword}
                 onChange={(e) => setCurrentPassword(e.target.value)}
-                className="w-full px-4 py-2.5 rounded-xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-teal-500 text-sm"
+                placeholder="••••••••"
+                className="w-full px-3 py-2 rounded-md border border-[var(--card-edge)] bg-card text-foreground focus:outline-none focus:border-neutral-400 text-xs transition-colors"
               />
             </div>
 
-            <div>
-              <label className="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1">New Password</label>
+            <div className="space-y-1.5">
+              <label className="block text-xs font-montserrat font-medium text-foreground">
+                New password
+              </label>
               <input
                 type="password"
                 value={newPassword}
                 onChange={(e) => setNewPassword(e.target.value)}
-                className="w-full px-4 py-2.5 rounded-xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-teal-500 text-sm"
+                placeholder="At least 6 characters"
+                className="w-full px-3 py-2 rounded-md border border-[var(--card-edge)] bg-card text-foreground focus:outline-none focus:border-neutral-400 text-xs transition-colors"
               />
             </div>
 
             <button
               type="submit"
               disabled={passLoading}
-              className="px-5 py-2.5 bg-slate-900 hover:bg-slate-800 text-white font-semibold text-sm rounded-xl transition-colors disabled:opacity-50"
+              className="inline-flex h-8 items-center justify-center rounded-md bg-primary px-4 text-xs font-montserrat font-semibold text-primary-foreground hover:bg-primary/90 transition-colors disabled:opacity-50"
             >
-              {passLoading ? 'Updating...' : 'Change Password'}
+              {passLoading ? 'Updating...' : 'Change password'}
             </button>
           </form>
         </div>

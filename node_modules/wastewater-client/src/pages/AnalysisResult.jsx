@@ -8,6 +8,7 @@ import {
   ArrowLeft,
   Check,
   ShieldAlert,
+  ShieldCheck,
   Calendar
 } from 'lucide-react';
 

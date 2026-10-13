@@ -79,7 +79,8 @@ const analyzeParameters = async (req, res, next) => {
 // @access  Private
 const getParameterAnalyses = async (req, res, next) => {
   try {
-    const records = await ParameterAnalysis.find({ userId: req.user._id }).sort({ createdAt: -1 });
+    const query = req.user.role === 'ADMIN' ? {} : { userId: req.user._id };
+    const records = await ParameterAnalysis.find(query).sort({ createdAt: -1 });
     res.status(200).json({ success: true, count: records.length, data: records });
   } catch (error) {
     next(error);
@@ -156,7 +157,8 @@ const analyzeImage = async (req, res, next) => {
 // @access  Private
 const getImageAnalyses = async (req, res, next) => {
   try {
-    const records = await ImageAnalysis.find({ userId: req.user._id }).sort({ createdAt: -1 });
+    const query = req.user.role === 'ADMIN' ? {} : { userId: req.user._id };
+    const records = await ImageAnalysis.find(query).sort({ createdAt: -1 });
     res.status(200).json({ success: true, count: records.length, data: records });
   } catch (error) {
     next(error);
@@ -188,7 +190,7 @@ const getHistory = async (req, res, next) => {
   try {
     const { type, search, page = 1, limit = 10 } = req.query;
 
-    const queryUser = { userId: req.user._id };
+    const queryUser = req.user.role === 'ADMIN' ? {} : { userId: req.user._id };
 
     let parameterItems = [];
     let imageItems = [];

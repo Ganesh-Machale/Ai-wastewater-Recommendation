@@ -30,93 +30,117 @@ const sampleUsers = [
 ];
 
 const sampleParameters = [
-  { pH: 7.2, tds: 320 },  // Good
-  { pH: 6.8, tds: 450 },  // Good
-  { pH: 5.8, tds: 620 },  // Moderate
-  { pH: 8.9, tds: 850 },  // Moderate
-  { pH: 4.2, tds: 1850 }, // Poor
-  { pH: 10.5, tds: 2100 },// Poor
-  { pH: 7.5, tds: 280 },  // Good
-  { pH: 6.1, tds: 980 },  // Moderate
+  { pH: 7.2, tds: 320 },
+  { pH: 6.8, tds: 450 },
+  { pH: 5.8, tds: 620 },
+  { pH: 8.9, tds: 850 },
+  { pH: 4.2, tds: 1850 },
+  { pH: 10.5, tds: 2100 },
+  { pH: 7.5, tds: 280 },
+  { pH: 6.1, tds: 980 },
 ];
 
 const seedDatabase = async () => {
   try {
     console.log('Connecting to MongoDB for seeding...');
     await mongoose.connect(MONGO_URI);
-    console.log('Clearing existing collections...');
 
-    await User.deleteMany({});
-    await ParameterAnalysis.deleteMany({});
-    await ImageAnalysis.deleteMany({});
+    const isForceReset = process.argv.includes('--reset') || process.argv.includes('--force');
 
-    console.log('Creating seed users...');
+    if (isForceReset) {
+      console.log('⚠️ Hard reset flag detected: clearing existing collections...');
+      await User.deleteMany({});
+      await ParameterAnalysis.deleteMany({});
+      await ImageAnalysis.deleteMany({});
+    } else {
+      console.log('ℹ️ Safe Seed Mode: Preserving all existing user accounts.');
+    }
+
+    console.log('Ensuring default seed users exist...');
     const createdUsers = [];
     for (const u of sampleUsers) {
-      const salt = await bcrypt.genSalt(10);
-      const passwordHash = await bcrypt.hash(u.password, salt);
-      const user = await User.create({
-        name: u.name,
-        email: u.email,
-        passwordHash,
-        role: u.role,
-      });
-      createdUsers.push(user);
+      let existingUser = await User.findOne({ email: u.email });
+      if (!existingUser) {
+        const salt = await bcrypt.genSalt(10);
+        const passwordHash = await bcrypt.hash(u.password, salt);
+        existingUser = await User.create({
+          name: u.name,
+          email: u.email,
+          passwordHash,
+          role: u.role,
+        });
+        console.log(` + Created default user: ${u.email}`);
+      } else {
+        console.log(` • Default user already exists: ${u.email}`);
+      }
+      createdUsers.push(existingUser);
     }
 
     const demoUser = createdUsers[0];
 
-    console.log('Creating sample parameter analyses with AI Model...');
-    for (const p of sampleParameters) {
-      const pred = await predictParameters(p);
-      await ParameterAnalysis.create({
+    // Seed sample parameters only if demo user has no parameter records
+    const existingParamsCount = await ParameterAnalysis.countDocuments({ userId: demoUser._id });
+    if (existingParamsCount === 0) {
+      console.log('Creating sample parameter analyses with AI Model...');
+      for (const p of sampleParameters) {
+        const pred = await predictParameters(p);
+        await ParameterAnalysis.create({
+          userId: demoUser._id,
+          type: 'parameter',
+          parameters: pred.parameters,
+          predictedClass: pred.predictedClass,
+          classLabel: pred.classLabel,
+          confidence: pred.confidence,
+          classProbabilities: pred.classProbabilities,
+          modelName: pred.modelName,
+          qualityLevel: pred.qualityLevel,
+          pollutionLevel: pred.pollutionLevel,
+          recommendations: pred.recommendations,
+          prototype: false,
+        });
+      }
+    } else {
+      console.log(` • Demo user already has ${existingParamsCount} parameter analyses.`);
+    }
+
+    // Seed sample images if none exist
+    const existingImagesCount = await ImageAnalysis.countDocuments({ userId: demoUser._id });
+    if (existingImagesCount === 0) {
+      console.log('Creating sample image analyses metadata...');
+      await ImageAnalysis.create({
         userId: demoUser._id,
-        type: 'parameter',
-        parameters: pred.parameters,
-        predictedClass: pred.predictedClass,
-        classLabel: pred.classLabel,
-        confidence: pred.confidence,
-        classProbabilities: pred.classProbabilities,
-        modelName: pred.modelName,
-        qualityLevel: pred.qualityLevel,
-        pollutionLevel: pred.pollutionLevel,
-        recommendations: pred.recommendations,
-        prototype: false,
+        type: 'image',
+        imagePath: '/uploads/sample_sample_water_1.jpg',
+        originalName: 'effluent_sample_A.jpg',
+        mimeType: 'image/jpeg',
+        fileSize: 1024 * 450,
+        prediction: null,
+        status: 'active',
+      });
+
+      await ImageAnalysis.create({
+        userId: demoUser._id,
+        type: 'image',
+        imagePath: '/uploads/sample_sample_water_2.jpg',
+        originalName: 'effluent_sample_B.jpg',
+        mimeType: 'image/jpeg',
+        fileSize: 1024 * 620,
+        prediction: null,
+        status: 'active',
       });
     }
 
-    console.log('Creating sample image analyses metadata...');
-    await ImageAnalysis.create({
-      userId: demoUser._id,
-      type: 'image',
-      imagePath: '/uploads/sample_sample_water_1.jpg',
-      originalName: 'effluent_sample_A.jpg',
-      mimeType: 'image/jpeg',
-      fileSize: 1024 * 450,
-      prediction: null,
-      status: 'prototype',
-    });
-
-    await ImageAnalysis.create({
-      userId: demoUser._id,
-      type: 'image',
-      imagePath: '/uploads/sample_sample_water_2.jpg',
-      originalName: 'industrial_discharge_B.png',
-      mimeType: 'image/png',
-      fileSize: 1024 * 780,
-      prediction: null,
-      status: 'prototype',
-    });
-
     console.log('----------------------------------------------------');
-    console.log('🎉 Seed Completed Successfully!');
-    console.log('🔑 Seed Credentials:');
+    console.log('🎉 Seed Verification Completed Successfully!');
+    console.log('🔑 Default Accounts:');
     console.log('   Standard User: user@example.com / user123');
     console.log('   Admin User:    admin@example.com / admin123');
+    console.log('ℹ️ All registered accounts remain safely preserved.');
     console.log('----------------------------------------------------');
+
     process.exit(0);
-  } catch (error) {
-    console.error('❌ Seeding Error:', error);
+  } catch (err) {
+    console.error('❌ Seeding failed with error:', err);
     process.exit(1);
   }
 };

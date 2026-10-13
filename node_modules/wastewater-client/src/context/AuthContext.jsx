@@ -21,8 +21,16 @@ export const AuthProvider = ({ children }) => {
             localStorage.setItem('wqai_user', JSON.stringify(res.data.user));
           }
         } catch (err) {
-          console.error('Token validation failed:', err);
-          logout();
+          // Only logout on actual authentication failures (401/403).
+          // Do NOT logout on network errors (server down, ECONNREFUSED, etc.)
+          // so that the user's session persists across server restarts.
+          const status = err?.response?.status;
+          if (status === 401 || status === 403) {
+            console.error('Token invalid or expired, logging out:', err.message);
+            logout();
+          } else {
+            console.warn('Could not verify session (server may be down), keeping local session:', err.message);
+          }
         }
       }
       setLoading(false);

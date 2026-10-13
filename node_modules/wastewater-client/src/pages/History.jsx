@@ -23,15 +23,17 @@ const History = () => {
   const [totalCount, setTotalCount] = useState(0);
   const [totalPages, setTotalPages] = useState(1);
   const [loading, setLoading] = useState(true);
+  const [fetchError, setFetchError] = useState(null);
 
-  const fetchHistory = async () => {
+  const fetchHistory = async (overridePage) => {
     try {
       setLoading(true);
+      setFetchError(null);
       const res = await api.get('/analysis/history', {
         params: {
           type: activeTab,
           search: searchTerm,
-          page,
+          page: overridePage ?? page,
           limit,
         },
       });
@@ -43,6 +45,7 @@ const History = () => {
       }
     } catch (err) {
       console.error('Failed to fetch history:', err);
+      setFetchError(err?.response?.data?.message || 'Failed to load analysis history. Make sure the server is running.');
     } finally {
       setLoading(false);
     }
@@ -50,12 +53,13 @@ const History = () => {
 
   useEffect(() => {
     fetchHistory();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [activeTab, page]);
 
   const handleSearchSubmit = (e) => {
     e.preventDefault();
     setPage(1);
-    fetchHistory();
+    fetchHistory(1);
   };
 
   const getQualityStyle = (quality) => {
@@ -162,6 +166,23 @@ const History = () => {
             <span className="text-xs text-neutral-400 mt-2 block font-sans">
               Loading analysis history...
             </span>
+          </div>
+        ) : fetchError ? (
+          <div className="py-16 text-center space-y-2 card-chai">
+            <HistoryIcon className="size-8 text-red-400 mx-auto" />
+            <h3 className="font-montserrat text-sm font-semibold text-foreground">
+              Could not load history
+            </h3>
+            <p className="text-xs text-red-400 font-sans max-w-sm mx-auto">
+              {fetchError}
+            </p>
+            <button
+              type="button"
+              onClick={() => fetchHistory()}
+              className="mt-2 inline-flex h-7 items-center gap-1 rounded bg-primary px-3 text-xs font-montserrat font-semibold text-primary-foreground hover:bg-primary/90 transition-colors"
+            >
+              Retry
+            </button>
           </div>
         ) : historyData.length === 0 ? (
           <div className="py-16 text-center space-y-2 card-chai">

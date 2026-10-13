@@ -6,11 +6,11 @@ const ImageAnalysis = require('../models/ImageAnalysis');
 // @access  Private
 const getDashboardStats = async (req, res, next) => {
   try {
-    const userId = req.user._id;
-
+    const query = req.user.role === 'ADMIN' ? {} : { userId: req.user._id };
+ 
     // Fetch parameter and image analyses
-    const parameterRecords = await ParameterAnalysis.find({ userId }).sort({ createdAt: -1 });
-    const imageRecords = await ImageAnalysis.find({ userId }).sort({ createdAt: -1 });
+    const parameterRecords = await ParameterAnalysis.find(query).sort({ createdAt: -1 });
+    const imageRecords = await ImageAnalysis.find(query).sort({ createdAt: -1 });
 
     const totalParameterCount = parameterRecords.length;
     const totalImageCount = imageRecords.length;

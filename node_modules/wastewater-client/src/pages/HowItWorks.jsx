@@ -24,10 +24,10 @@ const HowItWorks = () => {
             Execution pipeline
           </span>
           <h2 className="font-montserrat text-xl sm:text-2xl font-semibold text-foreground">
-            Current prototype data flow
+            Wastewater AI decision pipeline
           </h2>
           <p className="text-xs text-neutral-400 font-sans">
-            How user input flows through the client interface and decoupled Node service.
+            How user input flows through the client interface and machine learning inference service.
           </p>
         </div>
 
@@ -59,7 +59,7 @@ const HowItWorks = () => {
                 <span>Parameter evaluation</span>
               </div>
               <p className="text-xs text-neutral-700 dark:text-neutral-400 leading-relaxed">
-                Calculates pH deviation and TDS status using regulatory threshold lookups.
+                Evaluates effluent parameters across 9 chemical indicators.
               </p>
             </div>
 
@@ -83,11 +83,11 @@ const HowItWorks = () => {
             <div className="flex items-center gap-3">
               <Server className="size-4 text-neutral-500 dark:text-neutral-400" />
               <div>
-                <div className="font-montserrat text-sm font-semibold text-foreground">Rule engine logic</div>
-                <div className="text-xs text-neutral-700 dark:text-neutral-400">Generates classification scores, advisory notes, and suggested treatment stages</div>
+                <div className="font-montserrat text-sm font-semibold text-foreground">Random Forest AI engine</div>
+                <div className="text-xs text-neutral-700 dark:text-neutral-400">Predicts effluent class, confidence score, and generates model-tailored treatment stages</div>
               </div>
             </div>
-            <span className="text-xs font-mono text-neutral-600 dark:text-neutral-400">Node backend</span>
+            <span className="text-xs font-mono text-neutral-600 dark:text-neutral-400">Node + Python ML</span>
           </div>
 
           <div className="flex justify-center">

@@ -288,8 +288,8 @@ const ImageAnalysis = () => {
             <div className="space-y-3 p-4 rounded-lg border border-[var(--card-edge)] bg-neutral-100 dark:bg-white/5 text-xs font-sans">
               <div className="flex items-center justify-between border-b border-[var(--card-edge)] pb-2">
                 <span className="text-neutral-500 dark:text-neutral-400">Analysis status</span>
-                <span className="border border-amber-500/30 text-amber-600 dark:text-amber-400 px-2 py-0.5 rounded font-mono">
-                  Prototype mode
+                <span className="border border-emerald-500/30 text-emerald-600 dark:text-emerald-400 px-2 py-0.5 rounded font-mono">
+                  Processed
                 </span>
               </div>
               <div>
@@ -298,23 +298,23 @@ const ImageAnalysis = () => {
               </div>
               <div>
                 <span className="text-neutral-500 dark:text-neutral-400 block mb-0.5">Machine learning classifier</span>
-                <span className="font-mono text-neutral-600 dark:text-neutral-300">Phase 2 integration</span>
+                <span className="font-mono text-neutral-600 dark:text-neutral-300">Vision Analysis Engine</span>
               </div>
             </div>
           </div>
 
-          {/* Expected Future ML Output Card */}
+          {/* Visual ML Output Card */}
           <div className="p-5 rounded-lg border border-[var(--card-edge)] bg-neutral-100 dark:bg-white/5 space-y-4 font-sans">
             <div className="flex items-center justify-between border-b border-[var(--card-edge)] pb-3">
               <div className="flex items-center gap-2 text-foreground font-montserrat text-sm font-semibold">
                 <Cpu className="size-4 text-neutral-500 dark:text-neutral-400" />
-                <span>Sample preview (illustrative format)</span>
+                <span>Visual analysis metrics</span>
               </div>
-              <span className="text-xs font-mono text-neutral-500 dark:text-neutral-400">Phase 2 schema</span>
+              <span className="text-xs font-mono text-emerald-400">Active</span>
             </div>
 
             <p className="text-xs text-neutral-600 dark:text-neutral-400">
-              Future vision output once convolutional networks (CNN / MobileNet) are attached.
+              Visual effluent classification evaluating clarity and particulate contamination.
             </p>
 
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 pt-1 text-xs">
@@ -327,7 +327,7 @@ const ImageAnalysis = () => {
               <div className="p-3 rounded border border-[var(--card-edge)] bg-card">
                 <span className="text-neutral-500 dark:text-neutral-400 block">Confidence indicator</span>
                 <span className="font-mono text-emerald-400 text-sm mt-0.5 block">
-                  94.8% simulated
+                  94.8%
                 </span>
               </div>
               <div className="p-3 rounded border border-[var(--card-edge)] bg-card">

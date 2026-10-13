@@ -66,20 +66,22 @@ const seedDatabase = async () => {
 
     const demoUser = createdUsers[0];
 
-    console.log('Creating sample parameter analyses...');
+    console.log('Creating sample parameter analyses with AI Model...');
     for (const p of sampleParameters) {
-      const pred = await predictParameters(p.pH, p.tds);
+      const pred = await predictParameters(p);
       await ParameterAnalysis.create({
         userId: demoUser._id,
         type: 'parameter',
-        parameters: {
-          pH: p.pH,
-          tds: p.tds,
-        },
+        parameters: pred.parameters,
+        predictedClass: pred.predictedClass,
+        classLabel: pred.classLabel,
+        confidence: pred.confidence,
+        classProbabilities: pred.classProbabilities,
+        modelName: pred.modelName,
         qualityLevel: pred.qualityLevel,
         pollutionLevel: pred.pollutionLevel,
         recommendations: pred.recommendations,
-        prototype: true,
+        prototype: false,
       });
     }
 

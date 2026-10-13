@@ -31,36 +31,41 @@ const analyzeParameters = async (req, res, next) => {
       return res.status(400).json({ success: false, message: 'TDS must be a non-negative number' });
     }
 
-    // Call modular prediction service (isolated mock logic for now, easily swappable with Python ML API)
-    const result = await predictParameters(numPH, numTDS);
+    // Call AI prediction service using trained Random Forest model
+    const result = await predictParameters(req.body);
 
     // Persist to MongoDB
     const analysisRecord = await ParameterAnalysis.create({
       userId: req.user._id,
       type: 'parameter',
-      parameters: {
-        pH: numPH,
-        tds: numTDS,
-      },
+      parameters: result.parameters,
+      predictedClass: result.predictedClass,
+      classLabel: result.classLabel,
+      confidence: result.confidence,
+      classProbabilities: result.classProbabilities,
+      modelName: result.modelName,
       qualityLevel: result.qualityLevel,
       pollutionLevel: result.pollutionLevel,
       recommendations: result.recommendations,
-      prototype: true,
+      prototype: false,
     });
 
     res.status(201).json({
       success: true,
-      message: 'Parameter analysis completed (Prototype Mode)',
+      message: 'Wastewater quality assessed using Random Forest AI Model',
       data: {
         _id: analysisRecord._id,
+        predictedClass: result.predictedClass,
+        classLabel: result.classLabel,
+        confidence: result.confidence,
+        classProbabilities: result.classProbabilities,
+        modelName: result.modelName,
+        modelAccuracy: result.modelAccuracy,
         qualityLevel: result.qualityLevel,
         pollutionLevel: result.pollutionLevel,
         recommendations: result.recommendations,
-        parameters: {
-          pH: numPH,
-          tds: numTDS,
-        },
-        prototype: true,
+        parameters: result.parameters,
+        prototype: false,
         createdAt: analysisRecord.createdAt,
       },
     });

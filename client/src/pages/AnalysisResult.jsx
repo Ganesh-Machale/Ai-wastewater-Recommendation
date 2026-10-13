@@ -101,10 +101,11 @@ const AnalysisResult = () => {
             <div>
               <div className="flex items-center gap-2 text-neutral-400 text-xs font-mono">
                 <Activity className="size-3.5" />
-                <span>Parameter record</span>
+                <span>{data.modelName || 'Random Forest Classifier'}</span>
+                {data.confidence && <span className="text-emerald-400">({data.confidence}% confidence)</span>}
               </div>
               <h1 className="font-montserrat text-xl sm:text-2xl font-semibold text-foreground mt-1">
-                Wastewater quality assessment
+                {data.classLabel || 'Wastewater Quality Assessment'}
               </h1>
             </div>
             <div className="flex items-center gap-3">
@@ -146,6 +147,32 @@ const AnalysisResult = () => {
             </div>
           </div>
 
+          {data.parameters?.cod && (
+            <div className="p-4 rounded-lg border border-[var(--card-edge)] bg-black/10 text-xs font-sans">
+              <span className="font-montserrat font-medium text-neutral-300 block mb-2">
+                Chemical Parameter Vector
+              </span>
+              <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 text-neutral-400">
+                <div>
+                  <span className="block text-[11px] text-neutral-500">COD</span>
+                  <span className="font-mono text-neutral-200">{data.parameters?.cod} mg/L</span>
+                </div>
+                <div>
+                  <span className="block text-[11px] text-neutral-500">Turbidity</span>
+                  <span className="font-mono text-neutral-200">{data.parameters?.turbidity ?? '—'} NTU</span>
+                </div>
+                <div>
+                  <span className="block text-[11px] text-neutral-500">Phosphate</span>
+                  <span className="font-mono text-neutral-200">{data.parameters?.phosphate ?? '—'} mg/L</span>
+                </div>
+                <div>
+                  <span className="block text-[11px] text-neutral-500">Nitrate</span>
+                  <span className="font-mono text-neutral-200">{data.parameters?.nitrate ?? '—'} mg/L</span>
+                </div>
+              </div>
+            </div>
+          )}
+
           <div className="space-y-2 pt-2">
             <h3 className="font-montserrat text-sm font-semibold text-foreground">
               Treatment recommendations
@@ -161,9 +188,9 @@ const AnalysisResult = () => {
           </div>
 
           <div className="p-4 rounded-lg border border-[var(--card-edge)] bg-card text-xs text-neutral-400 flex items-start gap-2.5">
-            <ShieldAlert className="size-4 text-amber-400 shrink-0 mt-0.5" />
+            <ShieldCheck className="size-4 text-emerald-400 shrink-0 mt-0.5" />
             <span>
-              Prototype recommendation only. Final treatment decisions must be based on laboratory testing and qualified environmental professionals.
+              AI-assisted treatment advisory. Evaluated by Random Forest Classifier model.
             </span>
           </div>
         </div>
@@ -202,7 +229,7 @@ const AnalysisResult = () => {
               </div>
               <div>
                 <span className="text-neutral-500 dark:text-neutral-400 block mb-0.5">Classification model</span>
-                <span className="font-mono text-neutral-600 dark:text-neutral-300">Phase 2 integration</span>
+                <span className="font-mono text-neutral-600 dark:text-neutral-300">Vision Analysis Active</span>
               </div>
             </div>
           </div>

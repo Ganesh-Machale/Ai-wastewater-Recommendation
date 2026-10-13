@@ -23,6 +23,54 @@ const parameterAnalysisSchema = new mongoose.Schema(
         required: true,
         min: 0,
       },
+      turbidity: {
+        type: Number,
+        default: null,
+      },
+      phosphate: {
+        type: Number,
+        default: null,
+      },
+      nitrate: {
+        type: Number,
+        default: null,
+      },
+      iron: {
+        type: Number,
+        default: null,
+      },
+      cod: {
+        type: Number,
+        default: null,
+      },
+      chlorine: {
+        type: Number,
+        default: null,
+      },
+      sodium: {
+        type: Number,
+        default: null,
+      },
+    },
+    predictedClass: {
+      type: Number,
+      default: null,
+    },
+    classLabel: {
+      type: String,
+      default: '',
+    },
+    confidence: {
+      type: Number,
+      default: null,
+    },
+    classProbabilities: {
+      type: Object,
+      default: {},
+    },
+    modelName: {
+      type: String,
+      default: 'Random Forest Classifier (100 Trees)',
     },
     qualityLevel: {
       type: String,
@@ -41,7 +89,7 @@ const parameterAnalysisSchema = new mongoose.Schema(
     ],
     prototype: {
       type: Boolean,
-      default: true,
+      default: false,
     },
   },
   {

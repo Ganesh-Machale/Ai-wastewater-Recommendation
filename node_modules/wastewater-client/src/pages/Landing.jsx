@@ -19,7 +19,7 @@ const Landing = () => {
       {/* Hero Section */}
       <section className="flex gap-10 max-md:flex-col pt-6 sm:pt-12 items-center">
         <div className="flex flex-col gap-y-3 sm:gap-y-4 md:w-3/5">
-          <AnimatedBadge>Prototype system: ML models integration next</AnimatedBadge>
+          <AnimatedBadge>Trained Random Forest AI Model Integrated</AnimatedBadge>
 
           <h1 className="text-[42px] font-semibold tracking-tight max-md:leading-11 md:text-6xl lg:text-7xl">
             Wastewater quality assessment
@@ -266,37 +266,37 @@ const Landing = () => {
         </div>
       </section>
 
-      {/* Future AI Roadmap */}
+      {/* Live Machine Learning Architecture */}
       <section className="card-chai p-8 sm:p-10 space-y-6">
         <div className="flex items-center gap-3">
-          <Cpu className="size-6 text-neutral-300" />
+          <Cpu className="size-6 text-emerald-400" />
           <h3 className="font-montserrat text-xl font-semibold text-foreground">
-            Machine learning roadmap (Phase 2)
+            Machine learning architecture
           </h3>
         </div>
 
         <p className="text-sm text-neutral-600 dark:text-neutral-400 leading-relaxed max-w-3xl">
-          In the upcoming project phase, the mock prediction services in this prototype will be replaced with <span className="highlight">dedicated machine learning microservices</span>.
+          The platform evaluates wastewater chemistry using our <span className="highlight">trained Random Forest classifier</span> coupled with computer vision pipelines.
         </p>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 pt-2">
           <div className="p-4 rounded-lg border border-[var(--card-edge)] bg-black/20 space-y-2">
-            <span className="text-xs font-mono text-neutral-400">Model 01: Tabular</span>
+            <span className="text-xs font-mono text-emerald-400">Model 01: Multi-Parameter AI (Active)</span>
             <h4 className="font-montserrat text-sm font-semibold text-foreground">
-              Random Forest and XGBoost regressors
+              Random Forest Classifier (100 Trees)
             </h4>
             <p className="text-xs text-neutral-400 leading-relaxed">
-              Trained on multi-parameter environmental datasets to predict BOD, COD, and Heavy Metal concentrations.
+              Trained on environmental laboratory datasets across 9 chemical indicators (pH, TDS, COD, Turbidity, Phosphate, Nitrate, Iron, Chlorine, Sodium) with balanced multi-class classification.
             </p>
           </div>
 
           <div className="p-4 rounded-lg border border-[var(--card-edge)] bg-black/20 space-y-2">
-            <span className="text-xs font-mono text-neutral-400">Model 02: Vision</span>
+            <span className="text-xs font-mono text-neutral-400">Model 02: Vision Stream</span>
             <h4 className="font-montserrat text-sm font-semibold text-foreground">
-              ResNet and MobileNet classifiers
+              Convolutional Vision Pipeline
             </h4>
             <p className="text-xs text-neutral-400 leading-relaxed">
-              Deep convolutional networks for real-time visual turbidity and biological contamination assessment.
+              Automated image pre-processing and visual turbidity evaluation for wastewater discharge surveillance.
             </p>
           </div>
         </div>

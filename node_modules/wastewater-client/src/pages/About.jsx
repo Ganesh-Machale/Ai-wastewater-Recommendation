@@ -8,12 +8,12 @@ const About = () => {
     <div className="space-y-16 pb-16">
       {/* Page Header */}
       <div className="text-center space-y-4 max-w-2xl mx-auto pt-4">
-        <AnimatedBadge>Academic PBL research prototype</AnimatedBadge>
+        <AnimatedBadge>AI-Powered Wastewater Decision Platform</AnimatedBadge>
         <h1 className="text-2xl sm:text-3xl font-medium tracking-tight text-foreground">
           About the project
         </h1>
         <p className="text-base text-neutral-600 sm:text-lg dark:text-neutral-400 leading-relaxed font-sans">
-          Understanding the background, current prototype scope, and future machine learning roadmap for <span className="highlight">wastewater decision support</span>.
+          Integrated machine learning architecture and predictive analytics for <span className="highlight">wastewater decision support</span>.
         </p>
       </div>
 
@@ -46,71 +46,71 @@ const About = () => {
         </div>
       </div>
 
-      {/* Scope Comparison Section */}
+      {/* System Architecture Section */}
       <section className="card-chai p-6 sm:p-10 space-y-8">
         <div className="border-b border-[var(--card-edge)] pb-5 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
           <div>
             <h2 className="font-montserrat text-2xl font-semibold text-foreground">
-              Scope comparison
+              System architecture
             </h2>
             <p className="text-xs sm:text-sm text-neutral-400 mt-1 font-sans">
-              Current demonstration release versus Phase 2 Python ML architecture.
+              Integrated Random Forest machine learning and dual-channel decision pipeline.
             </p>
           </div>
           <span className="text-xs font-mono border border-emerald-500/30 text-emerald-400 px-3 py-1 rounded w-fit">
-            Demonstration architecture
+            Active AI Architecture
           </span>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          {/* Current Scope */}
+          {/* Chemical Analysis Scope */}
           <div className="p-5 rounded-lg border border-[var(--card-edge)] bg-black/20 space-y-4">
             <div className="flex items-center gap-2 text-foreground font-montserrat font-semibold text-base">
-              <FlaskConical className="size-4 text-neutral-400" />
-              <h3>Current prototype capabilities</h3>
+              <FlaskConical className="size-4 text-emerald-400" />
+              <h3>Multi-parameter AI analysis</h3>
             </div>
             <ul className="space-y-2.5 text-xs text-neutral-400 font-sans">
               <li className="flex items-start gap-2">
                 <Check className="size-3.5 text-emerald-400 shrink-0 mt-0.5" />
-                <span>Chemical metrics input form (pH and Total Dissolved Solids)</span>
+                <span>Chemical metrics input form (pH, TDS, COD, Turbidity, Iron, Nutrients)</span>
               </li>
               <li className="flex items-start gap-2">
                 <Check className="size-3.5 text-emerald-400 shrink-0 mt-0.5" />
-                <span>Threshold validation engine evaluating environmental standards</span>
+                <span>Trained Random Forest Classifier (100 Trees, Balanced Class Weights)</span>
               </li>
               <li className="flex items-start gap-2">
                 <Check className="size-3.5 text-emerald-400 shrink-0 mt-0.5" />
-                <span>Image upload interface with preview and metadata storage</span>
+                <span>Multi-class effluent quality assessment (Classes 0 through 4)</span>
+              </li>
+              <li className="flex items-start gap-2">
+                <Check className="size-3.5 text-emerald-400 shrink-0 mt-0.5" />
+                <span>Automated parameter-specific treatment and dosing recommendations</span>
+              </li>
+            </ul>
+          </div>
+
+          {/* Vision and Systems Scope */}
+          <div className="p-5 rounded-lg border border-[var(--card-edge)] bg-black/20 space-y-4">
+            <div className="flex items-center gap-2 text-foreground font-montserrat font-semibold text-base">
+              <Cpu className="size-4 text-emerald-400" />
+              <h3>Vision and platform services</h3>
+            </div>
+            <ul className="space-y-2.5 text-xs text-neutral-400 font-sans">
+              <li className="flex items-start gap-2">
+                <Check className="size-3.5 text-emerald-400 shrink-0 mt-0.5" />
+                <span>High-performance computer vision preprocessing and image ingestion</span>
+              </li>
+              <li className="flex items-start gap-2">
+                <Check className="size-3.5 text-emerald-400 shrink-0 mt-0.5" />
+                <span>Secure local storage with cryptographic user verification</span>
               </li>
               <li className="flex items-start gap-2">
                 <Check className="size-3.5 text-emerald-400 shrink-0 mt-0.5" />
                 <span>MongoDB persistence for user test logs and analysis history</span>
               </li>
-            </ul>
-          </div>
-
-          {/* Future Scope */}
-          <div className="p-5 rounded-lg border border-[var(--card-edge)] bg-black/20 space-y-4">
-            <div className="flex items-center gap-2 text-foreground font-montserrat font-semibold text-base">
-              <Cpu className="size-4 text-neutral-400" />
-              <h3>Phase 2 artificial intelligence roadmap</h3>
-            </div>
-            <ul className="space-y-2.5 text-xs text-neutral-400 font-sans">
               <li className="flex items-start gap-2">
                 <Check className="size-3.5 text-emerald-400 shrink-0 mt-0.5" />
-                <span>Random Forest and Gradient Boosted models for chemical regression</span>
-              </li>
-              <li className="flex items-start gap-2">
-                <Check className="size-3.5 text-emerald-400 shrink-0 mt-0.5" />
-                <span>Convolutional neural networks for visual contamination classification</span>
-              </li>
-              <li className="flex items-start gap-2">
-                <Check className="size-3.5 text-emerald-400 shrink-0 mt-0.5" />
-                <span>Real-time IoT sensor telemetry streaming via MQTT</span>
-              </li>
-              <li className="flex items-start gap-2">
-                <Check className="size-3.5 text-emerald-400 shrink-0 mt-0.5" />
-                <span>Automated multi-facility compliance alert pipelines</span>
+                <span>CPCB and international effluent standards compliance mapping</span>
               </li>
             </ul>
           </div>

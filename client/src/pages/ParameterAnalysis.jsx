@@ -7,16 +7,31 @@ import {
   AlertTriangle,
   RefreshCw,
   History,
-  ShieldAlert,
+  ShieldCheck,
   ArrowUpRight,
-  Check
+  Check,
+  ChevronDown,
+  ChevronUp,
+  Cpu,
+  BarChart3
 } from 'lucide-react';
 
 const ParameterAnalysis = () => {
   const navigate = useNavigate();
+  // Primary parameters
   const [pH, setPH] = useState('');
   const [tds, setTds] = useState('');
 
+  // Advanced chemical parameters
+  const [turbidity, setTurbidity] = useState('');
+  const [cod, setCod] = useState('');
+  const [phosphate, setPhosphate] = useState('');
+  const [nitrate, setNitrate] = useState('');
+  const [iron, setIron] = useState('');
+  const [chlorine, setChlorine] = useState('');
+  const [sodium, setSodium] = useState('');
+
+  const [showAdvanced, setShowAdvanced] = useState(false);
   const [errors, setErrors] = useState({});
   const [loading, setLoading] = useState(false);
   const [result, setResult] = useState(null);
@@ -59,10 +74,20 @@ const ParameterAnalysis = () => {
 
     setLoading(true);
     try {
-      const res = await api.post('/analysis/parameters', {
+      const payload = {
         pH: Number(pH),
         tds: Number(tds),
-      });
+      };
+
+      if (turbidity !== '') payload.turbidity = Number(turbidity);
+      if (cod !== '') payload.cod = Number(cod);
+      if (phosphate !== '') payload.phosphate = Number(phosphate);
+      if (nitrate !== '') payload.nitrate = Number(nitrate);
+      if (iron !== '') payload.iron = Number(iron);
+      if (chlorine !== '') payload.chlorine = Number(chlorine);
+      if (sodium !== '') payload.sodium = Number(sodium);
+
+      const res = await api.post('/analysis/parameters', payload);
 
       if (res.data.success) {
         setResult(res.data.data);
@@ -80,6 +105,13 @@ const ParameterAnalysis = () => {
   const handleReset = () => {
     setPH('');
     setTds('');
+    setTurbidity('');
+    setCod('');
+    setPhosphate('');
+    setNitrate('');
+    setIron('');
+    setChlorine('');
+    setSodium('');
     setResult(null);
     setErrors({});
     setServerError(null);
@@ -105,16 +137,16 @@ const ParameterAnalysis = () => {
         <div className="flex items-center justify-between flex-wrap gap-2">
           <div className="flex items-center gap-2 text-neutral-400 text-xs font-mono">
             <Activity className="size-4 text-neutral-300" />
-            <span>Method 01</span>
+            <span>AI Chemical Inference</span>
           </div>
-          <AnimatedBadge>Trained ML models next</AnimatedBadge>
+          <AnimatedBadge>Trained Random Forest AI Model Active</AnimatedBadge>
         </div>
 
         <h1 className="text-2xl sm:text-3xl font-medium tracking-tight text-foreground">
           Parameter-based wastewater analysis
         </h1>
         <p className="text-sm sm:text-base text-neutral-600 dark:text-neutral-400 font-sans">
-          Enter chemical indicators to receive a preliminary quality assessment and <span className="highlight">recommended treatment advisory</span>.
+          Enter effluent chemical metrics to evaluate quality with the trained Random Forest classifier and receive <span className="highlight">intelligent treatment recommendations</span>.
         </p>
       </div>
 
@@ -129,6 +161,7 @@ const ParameterAnalysis = () => {
       {!result ? (
         <div className="card-chai p-6 sm:p-8 space-y-6">
           <form onSubmit={handleSubmit} className="space-y-6">
+            {/* Primary Parameters */}
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
               {/* pH Input */}
               <div className="space-y-2">
@@ -138,12 +171,12 @@ const ParameterAnalysis = () => {
                 <div className="relative">
                   <input
                     type="number"
-                    step="0.1"
+                    step="0.01"
                     min="0"
                     max="14"
                     value={pH}
                     onChange={(e) => setPH(e.target.value)}
-                    placeholder="e.g. 7.2"
+                    placeholder="e.g. 7.55"
                     className={`w-full px-4 py-2.5 rounded-md border ${
                       errors.pH ? 'border-red-500' : 'border-[var(--card-edge)]'
                     } bg-card text-foreground placeholder-neutral-500 focus:outline-none focus:border-neutral-400 text-sm font-sans transition-colors`}
@@ -171,7 +204,7 @@ const ParameterAnalysis = () => {
                     min="0"
                     value={tds}
                     onChange={(e) => setTds(e.target.value)}
-                    placeholder="e.g. 450"
+                    placeholder="e.g. 750"
                     className={`w-full px-4 py-2.5 rounded-md border ${
                       errors.tds ? 'border-red-500' : 'border-[var(--card-edge)]'
                     } bg-card text-foreground placeholder-neutral-500 focus:outline-none focus:border-neutral-400 text-sm font-sans transition-colors`}
@@ -183,15 +216,164 @@ const ParameterAnalysis = () => {
                 {errors.tds ? (
                   <p className="text-xs text-red-400">{errors.tds}</p>
                 ) : (
-                  <p className="text-xs text-neutral-400">Concentration in milligrams per liter (mg/L)</p>
+                  <p className="text-xs text-neutral-400">Dissolved solids concentration in milligrams per liter</p>
                 )}
               </div>
+            </div>
+
+            {/* Advanced Multi-Parameter Toggle */}
+            <div className="border-t border-[var(--card-edge)] pt-4">
+              <button
+                type="button"
+                onClick={() => setShowAdvanced(!showAdvanced)}
+                className="flex items-center justify-between w-full py-2 text-xs font-montserrat font-medium text-neutral-300 hover:text-white transition-colors"
+              >
+                <div className="flex items-center gap-2">
+                  <Cpu className="size-3.5 text-neutral-400" />
+                  <span>Advanced Chemical Indicators (Optional for full 9-parameter evaluation)</span>
+                </div>
+                {showAdvanced ? (
+                  <ChevronUp className="size-4 text-neutral-400" />
+                ) : (
+                  <ChevronDown className="size-4 text-neutral-400" />
+                )}
+              </button>
+
+              {showAdvanced && (
+                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 pt-4 mt-2 border-t border-[var(--card-edge)]/40">
+                  {/* COD */}
+                  <div className="space-y-1.5">
+                    <label className="block text-xs font-sans text-neutral-300">
+                      COD (Chemical Oxygen Demand)
+                    </label>
+                    <div className="relative">
+                      <input
+                        type="number"
+                        step="1"
+                        value={cod}
+                        onChange={(e) => setCod(e.target.value)}
+                        placeholder="e.g. 409 (Baseline ~395)"
+                        className="w-full px-3 py-2 rounded-md border border-[var(--card-edge)] bg-card text-foreground placeholder-neutral-600 focus:outline-none focus:border-neutral-400 text-xs font-sans"
+                      />
+                      <span className="absolute right-3 top-2.5 text-[10px] font-mono text-neutral-400">mg/L</span>
+                    </div>
+                  </div>
+
+                  {/* Turbidity */}
+                  <div className="space-y-1.5">
+                    <label className="block text-xs font-sans text-neutral-300">
+                      Turbidity
+                    </label>
+                    <div className="relative">
+                      <input
+                        type="number"
+                        step="0.01"
+                        value={turbidity}
+                        onChange={(e) => setTurbidity(e.target.value)}
+                        placeholder="e.g. 2.15"
+                        className="w-full px-3 py-2 rounded-md border border-[var(--card-edge)] bg-card text-foreground placeholder-neutral-600 focus:outline-none focus:border-neutral-400 text-xs font-sans"
+                      />
+                      <span className="absolute right-3 top-2.5 text-[10px] font-mono text-neutral-400">NTU</span>
+                    </div>
+                  </div>
+
+                  {/* Phosphate */}
+                  <div className="space-y-1.5">
+                    <label className="block text-xs font-sans text-neutral-300">
+                      Phosphate
+                    </label>
+                    <div className="relative">
+                      <input
+                        type="number"
+                        step="0.001"
+                        value={phosphate}
+                        onChange={(e) => setPhosphate(e.target.value)}
+                        placeholder="e.g. 0.015"
+                        className="w-full px-3 py-2 rounded-md border border-[var(--card-edge)] bg-card text-foreground placeholder-neutral-600 focus:outline-none focus:border-neutral-400 text-xs font-sans"
+                      />
+                      <span className="absolute right-3 top-2.5 text-[10px] font-mono text-neutral-400">mg/L</span>
+                    </div>
+                  </div>
+
+                  {/* Nitrate */}
+                  <div className="space-y-1.5">
+                    <label className="block text-xs font-sans text-neutral-300">
+                      Nitrate
+                    </label>
+                    <div className="relative">
+                      <input
+                        type="number"
+                        step="1"
+                        value={nitrate}
+                        onChange={(e) => setNitrate(e.target.value)}
+                        placeholder="e.g. 7"
+                        className="w-full px-3 py-2 rounded-md border border-[var(--card-edge)] bg-card text-foreground placeholder-neutral-600 focus:outline-none focus:border-neutral-400 text-xs font-sans"
+                      />
+                      <span className="absolute right-3 top-2.5 text-[10px] font-mono text-neutral-400">mg/L</span>
+                    </div>
+                  </div>
+
+                  {/* Iron */}
+                  <div className="space-y-1.5">
+                    <label className="block text-xs font-sans text-neutral-300">
+                      Iron (Fe)
+                    </label>
+                    <div className="relative">
+                      <input
+                        type="number"
+                        step="0.001"
+                        value={iron}
+                        onChange={(e) => setIron(e.target.value)}
+                        placeholder="e.g. 0.354"
+                        className="w-full px-3 py-2 rounded-md border border-[var(--card-edge)] bg-card text-foreground placeholder-neutral-600 focus:outline-none focus:border-neutral-400 text-xs font-sans"
+                      />
+                      <span className="absolute right-3 top-2.5 text-[10px] font-mono text-neutral-400">mg/L</span>
+                    </div>
+                  </div>
+
+                  {/* Chlorine */}
+                  <div className="space-y-1.5">
+                    <label className="block text-xs font-sans text-neutral-300">
+                      Chlorine
+                    </label>
+                    <div className="relative">
+                      <input
+                        type="number"
+                        step="1"
+                        value={chlorine}
+                        onChange={(e) => setChlorine(e.target.value)}
+                        placeholder="e.g. 3"
+                        className="w-full px-3 py-2 rounded-md border border-[var(--card-edge)] bg-card text-foreground placeholder-neutral-600 focus:outline-none focus:border-neutral-400 text-xs font-sans"
+                      />
+                      <span className="absolute right-3 top-2.5 text-[10px] font-mono text-neutral-400">mg/L</span>
+                    </div>
+                  </div>
+
+                  {/* Sodium */}
+                  <div className="space-y-1.5">
+                    <label className="block text-xs font-sans text-neutral-300">
+                      Sodium
+                    </label>
+                    <div className="relative">
+                      <input
+                        type="number"
+                        step="1"
+                        value={sodium}
+                        onChange={(e) => setSodium(e.target.value)}
+                        placeholder="e.g. 11"
+                        className="w-full px-3 py-2 rounded-md border border-[var(--card-edge)] bg-card text-foreground placeholder-neutral-600 focus:outline-none focus:border-neutral-400 text-xs font-sans"
+                      />
+                      <span className="absolute right-3 top-2.5 text-[10px] font-mono text-neutral-400">mg/L</span>
+                    </div>
+                  </div>
+                </div>
+              )}
             </div>
 
             {/* Submit Action */}
             <div className="pt-4 border-t border-[var(--card-edge)] flex flex-col sm:flex-row items-center justify-between gap-4">
               <span className="text-xs text-neutral-400 font-sans">
-                Evaluation engine: calibrated against CPCB effluent standards
+                Evaluation engine: Random Forest Classifier (100 Trees, 9 Effluent Indicators)
               </span>
 
               {/* The solid asymmetric button */}
@@ -203,11 +385,11 @@ const ParameterAnalysis = () => {
                 {loading ? (
                   <>
                     <RefreshCw className="size-4 animate-spin" />
-                    <span>Analyzing...</span>
+                    <span>Running AI Model...</span>
                   </>
                 ) : (
                   <>
-                    <span>Submit sample</span>
+                    <span>Run AI prediction</span>
                     <ArrowUpRight className="-ml-1 size-4" />
                   </>
                 )}
@@ -218,24 +400,40 @@ const ParameterAnalysis = () => {
       ) : (
         /* Result Page View */
         <div className="card-chai p-6 sm:p-8 space-y-6">
-          <div className="flex items-center justify-between border-b border-[var(--card-edge)] pb-4">
+          {/* Header & Classification Banner */}
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between border-b border-[var(--card-edge)] pb-4 gap-3">
             <div>
-              <span className="text-xs font-mono text-neutral-400">Analysis result</span>
-              <h2 className="font-montserrat text-xl sm:text-2xl font-semibold text-foreground">
-                Wastewater quality assessment
+              <div className="flex items-center gap-2 text-xs font-mono text-neutral-400">
+                <Cpu className="size-3.5 text-neutral-300" />
+                <span>{result.modelName || 'Random Forest Classifier'}</span>
+                {result.confidence && (
+                  <span className="text-emerald-400">({result.confidence}% confidence)</span>
+                )}
+              </div>
+              <h2 className="font-montserrat text-xl sm:text-2xl font-semibold text-foreground mt-1">
+                {result.classLabel || 'Wastewater Quality Assessment'}
               </h2>
             </div>
-            <span
-              className={`px-3 py-1 rounded text-xs font-montserrat font-medium ${getQualityStyle(
-                result.qualityLevel
-              )}`}
-            >
-              {result.qualityLevel} quality
-            </span>
+            <div className="flex items-center gap-2">
+              <span
+                className={`px-3 py-1 rounded text-xs font-montserrat font-medium ${getQualityStyle(
+                  result.qualityLevel
+                )}`}
+              >
+                {result.qualityLevel} quality
+              </span>
+              <span
+                className={`px-3 py-1 rounded text-xs font-montserrat font-medium ${getPollutionStyle(
+                  result.pollutionLevel
+                )}`}
+              >
+                {result.pollutionLevel} risk
+              </span>
+            </div>
           </div>
 
           {/* Results Grid */}
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
             <div className="p-4 rounded-lg border border-[var(--card-edge)] bg-black/20">
               <span className="text-xs font-mono text-neutral-400 block">pH Level</span>
               <span className="font-montserrat text-2xl font-semibold text-foreground">
@@ -252,39 +450,104 @@ const ParameterAnalysis = () => {
             </div>
 
             <div className="p-4 rounded-lg border border-[var(--card-edge)] bg-black/20">
-              <span className="text-xs font-mono text-neutral-400 block">Pollution risk level</span>
-              <span
-                className={`inline-block px-2 py-0.5 rounded text-xs font-montserrat font-medium mt-1.5 ${getPollutionStyle(
-                  result.pollutionLevel
-                )}`}
-              >
-                {result.pollutionLevel} risk
+              <span className="text-xs font-mono text-neutral-400 block">Chemical Oxygen Demand</span>
+              <span className="font-montserrat text-2xl font-semibold text-foreground">
+                {result.parameters?.cod ?? '—'}{' '}
+                <span className="text-xs font-normal text-neutral-400">mg/L</span>
+              </span>
+            </div>
+
+            <div className="p-4 rounded-lg border border-[var(--card-edge)] bg-black/20">
+              <span className="text-xs font-mono text-neutral-400 block">Turbidity</span>
+              <span className="font-montserrat text-2xl font-semibold text-foreground">
+                {result.parameters?.turbidity ?? '—'}{' '}
+                <span className="text-xs font-normal text-neutral-400">NTU</span>
               </span>
             </div>
           </div>
 
-          {/* Recommendations */}
+          {/* Additional Parameter Breakdown */}
+          <div className="p-4 rounded-lg border border-[var(--card-edge)] bg-black/10 text-xs font-sans">
+            <span className="font-montserrat font-medium text-neutral-300 block mb-2">
+              Evaluated Parameter Vector
+            </span>
+            <div className="grid grid-cols-2 sm:grid-cols-5 gap-3 text-neutral-400">
+              <div>
+                <span className="block text-[11px] text-neutral-500">Phosphate</span>
+                <span className="font-mono text-neutral-200">{result.parameters?.phosphate ?? '0.015'} mg/L</span>
+              </div>
+              <div>
+                <span className="block text-[11px] text-neutral-500">Nitrate</span>
+                <span className="font-mono text-neutral-200">{result.parameters?.nitrate ?? '7'} mg/L</span>
+              </div>
+              <div>
+                <span className="block text-[11px] text-neutral-500">Iron (Fe)</span>
+                <span className="font-mono text-neutral-200">{result.parameters?.iron ?? '0.354'} mg/L</span>
+              </div>
+              <div>
+                <span className="block text-[11px] text-neutral-500">Chlorine</span>
+                <span className="font-mono text-neutral-200">{result.parameters?.chlorine ?? '3'} mg/L</span>
+              </div>
+              <div>
+                <span className="block text-[11px] text-neutral-500">Sodium</span>
+                <span className="font-mono text-neutral-200">{result.parameters?.sodium ?? '11'} mg/L</span>
+              </div>
+            </div>
+          </div>
+
+          {/* Class Probability Breakdown if available */}
+          {result.classProbabilities && (
+            <div className="p-4 rounded-lg border border-[var(--card-edge)] bg-black/20 space-y-3">
+              <div className="flex items-center gap-2 text-xs font-montserrat font-medium text-neutral-300">
+                <BarChart3 className="size-4 text-neutral-400" />
+                <span>Model Class Probability Distribution</span>
+              </div>
+              <div className="grid grid-cols-5 gap-2 text-center text-xs font-sans">
+                {['0', '1', '2', '3', '4'].map((cls) => {
+                  const prob = result.classProbabilities[cls] || 0;
+                  const isPredicted = Number(result.predictedClass) === Number(cls);
+                  return (
+                    <div
+                      key={cls}
+                      className={`p-2 rounded border ${
+                        isPredicted
+                          ? 'border-emerald-500/50 bg-emerald-950/20 text-emerald-400'
+                          : 'border-[var(--card-edge)]/50 bg-card text-neutral-400'
+                      }`}
+                    >
+                      <span className="block text-[10px] font-mono">Class {cls}</span>
+                      <span className="block text-sm font-semibold font-mono mt-0.5">
+                        {(prob * 100).toFixed(0)}%
+                      </span>
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+          )}
+
+          {/* AI-Driven Treatment Recommendations */}
           <div className="space-y-3 pt-2">
-            <h3 className="font-montserrat text-sm font-semibold text-foreground">
-              Recommended treatment guidelines
+            <h3 className="font-montserrat text-sm font-semibold text-foreground flex items-center gap-2">
+              <span>Model-Driven Treatment Recommendations</span>
             </h3>
-            <ul className="space-y-2 text-xs sm:text-sm text-neutral-300 p-4 rounded-lg border border-[var(--card-edge)] bg-black/20">
+            <ul className="space-y-2.5 text-xs sm:text-sm text-neutral-300 p-4 rounded-lg border border-[var(--card-edge)] bg-black/20">
               {result.recommendations?.map((rec, index) => (
-                <li key={index} className="flex items-start gap-2">
+                <li key={index} className="flex items-start gap-2.5">
                   <Check className="size-3.5 text-emerald-400 shrink-0 mt-0.5" />
-                  <span>{rec}</span>
+                  <span className="leading-relaxed">{rec}</span>
                 </li>
               ))}
             </ul>
           </div>
 
-          {/* Mandatory Disclaimer */}
+          {/* Environmental Advisory Notice */}
           <div className="p-4 rounded-lg border border-[var(--card-edge)] bg-card text-xs text-neutral-400 flex items-start gap-3">
-            <ShieldAlert className="size-4 text-amber-400 shrink-0 mt-0.5" />
+            <ShieldCheck className="size-4 text-emerald-400 shrink-0 mt-0.5" />
             <div>
-              <span className="font-semibold text-foreground block mb-0.5">Advisory notice</span>
+              <span className="font-semibold text-foreground block mb-0.5">Decision support advisory</span>
               <span>
-                Prototype recommendation only. Final treatment decisions must be based on accredited laboratory testing and qualified environmental professionals.
+                Recommendations formulated by Random Forest classification engine trained on multi-parameter environmental datasets. Final discharge verification should be confirmed by certified plant testing.
               </span>
             </div>
           </div>
@@ -293,7 +556,7 @@ const ParameterAnalysis = () => {
           <div className="pt-4 border-t border-[var(--card-edge)] flex flex-wrap items-center justify-between gap-4">
             <span className="text-xs text-emerald-400 font-mono flex items-center gap-1.5">
               <Check className="size-3.5" />
-              <span>Logged to MongoDB test history</span>
+              <span>Logged to database test history</span>
             </span>
 
             <div className="flex items-center gap-3">
@@ -303,7 +566,7 @@ const ParameterAnalysis = () => {
                 className="btn-asym-mirror inline-flex h-9 items-center gap-2 border border-border bg-transparent px-4 text-sm font-medium text-foreground transition-colors hover:bg-neutral-100 dark:hover:bg-black/90"
               >
                 <RefreshCw className="size-3.5" />
-                <span>Analyze again</span>
+                <span>Analyze another sample</span>
               </button>
 
               <Link

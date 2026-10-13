@@ -1,0 +1,33 @@
+{
+  "accuracy": 1.0,
+  "features": [
+    "pH",
+    "Turbidity",
+    "Phospate",
+    "Nitrate",
+    "Iron",
+    "COD(mg/L)",
+    "Chlorine",
+    "Sodium",
+    "TDS"
+  ],
+  "feature_medians": {
+    "pH": 7.5502552645000005,
+    "Turbidity": 2.145,
+    "Phospate": 0.0152243835,
+    "Nitrate": 7.0,
+    "Iron": 0.3536817285,
+    "COD(mg/L)": 409.0,
+    "Chlorine": 3.0,
+    "Sodium": 11.0,
+    "TDS": 799.0
+  },
+  "classes": [
+    0,
+    1,
+    2,
+    3,
+    4
+  ],
+  "n_estimators": 100
+}

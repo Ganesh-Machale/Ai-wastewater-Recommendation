@@ -15,11 +15,11 @@ const Footer = () => {
             <span className="w-1.5 h-1.5 rounded-full bg-[#FF7D0C] mb-2" />
           </div>
           <p className="text-sm text-neutral-400 leading-relaxed max-w-md font-sans">
-            AI-based wastewater quality assessment and treatment recommendation system. A digital decision support prototype designed to evaluate water parameters and visual characteristics.
+            AI-based wastewater quality assessment and treatment recommendation system. An intelligent decision support platform designed to evaluate water parameters and visual characteristics.
           </p>
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-md border border-[var(--card-edge)] bg-card text-xs text-foreground">
-            <ShieldCheck className="size-3.5 text-neutral-400" />
-            <span>PBL academic research prototype</span>
+            <ShieldCheck className="size-3.5 text-emerald-400" />
+            <span>AI-Driven Wastewater Intelligence</span>
           </div>
         </div>
 
@@ -57,18 +57,21 @@ const Footer = () => {
           </ul>
         </div>
 
-        {/* System notice */}
+        {/* AI System status */}
         <div>
           <h4 className="text-xs font-semibold uppercase tracking-wider text-neutral-400 mb-4">
-            System notice
+            AI System Status
           </h4>
           <div className="card-chai p-4 space-y-2 text-xs font-sans">
-            <div className="flex items-center gap-1.5 text-amber-400 font-medium">
-              <Info className="size-3.5 shrink-0" />
-              <span>Demonstration phase</span>
+            <div className="flex items-center gap-2 text-emerald-400 font-medium">
+              <span className="relative flex h-2 w-2">
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+                <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
+              </span>
+              <span>AI Model Operational</span>
             </div>
             <p className="text-neutral-400 leading-relaxed">
-              Operating in prototype mode. Trained Machine Learning algorithms (Random Forest and CNNs) will be integrated in Phase 2.
+              Trained Random Forest model active. Evaluating effluent parameters with multi-class quality assessment and targeted treatment advisories.
             </p>
           </div>
         </div>

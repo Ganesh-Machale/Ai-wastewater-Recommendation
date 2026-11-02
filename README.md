@@ -1,188 +1,305 @@
-# AI-Based Wastewater Quality Assessment and Treatment Recommendation System
+AI-Based Wastewater Quality Assessment & Treatment Recommendation System
 
-> **ACTIVE AI MODEL NOTICE:**  
-> The system integrates a trained **Random Forest Classifier** (100 Trees, Balanced Class Weights) achieving 100% accuracy across 9 effluent chemical parameters to deliver automated multi-class quality assessment and treatment advisories.
+An AI-powered web application designed to assess wastewater quality and provide preliminary treatment recommendations using chemical parameters and visual sample analysis.
 
----
+The platform combines machine learning architecture with a full-stack web application to support wastewater monitoring, quality assessment, and environmental decision-making.
 
-## 🌊 Project Overview
-This project is a college PBL (Project-Based Learning) prototype for an **AI-Based Wastewater Quality Assessment and Treatment Recommendation System**. 
+🌊 Project Overview
 
-The system provides a digital decision-support tool designed for plant operators and environmental researchers. It features **two independent analysis channels**:
-1. **Parameter-Based Wastewater Analysis**: Evaluates chemical parameters (pH and Total Dissolved Solids - TDS) to provide preliminary quality scoring and treatment guidelines.
-2. **Image-Based Wastewater Analysis**: Supports drag-and-drop uploading of local wastewater imagery with safe server-side storage and preview of future computer vision classification outputs.
+Wastewater contamination is a major environmental challenge. Traditional wastewater quality assessment often requires laboratory testing, manual sampling, and expert interpretation, which can be time-consuming.
 
----
+This project aims to simplify the initial assessment process through an intelligent digital platform.
 
-## 🚨 Problem Statement
-Wastewater quality assessment normally requires laboratory testing, manual sampling, and expert interpretation. This often leads to delays in identifying toxic effluent discharge and prescribing appropriate treatment protocols.
+Users can:
 
-### 💡 Proposed Solution
-A full-stack digital decision-support system that synthesizes chemical parameter metrics and visual sample analysis. It generates preliminary quality assessments and potential treatment recommendations instantly while maintaining a decoupled architecture for future AI microservices.
+- Analyze wastewater using chemical parameters such as pH and Total Dissolved Solids (TDS).
+- Upload wastewater images for visual sample analysis.
+- View quality assessment results and treatment recommendations.
+- Track previous analyses through a dashboard.
+- Access historical data and analytical insights.
 
----
+Note: This is an academic prototype and its recommendations should not replace laboratory testing or professional environmental assessment.
 
-## 🛠️ Technology Stack
+✨ Key Features
 
-### Frontend (`/client`)
-- **Core Framework**: React.js 18 + Vite
-- **Styling**: Tailwind CSS (v3) + Custom Environmental Design System
-- **Routing**: React Router DOM (v6)
-- **HTTP Client**: Axios (with Bearer Token Interceptors)
-- **Data Visualizations**: Recharts (Pie & Trend Line Charts)
-- **Icons**: Lucide React
+1. AI-Based Wastewater Assessment
 
-### Backend (`/server`)
-- **Runtime**: Node.js
-- **Web Framework**: Express.js
-- **Database**: MongoDB + Mongoose ODM
-- **Authentication**: JSON Web Tokens (JWT) + bcryptjs Password Hashing
-- **File Upload**: Multer (Local disk storage, extensible to Cloudinary/S3)
-- **Security**: Helmet, CORS, Express Rate Limit, Zod Input Sanitization
+- Evaluates wastewater parameters.
+- Uses a Random Forest-based prediction architecture.
+- Generates preliminary quality classifications.
+- Provides treatment advisory information.
 
----
+2. Parameter-Based Analysis
 
-## 📁 Folder Structure
-```
-Wastewater/
-├── client/                      # React Vite Frontend Application
+- Accepts wastewater chemical parameter inputs.
+- Analyzes pH and TDS values.
+- Displays assessment results.
+- Provides preliminary treatment guidance.
+
+3. Image-Based Analysis
+
+- Upload wastewater sample images.
+- Drag-and-drop image upload support.
+- Secure server-side image storage.
+- Image preview and upload history.
+
+4. User Authentication
+
+- User registration and login.
+- JWT-based authentication.
+- Password hashing using bcrypt.
+- Protected application routes.
+- User profile management.
+
+5. Dashboard & Analytics
+
+- Analysis statistics.
+- Wastewater quality distribution.
+- Parameter trend visualization.
+- Analysis history.
+- Searchable and paginated records.
+
+6. Admin Management
+
+- View registered users.
+- Search user records.
+- Activate or deactivate user accounts.
+- Monitor system-wide analytics.
+
+🛠️ Technology Stack
+
+Category| Technologies
+Frontend| React.js 18, Vite
+Styling| Tailwind CSS 3
+Routing| React Router DOM
+HTTP Requests| Axios
+Charts| Recharts
+Icons| Lucide React
+Backend| Node.js, Express.js
+Database| MongoDB
+ODM| Mongoose
+Authentication| JWT
+Password Security| bcryptjs
+File Upload| Multer
+Security| Helmet, CORS, Express Rate Limit, Zod
+Machine Learning| Random Forest Classifier
+Version Control| Git, GitHub
+
+📂 Project Structure
+
+Ai-wastewater-Recommendation/
+│
+├── client/
 │   ├── src/
-│   │   ├── components/          # Reusable UI components (Navbar, Footer, Badges, Guards)
-│   │   ├── context/             # AuthContext provider
-│   │   ├── layouts/             # MainLayout wrapper
-│   │   ├── pages/               # 13 Application Pages (Landing, Dashboard, Forms, History...)
-│   │   ├── services/            # Axios API service configuration
-│   │   ├── App.jsx              # React Router route registry
-│   │   ├── main.jsx             # React DOM entry point
-│   │   └── index.css            # Tailwind directives and utility classes
-│   ├── vite.config.js           # Vite dev server proxy configuration
-│   ├── tailwind.config.js       # Custom color palette and font extensions
+│   │   ├── components/       # Reusable UI components
+│   │   ├── context/          # Authentication context
+│   │   ├── layouts/          # Application layouts
+│   │   ├── pages/            # Application pages
+│   │   ├── services/         # API service configuration
+│   │   ├── App.jsx           # Application routes
+│   │   ├── main.jsx          # React entry point
+│   │   └── index.css         # Global styles
+│   │
+│   ├── vite.config.js
+│   ├── tailwind.config.js
 │   └── package.json
 │
-├── server/                      # Express.js REST API Backend
-│   ├── controllers/             # Request handlers (auth, analysis, dashboard, admin)
-│   ├── middleware/              # Auth, role check, upload validation, error handler
-│   ├── models/                  # Mongoose Schemas (User, ParameterAnalysis, ImageAnalysis)
-│   ├── routes/                  # API Routers (/api/auth, /api/analysis, /api/dashboard, /api/admin)
-│   ├── services/                # Decoupled predictionService & recommendationService
-│   ├── scripts/                 # seed.js (Database seed generator)
-│   ├── uploads/                 # Safe server image storage
-│   ├── app.js                   # Express application setup
-│   ├── server.js                # Server startup & MongoDB connection
-│   ├── .env.example             # Environment variable template
+├── server/
+│   ├── controllers/          # Request controllers
+│   ├── middleware/           # Authentication and validation
+│   ├── models/               # Mongoose schemas
+│   ├── routes/               # REST API routes
+│   ├── services/             # Prediction and recommendation services
+│   ├── scripts/              # Database seed scripts
+│   ├── uploads/              # Uploaded images
+│   ├── app.js                # Express application
+│   ├── server.js             # Server entry point
+│   ├── .env.example          # Environment configuration template
 │   └── package.json
 │
-└── README.md                    # Project documentation (this file)
-```
+├── README.md
+├── package.json
+└── package-lock.json
 
----
+⚙️ Installation & Setup
 
-## ⚙️ Installation & Running Locally
+Prerequisites
 
-### Prerequisites
-- **Node.js** (v18 or higher)
-- **npm** (v9 or higher)
-- **MongoDB** running locally on port 27017 (or MongoDB Atlas connection string)
+Install the following software:
 
-### 1. Backend Setup
-```bash
+- Node.js (v18 or higher)
+- npm (v9 or higher)
+- MongoDB or MongoDB Atlas
+- Git
+- Visual Studio Code (recommended)
+
+Step 1: Clone the Repository
+
+git clone https://github.com/Ganesh-Machale/Ai-wastewater-Recommendation.git
+
+Step 2: Navigate to the Project
+
+cd Ai-wastewater-Recommendation
+
+Step 3: Backend Setup
+
+Open a terminal:
+
 cd server
 npm install
-```
-Create a `.env` file in the `server` directory (or copy `.env.example`):
-```env
+
+Step 4: Configure Environment Variables
+
+Create a ".env" file inside the "server" directory.
+
 PORT=5000
 MONGO_URI=mongodb://127.0.0.1:27017/wastewater_db
-JWT_SECRET=super_secret_jwt_key_wastewater_quality_pbl_2026
+JWT_SECRET=replace_with_a_secure_random_secret
 CLIENT_URL=http://localhost:5173
 NODE_ENV=development
-```
 
-Run the database seed script (optional, for initial sample data only):
-```bash
+Replace the MongoDB connection string and JWT secret with your own configuration.
+
+Step 5: Initialize the Database (Optional)
+
 npm run seed
-```
 
-Start the backend server (run this whenever starting your work):
-```bash
+This command initializes sample database records if the seed script is configured.
+
+Step 6: Start the Backend Server
+
 npm run dev
-# Server running at http://localhost:5000
-```
 
-### 2. Frontend Setup
-In a new terminal window:
-```bash
+Backend server:
+
+http://localhost:5000
+
+Step 7: Frontend Setup
+
+Open another terminal:
+
 cd client
 npm install
 npm run dev
-# Frontend running at http://localhost:5173
-```
+
+Frontend application:
+
+http://localhost:5173
+
+Open the frontend URL in your browser to access the application.
+
+📡 API Documentation
+
+Authentication APIs
+
+Method| Endpoint| Description
+POST| "/api/auth/register"| Register a new user
+POST| "/api/auth/login"| Authenticate user
+GET| "/api/auth/me"| Get logged-in user
+PUT| "/api/auth/profile"| Update user profile
+PUT| "/api/auth/change-password"| Change password
+
+Wastewater Analysis APIs
+
+Method| Endpoint| Description
+POST| "/api/analysis/parameters"| Submit pH and TDS
+GET| "/api/analysis/parameters"| Get parameter analysis history
+POST| "/api/analysis/image"| Upload wastewater image
+GET| "/api/analysis/images"| Get image analysis history
+GET| "/api/analysis/history"| Get combined analysis history
+
+Dashboard APIs
+
+Method| Endpoint| Description
+GET| "/api/dashboard/stats"| Retrieve dashboard statistics
+
+Admin APIs
+
+Method| Endpoint| Description
+GET| "/api/admin/users"| View registered users
+PATCH| "/api/admin/users/:id/status"| Update user account status
+GET| "/api/admin/stats"| Retrieve system analytics
+
+🔐 Security Features
+
+- JWT-based authentication.
+- Password hashing using bcryptjs.
+- Helmet security headers.
+- CORS configuration.
+- API rate limiting.
+- Input validation and sanitization.
+- Secure file upload validation.
+- File type and size restrictions.
+- Randomized filenames for uploaded images.
+- Centralized error handling.
+
+🧠 AI & Machine Learning Architecture
+
+The project is designed around a decoupled prediction and recommendation service architecture.
+
+The planned machine learning integration uses a Random Forest model for wastewater parameter assessment.
+
+The architecture separates:
+
+- Input parameter processing.
+- Prediction services.
+- Treatment recommendation services.
+- Frontend presentation.
+
+This separation allows a dedicated Python-based machine learning service to be integrated in a future development phase without requiring major changes to the React frontend.
+
+🔮 Future Enhancements
+
+- Integration of a fully deployed Python ML microservice.
+- Real-time wastewater monitoring using IoT sensors.
+- Support for additional water quality parameters.
+- Advanced machine learning models.
+- Improved image-based wastewater classification.
+- Interactive water quality reports.
+- Downloadable PDF analysis reports.
+- Cloud-based deployment.
+- More comprehensive treatment recommendations.
+- Integration with environmental monitoring systems.
+
+🎯 Project Objectives
+
+1. Simplify preliminary wastewater quality assessment.
+2. Develop an AI-assisted treatment recommendation platform.
+3. Provide a centralized dashboard for wastewater analysis.
+4. Reduce the time required for initial assessment.
+5. Promote awareness of wastewater management and environmental sustainability.
+
+🌱 Impact
+
+The project explores how artificial intelligence and web technologies can support more accessible wastewater assessment.
+
+It aims to contribute to:
+
+- Sustainable water management.
+- Environmental protection.
+- Efficient wastewater monitoring.
+- Data-driven decision-making.
+- Awareness of water pollution and treatment.
+
+👨‍💻 Developer
+
+Ganesh Machale
+
+B.Tech – Computer Science & Engineering
+MIT Art, Design and Technology University, Pune
+
+GitHub: "Ganesh-Machale" (https://github.com/Ganesh-Machale)
+
+📌 Repository
+
+"AI-Based Wastewater Quality Assessment & Treatment Recommendation System" (https://github.com/Ganesh-Machale/Ai-wastewater-Recommendation)
+
+⭐ Support
+
+If you find this project interesting, consider giving the repository a star.
+
+Your feedback and suggestions are always welcome.
 
 ---
 
-## 🔑 Demo Login Credentials (Seeded)
-
-| Role | Email | Password |
-|------|-------|----------|
-| **Standard User** | `user@example.com` | `user123` |
-| **System Admin** | `admin@example.com` | `admin123` |
-| **Researcher** | `researcher@example.com` | `researcher123` |
-
----
-
-## 📡 API Documentation Summary
-
-### Authentication (`/api/auth`)
-- `POST /api/auth/register` - Create a new user account
-- `POST /api/auth/login` - Authenticate user & return JWT
-- `GET /api/auth/me` - Get current logged-in user profile
-- `PUT /api/auth/profile` - Update user name
-- `PUT /api/auth/change-password` - Change user password
-
-### Analysis (`/api/analysis`)
-- `POST /api/analysis/parameters` - Submit pH & TDS for prototype parameter analysis
-- `GET /api/analysis/parameters` - Get user's parameter analyses history
-- `POST /api/analysis/image` - Upload wastewater image (Max 5MB, JPG/PNG/WEBP)
-- `GET /api/analysis/images` - Get user's image upload history
-- `GET /api/analysis/history` - Get combined, paginated, and searchable analysis history
-
-### Dashboard & Analytics (`/api/dashboard`)
-- `GET /api/dashboard/stats` - Fetch real user metrics, quality distribution, and parameter trend data
-
-### Admin Management (`/api/admin`)
-- `GET /api/admin/users` - Search & view registered users list
-- `PATCH /api/admin/users/:id/status` - Activate or deactivate user access
-- `GET /api/admin/stats` - System-wide global usage analytics
-
----
-
-## 🔒 Security Measures
-- **Helmet HTTP Headers**: Protection against XSS, clickjacking, and MIME sniffing.
-- **CORS Protection**: Restricted to `CLIENT_URL` origin.
-- **Rate Limiting**: Applied to upload endpoints (20 uploads / 15 minutes) to prevent abuse.
-- **Password Protection**: Passwords hashed using `bcryptjs` with salt factor 10. Passwords are never returned in JSON outputs.
-- **File Upload Security**:
-  - Validates file extensions and MIME types.
-  - Rejects executables, scripts, and SVG uploads.
-  - Generates safe random filenames using `crypto.randomBytes`.
-  - Max file size strictly enforced at 5MB.
-- **Central Error Handler**: Stack traces suppressed in production.
-
----
-
-## 🔮 Future ML Integration Architecture
-The backend is architected with a **decoupled service layer** (`server/services/predictionService.js`). 
-
-In Phase 2, the mock functions inside `predictionService.js` can be updated to dispatch HTTP requests to a Python ML microservice (e.g. FastAPI/Flask):
-
-```javascript
-// Future ML Integration in server/services/predictionService.js
-const axios = require('axios');
-
-async function predictParameters(pH, tds) {
-  // Call Python ML API running Random Forest model
-  const response = await axios.post('http://localhost:8000/predict/parameters', { pH, tds });
-  return response.data;
-}
-```
-The React frontend will require **zero code changes** when real AI models are introduced.
+Built with React, Node.js, Express, MongoDB, and AI for a more sustainable future.

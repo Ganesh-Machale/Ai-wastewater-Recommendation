@@ -4,7 +4,6 @@ import { useAuth } from '../context/AuthContext';
 import ThemeSwitcher from './ThemeSwitcher';
 import {
   Activity,
-  Image as ImageIcon,
   LayoutDashboard,
   History,
   User,
@@ -98,15 +97,7 @@ const Navbar = () => {
             <Activity className="size-4" />
             Parameters
           </Link>
-          <Link
-            to="/analysis/image"
-            className={`inline-flex items-center gap-1.5 text-sm font-medium transition-colors hover:text-brand ${
-              isActive('/analysis/image') ? 'text-foreground font-semibold' : 'text-neutral-400'
-            }`}
-          >
-            <ImageIcon className="size-4" />
-            Image
-          </Link>
+
 
           {isAuthenticated && (
             <>
@@ -232,13 +223,7 @@ const Navbar = () => {
           >
             Parameter analysis
           </Link>
-          <Link
-            to="/analysis/image"
-            onClick={() => setMobileMenuOpen(false)}
-            className="block py-1.5 text-base font-medium text-neutral-400 hover:text-brand"
-          >
-            Image analysis
-          </Link>
+
 
           {isAuthenticated ? (
             <>

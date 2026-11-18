@@ -1,6 +1,5 @@
 const ParameterAnalysis = require('../models/ParameterAnalysis');
-const ImageAnalysis = require('../models/ImageAnalysis');
-const { predictParameters, predictImage } = require('../services/predictionService');
+const { predictParameters } = require('../services/predictionService');
 
 // @desc    Analyze wastewater parameters (pH & TDS)
 // @route   POST /api/analysis/parameters
@@ -105,83 +104,7 @@ const getParameterAnalysisById = async (req, res, next) => {
   }
 };
 
-// @desc    Upload & analyze wastewater image
-// @route   POST /api/analysis/image
-// @access  Private
-const analyzeImage = async (req, res, next) => {
-  try {
-    if (!req.file) {
-      return res.status(400).json({ success: false, message: 'Please upload a wastewater image file (JPG, PNG, WEBP)' });
-    }
 
-    const { filename, originalname, mimetype, size } = req.file;
-    const relativeImagePath = `/uploads/${filename}`;
-
-    // Modular prediction service returns prototype status
-    const predictionResult = await predictImage(req.file);
-
-    // Save metadata to MongoDB
-    const imageRecord = await ImageAnalysis.create({
-      userId: req.user._id,
-      type: 'image',
-      imagePath: relativeImagePath,
-      originalName: originalname,
-      mimeType: mimetype,
-      fileSize: size,
-      prediction: null,
-      status: 'prototype',
-    });
-
-    res.status(201).json({
-      success: true,
-      message: predictionResult.message,
-      data: {
-        _id: imageRecord._id,
-        imageId: filename,
-        imageUrl: relativeImagePath,
-        originalName: originalname,
-        fileSize: size,
-        status: 'prototype',
-        prediction: null,
-        message: 'Image uploaded successfully. AI image classification model integration coming in Phase 2.',
-        createdAt: imageRecord.createdAt,
-      },
-    });
-  } catch (error) {
-    next(error);
-  }
-};
-
-// @desc    Get all image analyses for current user
-// @route   GET /api/analysis/images
-// @access  Private
-const getImageAnalyses = async (req, res, next) => {
-  try {
-    const query = req.user.role === 'ADMIN' ? {} : { userId: req.user._id };
-    const records = await ImageAnalysis.find(query).sort({ createdAt: -1 });
-    res.status(200).json({ success: true, count: records.length, data: records });
-  } catch (error) {
-    next(error);
-  }
-};
-
-// @desc    Get image analysis by ID
-// @route   GET /api/analysis/images/:id
-// @access  Private
-const getImageAnalysisById = async (req, res, next) => {
-  try {
-    const record = await ImageAnalysis.findById(req.params.id);
-    if (!record) {
-      return res.status(404).json({ success: false, message: 'Image analysis record not found' });
-    }
-    if (record.userId.toString() !== req.user._id.toString() && req.user.role !== 'ADMIN') {
-      return res.status(403).json({ success: false, message: 'Not authorized to access this record' });
-    }
-    res.status(200).json({ success: true, data: record });
-  } catch (error) {
-    next(error);
-  }
-};
 
 // @desc    Get combined analysis history for user
 // @route   GET /api/analysis/history
@@ -192,51 +115,35 @@ const getHistory = async (req, res, next) => {
 
     const queryUser = req.user.role === 'ADMIN' ? {} : { userId: req.user._id };
 
-    let parameterItems = [];
-    let imageItems = [];
-
-    if (!type || type === 'all' || type === 'parameter') {
-      parameterItems = await ParameterAnalysis.find(queryUser).lean();
-      parameterItems = parameterItems.map((item) => ({ ...item, category: 'parameter' }));
-    }
-
-    if (!type || type === 'all' || type === 'image') {
-      imageItems = await ImageAnalysis.find(queryUser).lean();
-      imageItems = imageItems.map((item) => ({ ...item, category: 'image' }));
-    }
-
-    let combined = [...parameterItems, ...imageItems];
+    const parameterItems = await ParameterAnalysis.find(queryUser).lean();
+    let items = parameterItems.map((item) => ({ ...item, category: 'parameter' }));
 
     // Search filter
     if (search) {
       const term = search.toLowerCase();
-      combined = combined.filter((item) => {
-        if (item.category === 'parameter') {
-          return (
-            item.qualityLevel.toLowerCase().includes(term) ||
-            item.pollutionLevel.toLowerCase().includes(term) ||
-            item.parameters.pH.toString().includes(term) ||
-            item.parameters.tds.toString().includes(term)
-          );
-        } else {
-          return item.originalName.toLowerCase().includes(term) || item.status.toLowerCase().includes(term);
-        }
+      items = items.filter((item) => {
+        return (
+          item.qualityLevel.toLowerCase().includes(term) ||
+          item.pollutionLevel.toLowerCase().includes(term) ||
+          item.parameters.pH.toString().includes(term) ||
+          item.parameters.tds.toString().includes(term)
+        );
       });
     }
 
     // Sort by createdAt desc
-    combined.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+    items.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
 
     // Pagination
     const startIndex = (Number(page) - 1) * Number(limit);
     const endIndex = startIndex + Number(limit);
-    const paginated = combined.slice(startIndex, endIndex);
+    const paginated = items.slice(startIndex, endIndex);
 
     res.status(200).json({
       success: true,
-      totalCount: combined.length,
+      totalCount: items.length,
       page: Number(page),
-      totalPages: Math.ceil(combined.length / Number(limit)) || 1,
+      totalPages: Math.ceil(items.length / Number(limit)) || 1,
       data: paginated,
     });
   } catch (error) {
@@ -248,8 +155,5 @@ module.exports = {
   analyzeParameters,
   getParameterAnalyses,
   getParameterAnalysisById,
-  analyzeImage,
-  getImageAnalyses,
-  getImageAnalysisById,
   getHistory,
 };

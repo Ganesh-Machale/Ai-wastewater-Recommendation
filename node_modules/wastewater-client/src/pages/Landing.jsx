@@ -3,7 +3,6 @@ import { Link } from 'react-router-dom';
 import AnimatedBadge from '../components/AnimatedBadge';
 import {
   Activity,
-  Image as ImageIcon,
   ArrowUpRight,
   ChevronsDown,
   Check,
@@ -86,10 +85,10 @@ const Landing = () => {
 
             <div className="pt-2">
               <Link
-                to="/analysis/image"
+                to="/analysis/parameters"
                 className="w-full inline-flex h-8 items-center justify-center rounded-md bg-primary px-3 text-sm font-montserrat font-semibold text-primary-foreground hover:bg-primary/90 transition-colors"
               >
-                Upload image sample
+                Start parameter analysis
               </Link>
             </div>
           </div>
@@ -118,26 +117,26 @@ const Landing = () => {
               Our digital solution
             </h3>
             <p className="text-sm leading-relaxed text-neutral-600 dark:text-neutral-400 font-sans">
-              WQAI provides rapid decision support by combining physical chemical measurements with visual sample imagery, computing immediate quality classifications and treatment guidelines.
+              WQAI provides rapid decision support by evaluating physical chemical measurements against environmental standards, computing immediate quality classifications and treatment guidelines.
             </p>
           </div>
         </div>
       </section>
 
-      {/* Two Analysis Channels */}
+      {/* Analysis Capabilities */}
       <section className="space-y-6">
-        <h2 className="text-2xl font-medium sm:text-[30px]">Two evaluation methods</h2>
+        <h2 className="text-2xl font-medium sm:text-[30px]">Analysis and treatment advisory</h2>
         <p className="text-neutral-600 sm:text-lg dark:text-neutral-400">
-          Select between laboratory numerical indicators and <span className="highlight">visual sample classification</span>.
+          Evaluate laboratory numerical indicators and receive <span className="highlight">automated treatment advisories</span>.
         </p>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 pt-2">
-          {/* Method 1 */}
+          {/* Module 1 */}
           <article className="card-chai p-6 flex flex-col justify-between space-y-5">
             <div className="space-y-3">
               <div className="flex items-center justify-between">
                 <span className="text-xs font-mono border border-[var(--card-edge)] px-2 py-0.5 rounded text-neutral-400">
-                  Method 01
+                  Module 01
                 </span>
                 <Activity className="size-5 text-neutral-400" />
               </div>
@@ -154,7 +153,7 @@ const Landing = () => {
                 </li>
                 <li className="flex items-center gap-2">
                   <Check className="size-3.5 text-emerald-400" />
-                  <span>Decoupled mock prediction engine for prototyping</span>
+                  <span>Random Forest model classification with confidence scoring</span>
                 </li>
                 <li className="flex items-center gap-2">
                   <Check className="size-3.5 text-emerald-400" />
@@ -173,43 +172,43 @@ const Landing = () => {
             </div>
           </article>
 
-          {/* Method 2 */}
+          {/* Module 2 */}
           <article className="card-chai p-6 flex flex-col justify-between space-y-5">
             <div className="space-y-3">
               <div className="flex items-center justify-between">
                 <span className="text-xs font-mono border border-[var(--card-edge)] px-2 py-0.5 rounded text-neutral-400">
-                  Method 02
+                  Module 02
                 </span>
-                <ImageIcon className="size-5 text-neutral-400" />
+                <Sparkles className="size-5 text-neutral-400" />
               </div>
               <h3 className="font-montserrat text-lg font-semibold text-foreground">
-                Image-based analysis
+                Targeted treatment advisories
               </h3>
               <p className="text-sm text-neutral-600 dark:text-neutral-400 leading-relaxed font-sans">
-                Upload photos of wastewater samples or industrial effluent discharge to test visual storage pipelines and preview computer vision classification.
+                Receive structured industrial wastewater remediation procedures customized to the exact chemical parameter violations and detected effluent quality grade.
               </p>
               <ul className="space-y-2 text-xs text-neutral-400 pt-2 font-sans">
                 <li className="flex items-center gap-2">
                   <Check className="size-3.5 text-emerald-400" />
-                  <span>Drag-and-drop image upload up to 5MB</span>
+                  <span>Primary pH neutralization and chemical dosing guidance</span>
                 </li>
                 <li className="flex items-center gap-2">
                   <Check className="size-3.5 text-emerald-400" />
-                  <span>Sample color and clarity observation logging</span>
+                  <span>Secondary biological aeration and clarifying instructions</span>
                 </li>
                 <li className="flex items-center gap-2">
                   <Check className="size-3.5 text-emerald-400" />
-                  <span>Prepared for convolutional neural network models</span>
+                  <span>Tertiary filtration, RO, and disinfection recommendations</span>
                 </li>
               </ul>
             </div>
 
             <div className="pt-2">
               <Link
-                to="/analysis/image"
-                className="inline-flex h-8 min-w-24 items-center justify-center rounded-md bg-primary px-3 text-sm font-montserrat font-semibold text-primary-foreground hover:bg-primary/90 transition-colors"
+                to="/how-it-works"
+                className="inline-flex h-8 min-w-24 items-center justify-center rounded-md border border-[var(--card-edge)] bg-card px-3 text-sm font-montserrat font-medium text-foreground hover:border-[var(--card-edge-hover)] transition-colors"
               >
-                Upload image
+                Learn methodology
               </Link>
             </div>
           </article>
@@ -227,20 +226,20 @@ const Landing = () => {
           <div className="card-chai p-5 space-y-2">
             <span className="text-xs font-mono text-neutral-400">Step 01</span>
             <h4 className="font-montserrat text-sm font-semibold text-foreground">
-              Select channel
+              Input parameters
             </h4>
             <p className="text-xs text-neutral-600 dark:text-neutral-400 leading-relaxed">
-              Choose numerical laboratory indicators or visual sample imagery.
+              Enter verified pH, TDS, and effluent laboratory measurements.
             </p>
           </div>
 
           <div className="card-chai p-5 space-y-2">
             <span className="text-xs font-mono text-neutral-400">Step 02</span>
             <h4 className="font-montserrat text-sm font-semibold text-foreground">
-              Input sample data
+              Benchmark checks
             </h4>
             <p className="text-xs text-neutral-600 dark:text-neutral-400 leading-relaxed">
-              Enter verified pH and TDS measurements or upload an effluent photo.
+              Validate sample metrics against CPCB and environmental safety thresholds.
             </p>
           </div>
 
@@ -276,7 +275,7 @@ const Landing = () => {
         </div>
 
         <p className="text-sm text-neutral-600 dark:text-neutral-400 leading-relaxed max-w-3xl">
-          The platform evaluates wastewater chemistry using our <span className="highlight">trained Random Forest classifier</span> coupled with computer vision pipelines.
+          The platform evaluates wastewater chemistry using our <span className="highlight">trained Random Forest classifier</span> coupled with domain remediation algorithms.
         </p>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 pt-2">
@@ -291,12 +290,12 @@ const Landing = () => {
           </div>
 
           <div className="p-4 rounded-lg border border-[var(--card-edge)] bg-black/20 space-y-2">
-            <span className="text-xs font-mono text-neutral-400">Model 02: Vision Stream</span>
+            <span className="text-xs font-mono text-neutral-400">Engine 02: Treatment Synthesis (Active)</span>
             <h4 className="font-montserrat text-sm font-semibold text-foreground">
-              Convolutional Vision Pipeline
+              Rule & Advisory Synthesis
             </h4>
             <p className="text-xs text-neutral-400 leading-relaxed">
-              Automated image pre-processing and visual turbidity evaluation for wastewater discharge surveillance.
+              Automated multi-stage remediation protocols mapping quality classes directly to industrial neutralizing, clarifying, and tertiary treatment stages.
             </p>
           </div>
         </div>

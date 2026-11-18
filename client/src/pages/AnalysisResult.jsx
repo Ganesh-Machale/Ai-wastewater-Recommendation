@@ -4,7 +4,6 @@ import api from '../services/api';
 import AnimatedBadge from '../components/AnimatedBadge';
 import {
   Activity,
-  Image as ImageIcon,
   ArrowLeft,
   Check,
   ShieldAlert,
@@ -22,22 +21,11 @@ const AnalysisResult = () => {
     const fetchRecord = async () => {
       try {
         setLoading(true);
-        // Try parameter endpoint first, fallback to image endpoint
-        try {
-          const res = await api.get(`/analysis/parameters/${id}`);
-          if (res.data.success) {
-            setData({ ...res.data.data, category: 'parameter' });
-            setLoading(false);
-            return;
-          }
-        } catch (err) {
-          // Try image endpoint
-          const resImg = await api.get(`/analysis/images/${id}`);
-          if (resImg.data.success) {
-            setData({ ...resImg.data.data, category: 'image' });
-            setLoading(false);
-            return;
-          }
+        const res = await api.get(`/analysis/parameters/${id}`);
+        if (res.data.success) {
+          setData({ ...res.data.data, category: 'parameter' });
+          setLoading(false);
+          return;
         }
       } catch (err) {
         setError('Analysis record not found or access restricted.');
@@ -95,9 +83,7 @@ const AnalysisResult = () => {
         <AnimatedBadge>Stored record</AnimatedBadge>
       </div>
 
-      {data.category === 'parameter' ? (
-        /* Parameter Result Detail */
-        <div className="card-chai p-6 sm:p-8 space-y-6">
+      <div className="card-chai p-6 sm:p-8 space-y-6">
           <div className="flex items-center justify-between border-b border-[var(--card-edge)] pb-4">
             <div>
               <div className="flex items-center gap-2 text-neutral-400 text-xs font-mono">
@@ -195,47 +181,6 @@ const AnalysisResult = () => {
             </span>
           </div>
         </div>
-      ) : (
-        /* Image Result Detail */
-        <div className="card-chai p-6 sm:p-8 space-y-6">
-          <div className="flex items-center justify-between border-b border-[var(--card-edge)] pb-4">
-            <div>
-              <div className="flex items-center gap-2 text-neutral-400 text-xs font-mono">
-                <ImageIcon className="size-3.5" />
-                <span>Image record</span>
-              </div>
-              <h1 className="font-montserrat text-xl sm:text-2xl font-semibold text-foreground mt-1">
-                {data.originalName}
-              </h1>
-            </div>
-            <span className="text-xs font-mono text-neutral-400 flex items-center gap-1">
-              <Calendar className="size-3.5" />
-              {new Date(data.createdAt).toLocaleDateString()}
-            </span>
-          </div>
-
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 items-center">
-            <div className="rounded-lg overflow-hidden border border-[var(--card-edge)] bg-black/40 max-h-64 flex items-center justify-center">
-              <img src={data.imagePath} alt={data.originalName} className="max-h-64 object-contain" />
-            </div>
-
-            <div className="space-y-3 p-4 rounded-lg border border-[var(--card-edge)] bg-neutral-100 dark:bg-white/5 text-xs font-sans">
-              <div>
-                <span className="text-neutral-500 dark:text-neutral-400 block mb-0.5">Original filename</span>
-                <span className="font-mono text-foreground">{data.originalName}</span>
-              </div>
-              <div>
-                <span className="text-neutral-500 dark:text-neutral-400 block mb-0.5">File size</span>
-                <span className="font-mono text-foreground">{(data.fileSize / 1024).toFixed(1)} KB</span>
-              </div>
-              <div>
-                <span className="text-neutral-500 dark:text-neutral-400 block mb-0.5">Classification model</span>
-                <span className="font-mono text-neutral-600 dark:text-neutral-300">Vision Analysis Active</span>
-              </div>
-            </div>
-          </div>
-        </div>
-      )}
     </div>
   );
 };

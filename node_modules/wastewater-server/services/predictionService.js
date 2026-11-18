@@ -160,19 +160,6 @@ async function predictParameters(rawParams) {
   };
 }
 
-/**
- * Image Prediction Service Placeholder
- */
-async function predictImage(fileData) {
-  return {
-    imageId: fileData.filename,
-    status: 'active',
-    prediction: null,
-    message: 'Image received successfully and securely processed.',
-  };
-}
-
 module.exports = {
   predictParameters,
-  predictImage,
 };

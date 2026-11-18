@@ -3,7 +3,6 @@ const mongoose = require('mongoose');
 const bcrypt = require('bcryptjs');
 const User = require('../models/User');
 const ParameterAnalysis = require('../models/ParameterAnalysis');
-const ImageAnalysis = require('../models/ImageAnalysis');
 const { predictParameters } = require('../services/predictionService');
 
 const MONGO_URI = process.env.MONGO_URI || 'mongodb://127.0.0.1:27017/wastewater_db';
@@ -51,7 +50,6 @@ const seedDatabase = async () => {
       console.log('⚠️ Hard reset flag detected: clearing existing collections...');
       await User.deleteMany({});
       await ParameterAnalysis.deleteMany({});
-      await ImageAnalysis.deleteMany({});
     } else {
       console.log('ℹ️ Safe Seed Mode: Preserving all existing user accounts.');
     }
@@ -103,32 +101,7 @@ const seedDatabase = async () => {
       console.log(` • Demo user already has ${existingParamsCount} parameter analyses.`);
     }
 
-    // Seed sample images if none exist
-    const existingImagesCount = await ImageAnalysis.countDocuments({ userId: demoUser._id });
-    if (existingImagesCount === 0) {
-      console.log('Creating sample image analyses metadata...');
-      await ImageAnalysis.create({
-        userId: demoUser._id,
-        type: 'image',
-        imagePath: '/uploads/sample_sample_water_1.jpg',
-        originalName: 'effluent_sample_A.jpg',
-        mimeType: 'image/jpeg',
-        fileSize: 1024 * 450,
-        prediction: null,
-        status: 'active',
-      });
 
-      await ImageAnalysis.create({
-        userId: demoUser._id,
-        type: 'image',
-        imagePath: '/uploads/sample_sample_water_2.jpg',
-        originalName: 'effluent_sample_B.jpg',
-        mimeType: 'image/jpeg',
-        fileSize: 1024 * 620,
-        prediction: null,
-        status: 'active',
-      });
-    }
 
     console.log('----------------------------------------------------');
     console.log('🎉 Seed Verification Completed Successfully!');

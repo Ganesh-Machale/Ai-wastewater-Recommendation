@@ -15,7 +15,7 @@ const Footer = () => {
             <span className="w-1.5 h-1.5 rounded-full bg-[#FF7D0C] mb-2" />
           </div>
           <p className="text-sm text-neutral-400 leading-relaxed max-w-md font-sans">
-            AI-based wastewater quality assessment and treatment recommendation system. An intelligent decision support platform designed to evaluate water parameters and visual characteristics.
+            AI-based wastewater quality assessment and treatment recommendation system. An intelligent decision support platform designed to evaluate water parameters and provide automated treatment recommendations.
           </p>
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-md border border-[var(--card-edge)] bg-card text-xs text-foreground">
             <ShieldCheck className="size-3.5 text-emerald-400" />
@@ -49,11 +49,7 @@ const Footer = () => {
                 Parameter analysis
               </Link>
             </li>
-            <li>
-              <Link to="/analysis/image" className="text-neutral-400 hover:text-brand transition-colors">
-                Image analysis
-              </Link>
-            </li>
+
           </ul>
         </div>
 

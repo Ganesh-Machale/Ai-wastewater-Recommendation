@@ -5,7 +5,6 @@ import AnimatedBadge from '../components/AnimatedBadge';
 import {
   History as HistoryIcon,
   Activity,
-  Image as ImageIcon,
   Search,
   ChevronLeft,
   ChevronRight,
@@ -91,71 +90,23 @@ const History = () => {
           </p>
           <span className="hidden h-4 w-px bg-border sm:block" />
           <span className="text-xs sm:text-sm text-neutral-400 hidden sm:inline">
-            Chemical and image tests
+            Chemical parameter tests
           </span>
         </div>
 
-        {/* Segmented Filter Control */}
-        <div className="flex flex-wrap items-center gap-3">
-          <div className="inline-flex overflow-hidden rounded-md border border-[var(--card-edge)] bg-card p-0.5 text-xs font-montserrat font-medium">
-            <button
-              type="button"
-              onClick={() => {
-                setActiveTab('all');
-                setPage(1);
-              }}
-              className={`px-3 py-1.5 rounded transition-colors ${
-                activeTab === 'all'
-                  ? 'bg-orange-100 text-orange-950 dark:bg-orange-900/40 dark:text-orange-100'
-                  : 'text-neutral-400 hover:text-foreground'
-              }`}
-            >
-              All
-            </button>
-            <button
-              type="button"
-              onClick={() => {
-                setActiveTab('parameter');
-                setPage(1);
-              }}
-              className={`px-3 py-1.5 rounded transition-colors ${
-                activeTab === 'parameter'
-                  ? 'bg-orange-100 text-orange-950 dark:bg-orange-900/40 dark:text-orange-100'
-                  : 'text-neutral-400 hover:text-foreground'
-              }`}
-            >
-              Parameters
-            </button>
-            <button
-              type="button"
-              onClick={() => {
-                setActiveTab('image');
-                setPage(1);
-              }}
-              className={`px-3 py-1.5 rounded transition-colors ${
-                activeTab === 'image'
-                  ? 'bg-orange-100 text-orange-950 dark:bg-orange-900/40 dark:text-orange-100'
-                  : 'text-neutral-400 hover:text-foreground'
-              }`}
-            >
-              Images
-            </button>
+        {/* Search Input */}
+        <form onSubmit={handleSearchSubmit} className="flex items-center gap-2">
+          <div className="relative">
+            <Search className="size-3.5 text-neutral-400 absolute left-3 top-2.5" />
+            <input
+              type="text"
+              placeholder="Search records..."
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+              className="pl-8 pr-3 py-1.5 rounded-md border border-[var(--card-edge)] bg-card text-xs text-foreground placeholder-neutral-500 focus:outline-none focus:border-neutral-400 transition-colors"
+            />
           </div>
-
-          {/* Search Input */}
-          <form onSubmit={handleSearchSubmit} className="flex items-center gap-2">
-            <div className="relative">
-              <Search className="size-3.5 text-neutral-400 absolute left-3 top-2.5" />
-              <input
-                type="text"
-                placeholder="Search records..."
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
-                className="pl-8 pr-3 py-1.5 rounded-md border border-[var(--card-edge)] bg-card text-xs text-foreground placeholder-neutral-500 focus:outline-none focus:border-neutral-400 transition-colors"
-              />
-            </div>
-          </form>
-        </div>
+        </form>
       </div>
 
       {/* History Records Container */}
@@ -191,7 +142,7 @@ const History = () => {
               No analysis records found
             </h3>
             <p className="text-xs text-neutral-400 font-sans">
-              Perform a parameter analysis or upload an effluent image to generate entries.
+              Perform a parameter analysis to generate entries.
             </p>
           </div>
         ) : (
@@ -200,7 +151,7 @@ const History = () => {
             <div className="hidden md:grid grid-cols-12 gap-4 px-4 py-2 text-xs font-mono uppercase tracking-wider text-neutral-400 border-b border-[var(--card-edge)]">
               <span className="col-span-2">Date</span>
               <span className="col-span-2">Type</span>
-              <span className="col-span-4">Parameters / file</span>
+              <span className="col-span-4">Parameters & Details</span>
               <span className="col-span-2">Status / quality</span>
               <span className="col-span-2 text-right">Action</span>
             </div>
@@ -218,62 +169,32 @@ const History = () => {
 
                 {/* Category Type */}
                 <div className="md:col-span-2">
-                  {item.category === 'parameter' ? (
-                    <span className="inline-flex items-center gap-1 font-mono text-neutral-300">
-                      <Activity className="size-3.5 text-neutral-400" /> Parameter
-                    </span>
-                  ) : (
-                    <span className="inline-flex items-center gap-1 font-mono text-neutral-300">
-                      <ImageIcon className="size-3.5 text-neutral-400" /> Image
-                    </span>
-                  )}
+                  <span className="inline-flex items-center gap-1 font-mono text-neutral-300">
+                    <Activity className="size-3.5 text-neutral-400" /> Parameter
+                  </span>
                 </div>
 
                 {/* Details */}
                 <div className="md:col-span-4">
-                  {item.category === 'parameter' ? (
-                    <div className="space-y-0.5">
-                      <div className="font-montserrat font-medium text-foreground">
-                        pH: {item.parameters?.pH} • TDS: {item.parameters?.tds} mg/L
-                      </div>
-                      <div className="text-[11px] text-neutral-400 truncate">
-                        {item.recommendations?.[0] || 'Standard guidelines'}
-                      </div>
+                  <div className="space-y-0.5">
+                    <div className="font-montserrat font-medium text-foreground">
+                      pH: {item.parameters?.pH} • TDS: {item.parameters?.tds} mg/L
                     </div>
-                  ) : (
-                    <div className="flex items-center gap-3">
-                      <img
-                        src={item.imagePath}
-                        alt="thumbnail"
-                        className="size-8 rounded object-cover border border-[var(--card-edge)] bg-black/40 shrink-0"
-                      />
-                      <div className="truncate">
-                        <div className="font-montserrat font-medium text-foreground truncate">
-                          {item.originalName}
-                        </div>
-                        <div className="text-[11px] font-mono text-neutral-400">
-                          {(item.fileSize / 1024).toFixed(1)} KB
-                        </div>
-                      </div>
+                    <div className="text-[11px] text-neutral-400 truncate">
+                      {item.recommendations?.[0] || 'Standard guidelines'}
                     </div>
-                  )}
+                  </div>
                 </div>
 
                 {/* Quality / Status */}
                 <div className="md:col-span-2">
-                  {item.category === 'parameter' ? (
-                    <span
-                      className={`inline-block px-2 py-0.5 rounded text-[11px] font-montserrat font-medium ${getQualityStyle(
-                        item.qualityLevel
-                      )}`}
-                    >
-                      {item.qualityLevel}
-                    </span>
-                  ) : (
-                    <span className="inline-block px-2 py-0.5 rounded text-[11px] font-mono border border-[var(--card-edge)] text-neutral-400">
-                      Image Record
-                    </span>
-                  )}
+                  <span
+                    className={`inline-block px-2 py-0.5 rounded text-[11px] font-montserrat font-medium ${getQualityStyle(
+                      item.qualityLevel
+                    )}`}
+                  >
+                    {item.qualityLevel}
+                  </span>
                 </div>
 
                 {/* Action Link */}

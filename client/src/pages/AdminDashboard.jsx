@@ -5,7 +5,6 @@ import {
   Shield,
   Users,
   Activity,
-  Image as ImageIcon,
   Search,
   Check,
   X,
@@ -100,6 +99,15 @@ const AdminDashboard = () => {
 
         <div className="card-chai p-4 space-y-1">
           <span className="text-xs font-mono text-neutral-400 flex items-center gap-1.5">
+            <UserCheck className="size-3.5 text-emerald-400" /> Active operators
+          </span>
+          <span className="font-montserrat text-2xl font-semibold text-foreground block mt-1">
+            {stats?.activeUsers || 0}
+          </span>
+        </div>
+
+        <div className="card-chai p-4 space-y-1">
+          <span className="text-xs font-mono text-neutral-400 flex items-center gap-1.5">
             <BarChart className="size-3.5" /> Total analyses
           </span>
           <span className="font-montserrat text-2xl font-semibold text-foreground block mt-1">
@@ -113,15 +121,6 @@ const AdminDashboard = () => {
           </span>
           <span className="font-montserrat text-2xl font-semibold text-foreground block mt-1">
             {stats?.totalParameterAnalyses || 0}
-          </span>
-        </div>
-
-        <div className="card-chai p-4 space-y-1">
-          <span className="text-xs font-mono text-neutral-400 flex items-center gap-1.5">
-            <ImageIcon className="size-3.5" /> Images
-          </span>
-          <span className="font-montserrat text-2xl font-semibold text-foreground block mt-1">
-            {stats?.totalImageAnalyses || 0}
           </span>
         </div>
       </div>

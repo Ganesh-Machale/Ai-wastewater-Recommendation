@@ -1,6 +1,6 @@
 import React from 'react';
 import AnimatedBadge from '../components/AnimatedBadge';
-import { ArrowDown, Activity, Image as ImageIcon, Server, Database, Check, ArrowUpRight } from 'lucide-react';
+import { ArrowDown, Activity, Server, Database, Check, ArrowUpRight } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
 const HowItWorks = () => {
@@ -39,7 +39,7 @@ const HowItWorks = () => {
               <span className="text-xs font-mono text-neutral-500 dark:text-neutral-400">01</span>
               <div>
                 <div className="font-montserrat text-sm font-semibold text-foreground">Client submission</div>
-                <div className="text-xs text-neutral-700 dark:text-neutral-400">User selects parameter input or sample image upload</div>
+                <div className="text-xs text-neutral-700 dark:text-neutral-400">User enters water parameter measurements and laboratory metrics</div>
               </div>
             </div>
             <span className="text-xs border border-emerald-600/30 dark:border-emerald-500/30 text-emerald-700 dark:text-emerald-400 px-2 py-0.5 rounded font-mono">
@@ -51,7 +51,7 @@ const HowItWorks = () => {
             <ArrowDown className="size-4 text-neutral-400" />
           </div>
 
-          {/* Step 2: Split Methods */}
+          {/* Step 2: Evaluation & Validation */}
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div className="p-4 rounded-lg border border-[var(--card-edge)] bg-neutral-100 dark:bg-white/5 space-y-2">
               <div className="flex items-center gap-2 text-foreground font-montserrat text-sm font-semibold">
@@ -65,11 +65,11 @@ const HowItWorks = () => {
 
             <div className="p-4 rounded-lg border border-[var(--card-edge)] bg-neutral-100 dark:bg-white/5 space-y-2">
               <div className="flex items-center gap-2 text-foreground font-montserrat text-sm font-semibold">
-                <ImageIcon className="size-4 text-neutral-500 dark:text-neutral-400" />
-                <span>Image ingest</span>
+                <Check className="size-4 text-emerald-500 dark:text-emerald-400" />
+                <span>CPCB threshold validation</span>
               </div>
               <p className="text-xs text-neutral-700 dark:text-neutral-400 leading-relaxed">
-                Multer multipart storage handles image buffer with metadata extraction.
+                Benchmarks metrics against permissible environmental safety standards.
               </p>
             </div>
           </div>
@@ -111,20 +111,14 @@ const HowItWorks = () => {
 
         <div className="pt-4 border-t border-[var(--card-edge)] flex flex-wrap items-center justify-between gap-4">
           <p className="text-xs text-neutral-400 font-sans">
-            Ready to test either evaluation channel?
+            Ready to test parameter evaluation?
           </p>
-          <div className="flex gap-3">
+          <div>
             <Link
               to="/analysis/parameters"
               className="inline-flex h-8 items-center gap-1.5 rounded-md bg-primary px-3 text-xs font-montserrat font-semibold text-primary-foreground hover:bg-primary/90 transition-colors"
             >
               Parameter analysis <ArrowUpRight className="size-3.5" />
-            </Link>
-            <Link
-              to="/analysis/image"
-              className="inline-flex h-8 items-center gap-1.5 rounded-md border border-[var(--card-edge)] bg-card px-3 text-xs font-montserrat font-medium text-foreground hover:border-[var(--card-edge-hover)] transition-colors"
-            >
-              Image analysis
             </Link>
           </div>
         </div>

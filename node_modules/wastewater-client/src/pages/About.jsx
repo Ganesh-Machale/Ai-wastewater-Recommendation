@@ -89,16 +89,16 @@ const About = () => {
             </ul>
           </div>
 
-          {/* Vision and Systems Scope */}
+          {/* Platform and Systems Scope */}
           <div className="p-5 rounded-lg border border-[var(--card-edge)] bg-black/20 space-y-4">
             <div className="flex items-center gap-2 text-foreground font-montserrat font-semibold text-base">
               <Cpu className="size-4 text-emerald-400" />
-              <h3>Vision and platform services</h3>
+              <h3>Platform and system services</h3>
             </div>
             <ul className="space-y-2.5 text-xs text-neutral-400 font-sans">
               <li className="flex items-start gap-2">
                 <Check className="size-3.5 text-emerald-400 shrink-0 mt-0.5" />
-                <span>High-performance computer vision preprocessing and image ingestion</span>
+                <span>Real-time water quality indexing and multi-parameter safety thresholds</span>
               </li>
               <li className="flex items-start gap-2">
                 <Check className="size-3.5 text-emerald-400 shrink-0 mt-0.5" />

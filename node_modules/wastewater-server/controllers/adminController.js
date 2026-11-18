@@ -1,6 +1,5 @@
 const User = require('../models/User');
 const ParameterAnalysis = require('../models/ParameterAnalysis');
-const ImageAnalysis = require('../models/ImageAnalysis');
 
 // @desc    Get system users list for admin
 // @route   GET /api/admin/users
@@ -74,8 +73,7 @@ const getAdminStats = async (req, res, next) => {
     const totalUsers = await User.countDocuments();
     const activeUsers = await User.countDocuments({ isActive: true });
     const totalParameterAnalyses = await ParameterAnalysis.countDocuments();
-    const totalImageAnalyses = await ImageAnalysis.countDocuments();
-    const totalAnalyses = totalParameterAnalyses + totalImageAnalyses;
+    const totalAnalyses = totalParameterAnalyses;
 
     // Recent system activity
     const recentUsers = await User.find().select('-passwordHash').sort({ createdAt: -1 }).limit(5);
@@ -92,7 +90,7 @@ const getAdminStats = async (req, res, next) => {
         activeUsers,
         totalAnalyses,
         totalParameterAnalyses,
-        totalImageAnalyses,
+        totalImageAnalyses: 0,
       },
       recentUsers,
       recentAnalyses,

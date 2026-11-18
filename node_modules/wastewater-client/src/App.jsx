@@ -1,5 +1,5 @@
 import React from 'react';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import { AuthProvider } from './context/AuthContext';
 import { ThemeProvider } from './context/ThemeContext';
 import MainLayout from './layouts/MainLayout';
@@ -10,7 +10,6 @@ import Landing from './pages/Landing';
 import About from './pages/About';
 import HowItWorks from './pages/HowItWorks';
 import ParameterAnalysis from './pages/ParameterAnalysis';
-import ImageAnalysis from './pages/ImageAnalysis';
 import AnalysisResult from './pages/AnalysisResult';
 import History from './pages/History';
 import Dashboard from './pages/Dashboard';
@@ -45,11 +44,7 @@ function App() {
             />
             <Route
               path="/analysis/image"
-              element={
-                <ProtectedRoute>
-                  <ImageAnalysis />
-                </ProtectedRoute>
-              }
+              element={<Navigate to="/analysis/parameters" replace />}
             />
             <Route
               path="/analysis/result/:id"

@@ -1,5 +1,4 @@
 const ParameterAnalysis = require('../models/ParameterAnalysis');
-const ImageAnalysis = require('../models/ImageAnalysis');
 
 // @desc    Get user dashboard stats & chart data
 // @route   GET /api/dashboard/stats
@@ -8,13 +7,11 @@ const getDashboardStats = async (req, res, next) => {
   try {
     const query = req.user.role === 'ADMIN' ? {} : { userId: req.user._id };
  
-    // Fetch parameter and image analyses
+    // Fetch parameter analyses
     const parameterRecords = await ParameterAnalysis.find(query).sort({ createdAt: -1 });
-    const imageRecords = await ImageAnalysis.find(query).sort({ createdAt: -1 });
 
     const totalParameterCount = parameterRecords.length;
-    const totalImageCount = imageRecords.length;
-    const totalAnalyses = totalParameterCount + totalImageCount;
+    const totalAnalyses = totalParameterCount;
 
     // Quality breakdown counts
     let goodCount = 0;
@@ -47,38 +44,25 @@ const getDashboardStats = async (req, res, next) => {
 
     // Monthly activity timeline aggregation
     const monthMap = {};
-    [...parameterRecords, ...imageRecords].forEach((rec) => {
+    parameterRecords.forEach((rec) => {
       const month = new Date(rec.createdAt).toLocaleDateString('en-US', { month: 'short', year: '2-digit' });
       if (!monthMap[month]) {
-        monthMap[month] = { month, parameter: 0, image: 0 };
+        monthMap[month] = { month, parameter: 0 };
       }
-      if (rec.type === 'parameter') {
-        monthMap[month].parameter++;
-      } else {
-        monthMap[month].image++;
-      }
+      monthMap[month].parameter++;
     });
 
     const activityTimeline = Object.values(monthMap);
 
-    // Recent 5 combined items
-    const combinedRecent = [
-      ...parameterRecords.map((item) => ({
+    // Recent 5 parameter items
+    const combinedRecent = parameterRecords
+      .map((item) => ({
         _id: item._id,
         type: 'parameter',
         title: `Parameter Analysis (pH: ${item.parameters.pH}, TDS: ${item.parameters.tds})`,
         status: item.qualityLevel,
         createdAt: item.createdAt,
-      })),
-      ...imageRecords.map((item) => ({
-        _id: item._id,
-        type: 'image',
-        title: `Image Analysis (${item.originalName})`,
-        status: item.status,
-        createdAt: item.createdAt,
-      })),
-    ]
-      .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
+      }))
       .slice(0, 5);
 
     res.status(200).json({
@@ -86,7 +70,7 @@ const getDashboardStats = async (req, res, next) => {
       stats: {
         totalAnalyses,
         parameterAnalyses: totalParameterCount,
-        imageAnalyses: totalImageCount,
+        imageAnalyses: 0,
         goodQualityCount: goodCount,
         moderateQualityCount: moderateCount,
         poorQualityCount: poorCount,

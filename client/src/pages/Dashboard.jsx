@@ -18,7 +18,6 @@ import {
 } from 'recharts';
 import {
   Activity,
-  Image as ImageIcon,
   Check,
   ArrowUpRight,
   History,
@@ -90,18 +89,11 @@ const Dashboard = () => {
           >
             New analysis <ArrowUpRight className="-ml-1 size-4" />
           </Link>
-          <Link
-            to="/analysis/image"
-            className="btn-asym-mirror inline-flex h-9 items-center gap-2 border border-border bg-transparent px-4 text-sm font-medium text-foreground transition-colors hover:bg-neutral-100 dark:hover:bg-black/90"
-          >
-            <ImageIcon className="size-4" />
-            <span>Upload image</span>
-          </Link>
         </div>
       </div>
 
       {/* Metric Strip */}
-      <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3">
+      <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-5 gap-3">
         <div className="card-chai p-4 space-y-1">
           <span className="text-xs font-mono text-neutral-400 block">Total</span>
           <span className="font-montserrat text-2xl font-semibold text-foreground">
@@ -113,13 +105,6 @@ const Dashboard = () => {
           <span className="text-xs font-mono text-neutral-400 block">Parameters</span>
           <span className="font-montserrat text-2xl font-semibold text-foreground">
             {stats.parameterAnalyses || 0}
-          </span>
-        </div>
-
-        <div className="card-chai p-4 space-y-1">
-          <span className="text-xs font-mono text-neutral-400 block">Images</span>
-          <span className="font-montserrat text-2xl font-semibold text-foreground">
-            {stats.imageAnalyses || 0}
           </span>
         </div>
 
@@ -276,11 +261,7 @@ const Dashboard = () => {
                 className="flex items-center justify-between p-3 rounded-lg border border-[var(--card-edge)] bg-black/20 text-xs font-sans"
               >
                 <div className="flex items-center gap-3">
-                  {item.type === 'parameter' ? (
-                    <Activity className="size-4 text-neutral-400 shrink-0" />
-                  ) : (
-                    <ImageIcon className="size-4 text-neutral-400 shrink-0" />
-                  )}
+                  <Activity className="size-4 text-neutral-400 shrink-0" />
                   <div>
                     <div className="font-montserrat font-medium text-foreground">{item.title}</div>
                     <div className="text-[11px] font-mono text-neutral-400">
